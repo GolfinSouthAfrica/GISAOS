@@ -68,35 +68,37 @@ public class DatabaseHandler {
                         "DepositDate TEXT, " +
                         "DepositPaid INTEGER, " +
                         "FullPaid INTEGER, " +
-                        "BookingMadeDate INTEGER, " +
-                        "PackageID INTEGER, " + //Bespoke Custom
-                        "PackageQuantity TEXT);"); //Bespoke 1
+                        "BookingMadeDate INTEGER);");
                 stmt.execute("CREATE TABLE BOOKINGSACCOMMODATION (" +
                         "BAID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
                         "SupplierNumber INTEGER, " +
                         "AccomodationID INTEGER, " +
                         "Nights INTEGER, " +
-                        "People INTEGER);");
+                        "People INTEGER," +
+                        "Cost INTEGER);");
                 stmt.execute("CREATE TABLE BOOKINGSGOLF (" +
                         "BGID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
                         "SupplierNumber INTEGER, " +
                         "GolfID INTEGER, " +
                         "Rounds INTEGER, " +
-                        "People INTEGER);");
+                        "People INTEGER," +
+                        "Cost INTEGER);");
                 stmt.execute("CREATE TABLE BOOKINGSACTIVITIES (" +
                         "BTID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
                         "SupplierNumber INTEGER, " +
                         "ActivityID INTEGER, " +
-                        "People INTEGER);");
+                        "People INTEGER," +
+                        "Cost INTEGER);");
                 stmt.execute("CREATE TABLE BOOKINGSTRANSPORT (" +
                         "BRID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
                         "SupplierNumber INTEGER, " +
                         "TransportID INTEGER, " +
-                        "Quantity INTEGER);");
+                        "Quantity INTEGER," +
+                        "Cost INTEGER);");
                 stmt.execute("CREATE TABLE SUPPLIERS (" +
                         "SupplierNumber INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "SupplierName TEXT, " +
@@ -107,6 +109,22 @@ public class DatabaseHandler {
                         "ContactPerson TEXT, " +
                         "ContactNumber TEXT, " +
                         "Email TEXT);");
+                stmt.execute("CREATE TABLE SUPPPLIERSBOOKEDACCOMODATION (" +
+                        "SBAID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "BAID INTEGER, " +
+                        "Process TEXT);");
+                stmt.execute("CREATE TABLE SUPPPLIERSBOOKEDGOLF (" +
+                        "SBGID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "BGID INTEGER, " +
+                        "Process TEXT);");
+                stmt.execute("CREATE TABLE SUPPPLIERSBOOKEDACTIVITIES (" +
+                        "SBTID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "BTID INTEGER, " +
+                        "Process TEXT);");
+                stmt.execute("CREATE TABLE SUPPPLIERSBOOKEDTRANSPORT (" +
+                        "SBRID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "BRID INTEGER, " +
+                        "Process TEXT);");
                 stmt.execute("CREATE TABLE PACKAGES (" +
                         "PackageID INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "PackageName TEXT," +
@@ -121,7 +139,8 @@ public class DatabaseHandler {
                         "SupplierID TEXT," +
                         "ProductID TEXT," +
                         "People TEXT," +
-                        "Extra TEXT);");
+                        "Extra TEXT," +
+                        "Cost INTEGER);");
                 stmt.execute("CREATE TABLE LOGINS (" +
                         "LoginID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "LoginName TEXT," +
@@ -616,6 +635,22 @@ public class DatabaseHandler {
             ex.printStackTrace();
             log("Server> updateLogin> " + ex);
         }
+    }
+
+    void updateSuppliersBookedAccommodation() {
+        //TODO
+    }
+
+    void updateSuppliersBookedGolf() {
+
+    }
+
+    void updateSuppliersBookedTransport() {
+
+    }
+
+    void updateSuppliersBookedActivities() {
+
     }
     //</editor-fold>
 

@@ -155,6 +155,14 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             /*dh.log("User " + username + "> Processed Quotation " + text.substring(3).split(":")[0] + " to an invoice.");
                             dh.processQuotationToInvoice(text.substring(3).split(":")[0]);
                             updateLogins.setValue(true);*/
+                        } else if (text.startsWith("usba:")) {
+                            dh.updateSuppliersBookedAccommodation();
+                        } else if (text.startsWith("usba:")) {
+                            dh.updateSuppliersBookedGolf();
+                        } else if (text.startsWith("usba:")) {
+                            dh.updateSuppliersBookedTransport();
+                        } else if (text.startsWith("usba:")) {
+                            dh.updateSuppliersBookedActivities();
                         } else {
                             dh.log("User " + username + "> Requested Unknown Command: " + input);
                             System.out.println("Server> Unknown command: " + input);
