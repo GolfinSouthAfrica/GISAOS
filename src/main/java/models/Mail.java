@@ -7,30 +7,38 @@ import java.util.List;
 
 public class Mail implements Serializable {
 
-    private String toMailAddress;
-    private String fromMailAddress;
+    private List<String> recipients;
+    private List<String> fromMailAddress;
     private String subject;
+    private String date;
     private String message;
     private List<File> attachments;
+    private boolean read;
 
-    public Mail(String toMailAddress, String fromMailAddress, String subject, String message, List<File> attachments) {
-        this.toMailAddress = toMailAddress;
+    public Mail(List<String> recipients, List<String> fromMailAddress, String subject, String date, String message, List<File> attachments, boolean read) {
+        this.recipients = recipients;
         this.fromMailAddress = fromMailAddress;
         this.subject = subject;
+        this.date = date;
         this.message = message;
         this.attachments = attachments;
+        this.read = read;
     }
 
-    public String getToMailAddress() {
-        return toMailAddress;
+    public List<String> getRecipients() {
+        return recipients;
     }
 
-    public String getFromMailAddress() {
+    public List<String> getFromMailAddress() {
         return fromMailAddress;
     }
 
     public String getSubject() {
         return subject;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getMessage() {
@@ -39,5 +47,9 @@ public class Mail implements Serializable {
 
     public List<File> getAttachments() {
         return attachments;
+    }
+
+    public boolean isRead() {
+        return read;
     }
 }

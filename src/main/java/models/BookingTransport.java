@@ -2,18 +2,20 @@ package models;
 
 import java.io.Serializable;
 
-public class Transport implements Serializable {
+public class BookingTransport implements Serializable {
 
     private int BRID;
     private int supplierNumber;
     private int transportId;
     private int quantity;
+    private Double cost;
 
-    public Transport(int BRID, int supplierNumber, int transportId, int quantity) {
+    public BookingTransport(int BRID, int supplierNumber, int transportId, int quantity, Double cost) {
         this.BRID = BRID;
         this.supplierNumber = supplierNumber;
         this.transportId = transportId;
         this.quantity = quantity;
+        this.cost = cost;
     }
 
     public int getBRID() {
@@ -30,5 +32,9 @@ public class Transport implements Serializable {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public Double getCost() {
+        return cost;
     }
 }

@@ -19,14 +19,13 @@ public class Booking implements Serializable {
     private int depositPaid;
     private int fullPaid;
     private String bookingMadeDate;
-    private int packageID;
-    private int packageQuantity;
-    private List<Accommodation> accommodation;
-    private List<Golf> golf;
-    private List<Activity> activities;
-    private List<Transport> transport;
+    private String notes;
+    private List<BookingAccommodation> bookingAccommodation;
+    private List<BookingGolf> bookingGolf;
+    private List<BookingActivity> activities;
+    private List<BookingTransport> bookingTransport;
 
-    public Booking(String gsNumber, String clientName, String contactNumber, String email, String people, String arrival, String departure, String process, String bookingAmount, String consultant, String depositDate, int depositPaid, int fullPaid, String bookingMadeDate, int packageID, int packageQuantity, List<Accommodation> accommodation, List<Golf> golf, List<Activity> activities, List<Transport> transport) {
+    public Booking(String gsNumber, String clientName, String contactNumber, String email, String people, String arrival, String departure, String process, String bookingAmount, String consultant, String depositDate, int depositPaid, int fullPaid, String bookingMadeDate, String notes, List<BookingAccommodation> bookingAccommodation, List<BookingGolf> bookingGolf, List<BookingActivity> activities, List<BookingTransport> bookingTransport) {
         this.gsNumber = gsNumber;
         this.clientName = clientName;
         this.contactNumber = contactNumber;
@@ -41,12 +40,11 @@ public class Booking implements Serializable {
         this.depositPaid = depositPaid;
         this.fullPaid = fullPaid;
         this.bookingMadeDate = bookingMadeDate;
-        this.packageID = packageID;
-        this.packageQuantity = packageQuantity;
-        this.accommodation = accommodation;
-        this.golf = golf;
+        this.notes = notes;
+        this.bookingAccommodation = bookingAccommodation;
+        this.bookingGolf = bookingGolf;
         this.activities = activities;
-        this.transport = transport;
+        this.bookingTransport = bookingTransport;
     }
 
     public String getGsNumber() {
@@ -105,28 +103,24 @@ public class Booking implements Serializable {
         return bookingMadeDate;
     }
 
-    public int getPackageID() {
-        return packageID;
+    public String getNotes() {
+        return notes;
     }
 
-    public int getPackageQuantity() {
-        return packageQuantity;
+    public List<BookingAccommodation> getBookingAccommodation() {
+        return bookingAccommodation;
     }
 
-    public List<Accommodation> getAccommodation() {
-        return accommodation;
+    public List<BookingGolf> getBookingGolf() {
+        return bookingGolf;
     }
 
-    public List<Golf> getGolf() {
-        return golf;
-    }
-
-    public List<Activity> getActivities() {
+    public List<BookingActivity> getActivities() {
         return activities;
     }
 
-    public List<Transport> getTransport() {
-        return transport;
+    public List<BookingTransport> getBookingTransport() {
+        return bookingTransport;
     }
 }
 

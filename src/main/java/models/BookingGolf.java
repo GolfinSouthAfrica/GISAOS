@@ -2,7 +2,7 @@ package models;
 
 import java.io.Serializable;
 
-public class Golf implements Serializable {
+public class BookingGolf implements Serializable {
 
     private int BGID;
     private int supplierNumber;
@@ -10,14 +10,16 @@ public class Golf implements Serializable {
     private int people;
     private int rounds;
     private int carts;
+    private Double cost;
 
-    public Golf(int BGID, int supplierNumber, int golfID, int people, int rounds, int carts) {
+    public BookingGolf(int BGID, int supplierNumber, int golfID, int people, int rounds, int carts, Double cost) {
         this.BGID = BGID;
         this.supplierNumber = supplierNumber;
         this.golfID = golfID;
         this.people = people;
         this.rounds = rounds;
         this.carts = carts;
+        this.cost = cost;
     }
 
     public int getBGID() {
@@ -42,5 +44,9 @@ public class Golf implements Serializable {
 
     public int getCarts() {
         return carts;
+    }
+
+    public Double getCost() {
+        return cost;
     }
 }

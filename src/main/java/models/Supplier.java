@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Supplier implements Serializable {
 
@@ -10,20 +11,18 @@ public class Supplier implements Serializable {
     private String province;
     private String address;
     private String coOrdinates;
-    private String contactPerson;
-    private String contactNumber;
-    private String email;
+    private List<Product> products;
+    private List<ContactDetails> contactDetails;
 
-    public Supplier(int supplierNumber, String supplierName, String category, String province, String address, String coOrdinates, String contactPerson, String contactNumber, String email) {
+    public Supplier(int supplierNumber, String supplierName, String category, String province, String address, String coOrdinates, List<Product> products, List<ContactDetails> contactDetails) {
         this.supplierNumber = supplierNumber;
         this.supplierName = supplierName;
         this.category = category;
         this.province = province;
         this.address = address;
         this.coOrdinates = coOrdinates;
-        this.contactPerson = contactPerson;
-        this.contactNumber = contactNumber;
-        this.email = email;
+        this.products = products;
+        this.contactDetails = contactDetails;
     }
 
     public int getSupplierNumber() {
@@ -50,16 +49,12 @@ public class Supplier implements Serializable {
         return coOrdinates;
     }
 
-    public String getContactPerson() {
-        return contactPerson;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public String getEmail() {
-        return email;
+    public List<ContactDetails> getContactDetails() {
+        return contactDetails;
     }
 
     @Override

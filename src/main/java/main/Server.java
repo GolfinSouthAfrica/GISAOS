@@ -1,10 +1,15 @@
 package main;
 
 import com.sun.mail.imap.IMAPFolder;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import models.Mail;
+import models.ProductAccomodation;
 
 import javax.mail.*;
+import javax.mail.search.FlagTerm;
 import java.io.EOFException;
 import java.io.File;
 import java.io.ObjectInputStream;
@@ -12,20 +17,29 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Server {
 
-    static final File APPLICATION_FOLDER = new File(System.getProperty("user.home") + "/AppData/Local/PCUniverse/GolfInSouthAfrica");
-    static final File TEMPLATES_FOLDER = new File(APPLICATION_FOLDER.getAbsolutePath() + "/Templates");
-    static final File INVOICE_FOLDER = new File(APPLICATION_FOLDER.getAbsolutePath() + "/Invoices");
-    static final File QUOTATIONS_FOLDER = new File(APPLICATION_FOLDER.getAbsolutePath() + "/Quotations");
-    static final File DOCUMENTS_FOLDER = new File(APPLICATION_FOLDER.getAbsolutePath() + "/Documents");
+    static final File APPLICATION_FOLDER = new File("G:/My Drive/e. Office/OfficeAppServerData");
+    static final File TEMPLATES_FOLDER = new File("G:/My Drive/b. Templates");
+    static final File BOOKINGS_FOLDER = new File("G:/My Drive/a. Bookings");
+    static final File DOCUMENTS_FOLDER = new File("G:/My Drive/d. Documents");
+    static final File SUPPLIER_FOLDER = new File("G:/My Drive/c. Suppliers");
+    static final File OFFICE_FOLDER = new File("G:/My Drive/e. Office");
     static final File DATABASE_FILE = new File(APPLICATION_FOLDER.getAbsolutePath() + "/GolfInSouthAfricaDB.db");
     static final File LOG_FILE = new File(APPLICATION_FOLDER.getAbsolutePath() + "/GolfInSouthAfricaLogFile.txt");
+    public static List<Mail> unreadNewQuotesMails = FXCollections.observableArrayList();
+    public static List<Mail> readNewQuotesMails = FXCollections.observableArrayList();
+    public static List<Mail> unreadContactMails = FXCollections.observableArrayList();
+    public static List<Mail> readContactMails = FXCollections.observableArrayList();
+    public static List<Mail> unreadFinanceMails = FXCollections.observableArrayList();
+    public static List<Mail> readFinanceMails = FXCollections.observableArrayList();
+    public static List<Mail> unreadOtherMails = FXCollections.observableArrayList();
+    public static List<Mail> readOtherMails = FXCollections.observableArrayList();
     static final int BUFFER_SIZE = 4194304;
     public static ObservableList<ConnectionHandler> connectionsList = FXCollections.observableArrayList();
     public static final int PORT = 1521;
@@ -39,27 +53,34 @@ public class Server {
             TEMPLATES_FOLDER.mkdirs();
             dh.log("Server> Local Templates Files Folder Created");
         }
-        if (!INVOICE_FOLDER.exists()) {
-            INVOICE_FOLDER.mkdirs();
-            dh.log("Server> Local Invoice Files Folder Created");
-        }
-        if (!QUOTATIONS_FOLDER.exists()) {
-            QUOTATIONS_FOLDER.mkdirs();
-            dh.log("Server> Local Quotations Files Folders Created");
+        if (!BOOKINGS_FOLDER.exists()) {
+            BOOKINGS_FOLDER.mkdirs();
+            dh.log("Server> Local Bookings Files Folders Created");
         }
         if (!DOCUMENTS_FOLDER.exists()) {
             DOCUMENTS_FOLDER.mkdirs();
             dh.log("Server> Local Documents Files Folders Created");
         }
+        if (!SUPPLIER_FOLDER.exists()) {
+            SUPPLIER_FOLDER.mkdirs();
+            dh.log("Server> Local Suppliers Files Folders Created");
+        }
+        if (!OFFICE_FOLDER.exists()) {
+            OFFICE_FOLDER.mkdirs();
+            dh.log("Server> Local Office Files Folders Created");
+        }
         new ClientListener().start();
-        timer = new Timer();
-        timer.schedule(new UpdateChecker(), 30000);
         try {
             Properties props = System.getProperties();
             props.put("mail.store.protocol", "imaps");
+            props.put("mail.imaps.host", "imap.gmail.com");
+            props.put("mail.imaps.port", "993");
             Session session = Session.getDefaultInstance(props, null);
             store = session.getStore("imaps");
-            store.connect("imap.googlemail.com", "ronniemllr1@gmail.com", "0833125159");//TODO
+            store.connect("info@golfinsouthafrica.com", "GISADefault1234@");//TODO
+            System.out.println(store);
+            timer = new Timer();
+            timer.schedule(new UpdateChecker(), 3000);
         } catch (NoSuchProviderException e) {
             e.printStackTrace();
         } catch (MessagingException e) {
@@ -157,20 +178,179 @@ public class Server {
         return dh.authoriseUser(username, password);
     }
 
+    public static void sortQuotesMailsByDate(List<Mail> readNewQuotesMails){
+        Collections.sort(readNewQuotesMails, new Comparator<Mail>() {
+            DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd '@' hh:mm a");
+            @Override
+            public int compare(Mail mail, Mail t1) {
+                try{
+                    return dateFormat.parse(mail.getDate()).compareTo(dateFormat.parse(t1.getDate()));
+                }catch(ParseException ex) {
+                    ex.printStackTrace();
+                    throw new IllegalArgumentException(ex);
+                }
+            }
+        });
+    }
+
+    public static void sortContactMailsByDate(List<Mail> readContactMails){
+        Collections.sort(readContactMails, new Comparator<Mail>() {
+            DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd '@' hh:mm a");
+            @Override
+            public int compare(Mail mail, Mail t1) {
+                try{
+                    return dateFormat.parse(mail.getDate()).compareTo(dateFormat.parse(t1.getDate()));
+                }catch(ParseException ex) {
+                    ex.printStackTrace();
+                    throw new IllegalArgumentException(ex);
+                }
+            }
+        });
+    }
+
+    public static void sortFinanceMailsByDate(List<Mail> readFinanceMails){
+        Collections.sort(readFinanceMails, new Comparator<Mail>() {
+            DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd '@' hh:mm a");
+            @Override
+            public int compare(Mail mail, Mail t1) {
+                try{
+                    return dateFormat.parse(mail.getDate()).compareTo(dateFormat.parse(t1.getDate()));
+                }catch(ParseException ex) {
+                    ex.printStackTrace();
+                    throw new IllegalArgumentException(ex);
+                }
+            }
+        });
+    }
+
+    public static void sortOtherMailsByDate(List<Mail> readOtherMails){
+        Collections.sort(readOtherMails, new Comparator<Mail>() {
+            DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd '@' hh:mm a");
+            @Override
+            public int compare(Mail mail, Mail t1) {
+                try{
+                    return dateFormat.parse(mail.getDate()).compareTo(dateFormat.parse(t1.getDate()));
+                }catch(ParseException ex) {
+                    ex.printStackTrace();
+                    throw new IllegalArgumentException(ex);
+                }
+            }
+        });
+    }
+
     private class UpdateChecker extends TimerTask {
         @Override
         public void run() {
-            Store store = null;
-            IMAPFolder folder = null;
+            unreadNewQuotesMails.clear();
+            unreadContactMails.clear();
+            unreadFinanceMails.clear();
+            unreadOtherMails.clear();
+            readNewQuotesMails.clear();
+            readContactMails.clear();
+            readFinanceMails.clear();
+            readOtherMails.clear();
             try {
-                folder = (IMAPFolder) store.getFolder("[Gmail]/Inbox");
+                Folder folder = store.getFolder("inbox");//TODO sent
                 if(!folder.isOpen()){
-                    folder.open(Folder.READ_WRITE);
+                    folder.open(Folder.READ_ONLY);
                 }
-                Message[] messages = folder.getMessages();
 
+                Message[] messages = folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
                 for (int i = 0; i < messages.length; i++) {
-                    //if(messages[i].get)
+                    Object obj = messages[i].getContent();
+                    Multipart mp = (Multipart) messages[i].getContent();
+                    BodyPart bp = ((Multipart) messages[i].getContent()).getBodyPart(0);
+                    String msg = (String) bp.getContent();//TODO
+                    List<String> toAddresses = new ArrayList<String>();
+                    Address[] recipients = messages[i].getRecipients(Message.RecipientType.TO);
+                    for (Address address : recipients) {
+                        toAddresses.add(address.toString());
+                    }
+                    List<String> fromAddresses = new ArrayList<String>();
+                    Address[] from = messages[i].getFrom();
+                    for (Address address : from) {
+                        fromAddresses.add(address.toString());
+                    }
+                    Mail mail = new Mail(toAddresses, fromAddresses, messages[i].getSubject(), messages[i].getReceivedDate().toString(), msg, null, false);
+                    System.out.println("------------------------------");
+                    //System.out.println("Attachments: " + mail.getAttachments().size());//TODO
+                    if(messages[i].getFrom()[0].equals("info@golfinsouthafrica.com")){
+                        if(messages[i].getSubject().contains("GISA Enquiry About:")){
+                            //new enquiry
+                            unreadNewQuotesMails.add(mail);
+                            readNewQuotesMails.add(mail);
+                        } else if (messages[i].getSubject().contains("GISA Contact Page Enquiry")){
+                            //Contact Page enquiry
+                            unreadContactMails.add(mail);
+                            readContactMails.add(mail);
+                        } else {
+                            //other
+                            unreadOtherMails.add(mail);
+                            readOtherMails.add(mail);
+                        }
+                    } else if(messages[i].getFrom()[0].equals("welmar@golfinsouthafrica.com")){
+                        //TODO if GSNumber Finance
+                        unreadFinanceMails.add(mail);
+                        readFinanceMails.add(mail);
+                    } else {
+                        //other
+                        unreadOtherMails.add(mail);
+                        readOtherMails.add(mail);
+                    }
+                }
+
+                messages = folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), true));
+                for (int i = 0; i < messages.length; i++) {
+                    Object obj = messages[i].getContent();
+                    Multipart mp = (Multipart) messages[i].getContent();
+                    BodyPart bp = ((Multipart) messages[i].getContent()).getBodyPart(0);
+                    String msg = (String) bp.getContent();
+                    List<String> toAddresses = new ArrayList<String>();
+                    Address[] recipients = messages[i].getRecipients(Message.RecipientType.TO);
+                    for (Address address : recipients) {
+                        toAddresses.add(address.toString());
+                    }
+                    List<String> fromAddresses = new ArrayList<String>();
+                    Address[] from = messages[i].getFrom();
+                    for (Address address : from) {
+                        fromAddresses.add(address.toString());
+                    }
+                    Mail mail = new Mail(toAddresses, fromAddresses, messages[i].getSubject(), messages[i].getReceivedDate().toString(), msg, null, false);
+                    System.out.println("------------------------------");
+                    System.out.println("Attachments: " + mail.getAttachments().size());
+                    if(messages[i].getFrom()[0].equals("info@golfinsouthafrica.com")){
+                        if(messages[i].getSubject().contains("GISA Enquiry About:")){
+                            //new enquiry
+                            readNewQuotesMails.add(mail);
+                        } else if (messages[i].getSubject().contains("GISA Contact Page Enquiry")){
+                            //Contact Page enquiry
+                            readContactMails.add(mail);
+                        } else {
+                            //other
+                            readOtherMails.add(mail);
+                        }
+                    } else if(messages[i].getFrom()[0].equals("welmar@golfinsouthafrica.com")){
+                        //TODO if GSNumber Finance
+                        readFinanceMails.add(mail);
+                    } else {
+                        //other
+                        readOtherMails.add(mail);
+                    }
+                }
+
+                sortQuotesMailsByDate(readNewQuotesMails);
+                sortContactMailsByDate(readContactMails);
+                sortFinanceMailsByDate(readFinanceMails);
+                sortOtherMailsByDate(readOtherMails);
+
+                for(ConnectionHandler ch: connectionsList){
+                    if(ch instanceof UserConnectionHandler){
+                        ((UserConnectionHandler)ch).unreadMails.clear();
+                        ((UserConnectionHandler)ch).unreadMails.add(unreadNewQuotesMails.size());
+                        ((UserConnectionHandler)ch).unreadMails.add(unreadContactMails.size());
+                        ((UserConnectionHandler)ch).unreadMails.add(unreadFinanceMails.size());
+                        ((UserConnectionHandler)ch).unreadMails.add(unreadOtherMails.size());
+                    }
                 }
 
                 /*Message msg = messages[0];

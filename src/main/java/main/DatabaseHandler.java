@@ -1,33 +1,23 @@
 package main;
 
-import com.sun.mail.imap.IMAPFolder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
 import models.*;
-import models.Transport;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.security.auth.Subject;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 public class DatabaseHandler {
 
@@ -77,51 +67,84 @@ public class DatabaseHandler {
                         "SupplierNumber INTEGER, " +
                         "AccomodationID INTEGER, " +
                         "Nights INTEGER, " +
-                        "People INTEGER);");
+                        "People TEXT, " +
+                        "Cost REAL);");
                 stmt.execute("CREATE TABLE BOOKINGSGOLF (" +
                         "BGID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
                         "SupplierNumber INTEGER, " +
                         "GolfID INTEGER, " +
                         "Rounds INTEGER, " +
-                        "People INTEGER);");
+                        "People TEXT, " +
+                        "Cost REAL);");
                 stmt.execute("CREATE TABLE BOOKINGSACTIVITIES (" +
                         "BTID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
                         "SupplierNumber INTEGER, " +
                         "ActivityID INTEGER, " +
-                        "People INTEGER);");
+                        "People TEXT, " +
+                        "Cost REAL);");
                 stmt.execute("CREATE TABLE BOOKINGSTRANSPORT (" +
                         "BRID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
                         "SupplierNumber INTEGER, " +
                         "TransportID INTEGER, " +
-                        "Quantity INTEGER);");
+                        "Quantity INTEGER," +
+                        "Cost REAL);");
                 stmt.execute("CREATE TABLE SUPPLIERS (" +
                         "SupplierNumber INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "SupplierName TEXT, " +
                         "Category TEXT, " +
                         "Province TEXT, " +
                         "Address TEXT, " +
-                        "CoOrdinates TEXT, " +
-                        "ContactPerson TEXT, " +
-                        "ContactNumber TEXT, " +
-                        "Email TEXT);");
+                        "CoOrdinates TEXT);");
+                stmt.execute("CREATE TABLE CONTACTDETAILS (" +
+                        "ContactDetailsID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "SupplierNumber INTEGER," +
+                        "PersonName TEXT," +
+                        "PersonPosition TEXT," +
+                        "ContactNumber TEXT," +
+                        "Email TEXT," +
+                        "DateAdded TEXT);");
+                stmt.execute("CREATE TABLE SUPPLIERSBOOKEDACCOMMODATION (" +
+                        "SBAID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "BAID INTEGER, " +
+                        "Pocess TEXT, " +
+                        "PaidAmount REAL);");
+                stmt.execute("CREATE TABLE SUPPLIERSBOOKEDGOLF (" +
+                        "SBGID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "BGID INTEGER, " +
+                        "Pocess TEXT, " +
+                        "PaidAmount REAL);");
+                stmt.execute("CREATE TABLE SUPPLIERSBOOKEDTRANSPORT (" +
+                        "SBRID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "BRID INTEGER, " +
+                        "Pocess TEXT, " +
+                        "PaidAmount REAL);");
+                stmt.execute("CREATE TABLE SUPPLIERSBOOKEDACTIVITIES (" +
+                        "SBTID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "BTID INTEGER, " +
+                        "Pocess TEXT, " +
+                        "PaidAmount REAL);");
                 stmt.execute("CREATE TABLE PACKAGES (" +
-                        "PackageID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "PackageName TEXT," +
-                        "Category TEXT," +//TODO Ex short break exc.
-                        "People TEXT," +
-                        "TotalPackageAmount TEXT," +
-                        "ExpiryDate TEXT," +
+                        "PackageID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "PackageName TEXT, " +
+                        "Category TEXT, " +//TODO Ex short break exc.
+                        "People TEXT, " +
+                        "TotalPackageAmount TEXT, " +
+                        "ExpiryDate TEXT, " +
+                        "Province TEXT, " +
                         "Extra TEXT);");
                 stmt.execute("CREATE TABLE PACKAGESINCLUDE (" +
                         "PackageIncludeID INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "PackageID INTEGER," +
                         "SupplierID TEXT," +
                         "ProductID TEXT," +
+                        "Category TEXT," +
+                        "Quanity TEXT," +
                         "People TEXT," +
-                        "Extra TEXT);");
+                        "Extra INTEGER ," + //ex carts yes = 1
+                        "Cost REAL);");
                 stmt.execute("CREATE TABLE LOGINS (" +
                         "LoginID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "LoginName TEXT," +
@@ -195,7 +218,7 @@ public class DatabaseHandler {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM SUPPLIERS;");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                suppliers.add(new Supplier(rs.getInt("SupplierNumber"), rs.getString("SupplierName"), rs.getString("Category"), rs.getString("Province"), rs.getString("Address"), rs.getString("coOrdinates"), rs.getString("ContactPerson"), rs.getString("ContactNumber"), rs.getString("Email")));
+                suppliers.add(new Supplier(rs.getInt("SupplierNumber"), rs.getString("SupplierName"), rs.getString("Category"), rs.getString("Province"), rs.getString("Address"), rs.getString("coOrdinates"), getSuppliersProducts(rs.getString("SupplierName"), rs.getString("Category"), rs.getString("Province")), getSuppliersContactDetails(rs.getInt("SupplierNumber"))));
             }
             log("Server> Successfully Created Suppliers");
             return suppliers;
@@ -206,13 +229,142 @@ public class DatabaseHandler {
         }
     }
 
+    List<Product> getSuppliersProducts(String supplierName, String category, String province){
+        List<Product>products = new ArrayList<>();
+        File supplierCost = new File(Server.SUPPLIER_FOLDER.getAbsolutePath() + "/" + province + "/" + category + "/" + supplierName + ".xls");
+        Workbook wb;
+        try {
+            System.out.println(supplierCost.getAbsolutePath());
+            wb = Workbook.getWorkbook(supplierCost);
+            Sheet sheet = wb.getSheet(0);
+            Cell cell;//Start 0,0 column, row
+            int rows = sheet.getRows();
+            int columns = sheet.getColumns();
+
+            if(category.matches("Accommodation")) {
+                for (int i = 0; i < rows; i++){//rows
+                    for (int j = 0; j < columns; j++){//columns
+                        cell = sheet.getCell(j, i);
+                        if(cell.getContents().contains("#")){
+                            LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
+                            LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
+                            LocalDate today = LocalDate.now();
+                            if(today.isEqual(start)||today.isAfter(start)){
+                                if(today.isEqual(expire)||today.isBefore(expire)){
+                                    products.add(new ProductAccomodation(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), Integer.parseInt(sheet.getCell(1, i).getContents()), sheet.getCell(j+1, i).getContents()));
+                                }
+                            }
+                        }
+                        if (cell.getContents().matches("")) {//TODO Max Alphabet
+                            if(j == 0) {
+                                i = rows;
+                            } else {
+                                j = columns;
+                            }
+                        }
+                    }
+                }
+            } else if(category.matches("Golf")) {
+                for (int i = 0; i < rows; i++){//rows
+                    for (int j = 0; j < columns; j++){//columns
+                        cell = sheet.getCell(j, i);
+                        if(cell.getContents().contains("#")){
+                            LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
+                            LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
+                            LocalDate today = LocalDate.now();
+                            if(today.isEqual(start)||today.isAfter(start)){
+                                if(today.isEqual(expire)||today.isBefore(expire)){
+                                    products.add(new ProductGolf(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j+1, i).getContents()));
+                                }
+                            }
+                        }
+                        if (cell.getContents().matches("")) {//TODO Max Alphabet
+                            if(j == 0) {
+                                i = rows;
+                            } else {
+                                j = columns;
+                            }
+                        }
+                    }
+                }
+            } else if(category.matches("Transport")) {
+                for (int i = 0; i < rows; i++){//rows
+                    for (int j = 0; j < columns; j++){//columns
+                        cell = sheet.getCell(j, i);
+                        if(cell.getContents().contains("#")){
+                            LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
+                            LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
+                            LocalDate today = LocalDate.now();
+                            if(today.isEqual(start)||today.isAfter(start)){
+                                if(today.isEqual(expire)||today.isBefore(expire)){
+                                    products.add(new ProductTransport(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), Integer.parseInt(sheet.getCell(1, i).getContents()), sheet.getCell(j+1, i).getContents()));
+                                }
+                            }
+                        }
+                        if (cell.getContents().matches("")) {//TODO Max Alphabet
+                            if(j == 0) {
+                                i = rows;
+                            } else {
+                                j = columns;
+                            }
+                        }
+                    }
+                }
+            } else if(category.matches("Activities")) {
+                for (int i = 0; i < rows; i++){//rows
+                    for (int j = 0; j < columns; j++){//columns
+                        cell = sheet.getCell(j, i);
+                        if(cell.getContents().contains("#")){
+                            LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
+                            LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
+                            LocalDate today = LocalDate.now();
+                            if(today.isEqual(start)||today.isAfter(start)){
+                                if(today.isEqual(expire)||today.isBefore(expire)){
+                                    products.add(new ProductActivity(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j+1, i).getContents()));
+                                }
+                            }
+                        }
+                        if (cell.getContents().matches("")) {//TODO Max Alphabet
+                            if(j == 0) {
+                                i = rows;
+                            } else {
+                                j = columns;
+                            }
+                        }
+                    }
+                }
+            }
+        } catch(Exception ioe) {
+            ioe.printStackTrace();
+        }
+        return products;
+    }
+
+    List<ContactDetails> getSuppliersContactDetails(int supplierNumber) {
+        List<ContactDetails> contactDetails = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM CONTACTDETAILS WHERE SupplierNumber = ?;");
+            preparedStatement.setInt(1, supplierNumber);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                contactDetails.add(new ContactDetails(rs.getInt("ContactDetailsID"), rs.getString("PersonName"), rs.getString("PersonPosition"), rs.getString("ContactNumber"), rs.getString("Email"), rs.getString("DateAdded")));
+            }
+            log("Server> Successfully Gotten Suppliers Contact Details");
+            return contactDetails;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> getSuppliersContactDetails> " + ex);
+            return null;
+        }
+    }
+
     List<Booking> getBookings() {//TODO Get File separately when requested
         List<Booking> bookings = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM BOOKINGS;");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                bookings.add(new Booking(rs.getString("GSNumber"), rs.getString("ClientName"), rs.getString("ContactNumber"), rs.getString("Email"), rs.getString("People"), rs.getString("Arrival"), rs.getString("Departure"), rs.getString("Process"), rs.getString("BookingAmount"), rs.getString("Consultant"), rs.getString("DepositDate"), rs.getInt("DepositAmount"), rs.getInt("FullPaid"), rs.getString("BookingMadeDate"), rs.getInt("PackageID"), rs.getInt("PackageQuantity"), getBookingAccommodation(rs.getString("GSNumber")), getBookingGolf(rs.getString("GSNumber")), getBookingActivities(rs.getString("GSNumber")), getBookingTransport(rs.getString("GSNumber"))));
+                bookings.add(new Booking(rs.getString("GSNumber"), rs.getString("ClientName"), rs.getString("ContactNumber"), rs.getString("Email"), rs.getString("People"), rs.getString("Arrival"), rs.getString("Departure"), rs.getString("Process"), rs.getString("BookingAmount"), rs.getString("Consultant"), rs.getString("DepositDate"), rs.getInt("DepositAmount"), rs.getInt("FullPaid"), rs.getString("BookingMadeDate"), null, getBookingAccommodation(rs.getString("GSNumber")), getBookingGolf(rs.getString("GSNumber")), getBookingActivities(rs.getString("GSNumber")), getBookingTransport(rs.getString("GSNumber"))));
             }
             log("Server> Successfully Got all Bookings");
             return bookings;
@@ -223,17 +375,17 @@ public class DatabaseHandler {
         }
     }
 
-    private List<Accommodation> getBookingAccommodation (String gsNumber) {
-        List<Accommodation> accommodation = new ArrayList<>();
+    private List<BookingAccommodation> getBookingAccommodation (String gsNumber) {
+        List<BookingAccommodation> bookingAccommodation = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM BOOKINGSACCOMMODATION WHERE GSNumber = ?;");
             preparedStatement.setString(1, gsNumber);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                accommodation.add(new Accommodation(rs.getInt("BAID"), rs.getInt("SupplierNumber"), rs.getInt("AccommodationID"), rs.getInt("Nights"), rs.getInt("People")));
+                bookingAccommodation.add(new BookingAccommodation(rs.getInt("BAID"), rs.getInt("SupplierNumber"), rs.getInt("AccommodationID"), rs.getInt("Nights"), rs.getInt("People"), rs.getDouble("Cost")));
             }
-            log("Server> Successfully Got all Accommodation for Booking: " + gsNumber);
-            return accommodation;
+            log("Server> Successfully Got all BookingAccommodation for Booking: " + gsNumber);
+            return bookingAccommodation;
         } catch (SQLException ex) {
             ex.printStackTrace();
             log("Server> getBookingAccommodation> " + ex);
@@ -241,17 +393,17 @@ public class DatabaseHandler {
         }
     }
 
-    private List<Golf> getBookingGolf (String gsNumber) {
-        List<Golf> golf = new ArrayList<>();
+    private List<BookingGolf> getBookingGolf (String gsNumber) {
+        List<BookingGolf> bookingGolf = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM BOOKINGSGOLF WHERE GSNumber = ?;");
             preparedStatement.setString(1, gsNumber);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                golf.add(new Golf(rs.getInt("BGID"), rs.getInt("SupplierNumber"), rs.getInt("GolfID"), rs.getInt("People"), rs.getInt("Rounds"), rs.getInt("Carts")));
+                bookingGolf.add(new BookingGolf(rs.getInt("BGID"), rs.getInt("SupplierNumber"), rs.getInt("GolfID"), rs.getInt("People"), rs.getInt("Rounds"), rs.getInt("Carts"), rs.getDouble("Cost")));
             }
-            log("Server> Successfully Got all Golf for Booking: " + gsNumber);
-            return golf;
+            log("Server> Successfully Got all BookingGolf for Booking: " + gsNumber);
+            return bookingGolf;
         } catch (SQLException ex) {
             ex.printStackTrace();
             log("Server> getBookingGolf> " + ex);
@@ -259,14 +411,14 @@ public class DatabaseHandler {
         }
     }
 
-    private List<Activity> getBookingActivities (String gsNumber) {
-        List<Activity> activities = new ArrayList<>();
+    private List<BookingActivity> getBookingActivities (String gsNumber) {
+        List<BookingActivity> activities = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM BOOKINGSACTIVITIES WHERE GSNumber = ?;");
             preparedStatement.setString(1, gsNumber);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                activities.add(new Activity(rs.getInt("BTID"), rs.getInt("SupplierNumber"), rs.getInt("ActivityID"), rs.getInt("People")));
+                activities.add(new BookingActivity(rs.getInt("BTID"), rs.getInt("SupplierNumber"), rs.getInt("ActivityID"), rs.getInt("People"), rs.getDouble("Cost")));
             }
             log("Server> Successfully Got all Activities for Booking: " + gsNumber);
             return activities;
@@ -277,22 +429,222 @@ public class DatabaseHandler {
         }
     }
 
-    private List<Transport> getBookingTransport (String gsNumber) {
-        List<Transport> transport = new ArrayList<>();
+    private List<BookingTransport> getBookingTransport (String gsNumber) {
+        List<BookingTransport> bookingTransport = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM BOOKINGSTRANSPORT WHERE GSNumber = ?;");
             preparedStatement.setString(1, gsNumber);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                transport.add(new Transport(rs.getInt("BRID"), rs.getInt("SupplierNumber"), rs.getInt("TransportID"), rs.getInt("Quantity")));
+                bookingTransport.add(new BookingTransport(rs.getInt("BRID"), rs.getInt("SupplierNumber"), rs.getInt("TransportID"), rs.getInt("Quantity"), rs.getDouble("Cost")));
             }
             log("Server> Successfully Got all Activities for Booking: " + gsNumber);
-            return transport;
+            return bookingTransport;
         } catch (SQLException ex) {
             ex.printStackTrace();
             log("Server> getBookingTransport> " + ex);
             return null;
         }
+    }
+
+    private File[] getRateFiles(String category){
+        File[] rates = new File[0];
+        File[] files = Server.SUPPLIER_FOLDER.listFiles();
+        for (File file: files){
+            File nFile = new File(file.getAbsolutePath() + "/" + category);
+            if(nFile.exists()) {
+                File[] fif = nFile.listFiles();
+                File[] temp = new File[rates.length + fif.length];
+                for (int i = 0; i < rates.length; i++) {
+                    temp[i] = rates[i];
+                }
+                for (int i = 0; i < fif.length; i++) {
+                    temp[rates.length + i] = fif[i];
+                }
+                rates = temp;
+            }
+        }
+        return rates;
+    }
+
+    List<ProductAccomodation> getProductAccommodation () {
+        List<ProductAccomodation> accommodation = new ArrayList<>();
+        File[] accommodationRates = getRateFiles("Accommodation");
+        for(File file: accommodationRates) {
+            String province = file.getAbsolutePath().split("\\\\")[3];
+            String category = file.getAbsolutePath().split("\\\\")[4];
+            String supplierName = file.getAbsolutePath().split("\\\\")[5].substring(0, file.getAbsolutePath().split("\\\\")[5].lastIndexOf("."));
+            Workbook wb;
+            if(file.getAbsolutePath().split("\\\\")[5].substring(file.getAbsolutePath().split("\\\\")[5].lastIndexOf(".")).matches("xls")) {
+                try {
+                    wb = Workbook.getWorkbook(file);
+                    Sheet sheet = wb.getSheet(0);
+                    Cell cell;//Start 0,0 column, row
+                    int rows = sheet.getRows();
+                    int columns = sheet.getColumns();
+                    for (int i = 0; i < rows; i++) {//rows
+                        for (int j = 0; j < columns; j++) {//columns
+                            cell = sheet.getCell(j, i);
+                            if (cell.getContents().contains("#")) {
+                                LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
+                                LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
+                                LocalDate today = LocalDate.now();
+                                if (today.isEqual(start) || today.isAfter(start)) {
+                                    if (today.isEqual(expire) || today.isBefore(expire)) {
+                                        accommodation.add(new ProductAccomodation(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), Integer.parseInt(sheet.getCell(1, i).getContents()), sheet.getCell(j + 1, i).getContents()));
+                                    }
+                                }
+                            }
+                            if (cell.getContents().matches("")) {//TODO Max Alphabet
+                                if (j == 0) {
+                                    i = rows;
+                                } else {
+                                    j = columns;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+        }
+        return accommodation;
+    }
+
+    List<ProductGolf> getProductGolf () {
+        List<ProductGolf> golf = new ArrayList<>();
+        File[] golfRates = getRateFiles("Golf");
+        for(File file: golfRates) {
+            String province = file.getAbsolutePath().split("\\\\")[3];
+            String category = file.getAbsolutePath().split("\\\\")[4];
+            String supplierName = file.getAbsolutePath().split("\\\\")[5].substring(0, file.getAbsolutePath().split("\\\\")[5].lastIndexOf("."));
+            Workbook wb;
+            if(file.getAbsolutePath().split("\\\\")[5].substring(file.getAbsolutePath().split("\\\\")[5].lastIndexOf(".")).matches("xls")) {
+                try {
+                    wb = Workbook.getWorkbook(file);
+                    Sheet sheet = wb.getSheet(0);
+                    Cell cell;//Start 0,0 column, row
+                    int rows = sheet.getRows();
+                    int columns = sheet.getColumns();
+                    for (int i = 0; i < rows; i++) {//rows
+                        for (int j = 0; j < columns; j++) {//columns
+                            cell = sheet.getCell(j, i);
+                            if (cell.getContents().contains("#")) {
+                                LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
+                                LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
+                                LocalDate today = LocalDate.now();
+                                if (today.isEqual(start) || today.isAfter(start)) {
+                                    if (today.isEqual(expire) || today.isBefore(expire)) {
+                                        golf.add(new ProductGolf(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j + 1, i).getContents()));
+                                    }
+                                }
+                            }
+                            if (cell.getContents().matches("")) {//TODO Max Alphabet
+                                if (j == 0) {
+                                    i = rows;
+                                } else {
+                                    j = columns;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+        }
+        return golf;
+    }
+
+    List<ProductActivity> getProductActivities () {
+        List<ProductActivity> activities = new ArrayList<>();
+        File[] activityRates = getRateFiles("Activities");
+        for(File file: activityRates) {
+            String province = file.getAbsolutePath().split("\\\\")[3];
+            String category = file.getAbsolutePath().split("\\\\")[4];
+            String supplierName = file.getAbsolutePath().split("\\\\")[5].substring(0, file.getAbsolutePath().split("\\\\")[5].lastIndexOf("."));
+            Workbook wb;
+            if(file.getAbsolutePath().split("\\\\")[5].substring(file.getAbsolutePath().split("\\\\")[5].lastIndexOf(".")).matches("xls")) {
+                try {
+                    wb = Workbook.getWorkbook(file);
+                    Sheet sheet = wb.getSheet(0);
+                    Cell cell;//Start 0,0 column, row
+                    int rows = sheet.getRows();
+                    int columns = sheet.getColumns();
+                    for (int i = 0; i < rows; i++) {//rows
+                        for (int j = 0; j < columns; j++) {//columns
+                            cell = sheet.getCell(j, i);
+                            if (cell.getContents().contains("#")) {
+                                LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
+                                LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
+                                LocalDate today = LocalDate.now();
+                                if (today.isEqual(start) || today.isAfter(start)) {
+                                    if (today.isEqual(expire) || today.isBefore(expire)) {
+                                        activities.add(new ProductActivity(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j + 1, i).getContents()));
+                                    }
+                                }
+                            }
+                            if (cell.getContents().matches("")) {//TODO Max Alphabet
+                                if (j == 0) {
+                                    i = rows;
+                                } else {
+                                    j = columns;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+        }
+        return activities;
+    }
+
+    List<ProductTransport> getProductTransport () {
+        List<ProductTransport> transport = new ArrayList<>();
+        File[] transportRates = getRateFiles("Transport");
+        for(File file: transportRates) {
+            String province = file.getAbsolutePath().split("\\\\")[3];
+            String category = file.getAbsolutePath().split("\\\\")[4];
+            String supplierName = file.getAbsolutePath().split("\\\\")[5].substring(0, file.getAbsolutePath().split("\\\\")[5].lastIndexOf("."));
+            Workbook wb;
+            if(file.getAbsolutePath().split("\\\\")[5].substring(file.getAbsolutePath().split("\\\\")[5].lastIndexOf(".")).matches("xls")) {
+                try {
+                    wb = Workbook.getWorkbook(file);
+                    Sheet sheet = wb.getSheet(0);
+                    Cell cell;//Start 0,0 column, row
+                    int rows = sheet.getRows();
+                    int columns = sheet.getColumns();
+                    for (int i = 0; i < rows; i++) {//rows
+                        for (int j = 0; j < columns; j++) {//columns
+                            cell = sheet.getCell(j, i);
+                            if (cell.getContents().contains("#")) {
+                                LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
+                                LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
+                                LocalDate today = LocalDate.now();
+                                if (today.isEqual(start) || today.isAfter(start)) {
+                                    if (today.isEqual(expire) || today.isBefore(expire)) {
+                                        transport.add(new ProductTransport(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), Integer.parseInt(sheet.getCell(1, i).getContents()), sheet.getCell(j + 1, i).getContents()));
+                                    }
+                                }
+                            }
+                            if (cell.getContents().matches("")) {//TODO Max Alphabet
+                                if (j == 0) {
+                                    i = rows;
+                                } else {
+                                    j = columns;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+        }
+        return transport;
     }
 
     List<Mail> getMails(){
@@ -340,6 +692,99 @@ public class DatabaseHandler {
         } catch (SQLException ex) {
             ex.printStackTrace();
             log("Server> getLogins> " + ex);
+            return null;
+        }
+    }
+
+    List<TripPackage> getPackages(){
+        List<TripPackage> packages = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGES;");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                packages.add(new TripPackage(rs.getInt("PackageID"), rs.getString("PackageName"), rs.getDouble("TotalPackageAmount"), rs.getString("Category"), rs.getInt("People"), rs.getString("Province"), rs.getString("ExpiryDate"), rs.getString("Extra"), getTripAccommodation(rs.getInt("PackageID")), getTripGolf(rs.getInt("PackageID")), getTripTransport(rs.getInt("PackageID")), getTripActivities(rs.getInt("PackageID"))));
+            }
+            log("Server> Successfully Got all Packages");
+            return packages;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> getLogins> " + ex);
+            return null;
+        }
+    }
+
+    private List<BookingAccommodation> getTripAccommodation (int packageID) {
+        List<BookingAccommodation> bookingAccommodation = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGESINCLUDE WHERE PackageID = ? AND Category = ?;");
+            preparedStatement.setInt(1, packageID);
+            preparedStatement.setString(2, "BookingAccommodation");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {//-2 if package
+                bookingAccommodation.add(new BookingAccommodation(-2, rs.getInt("SupplierNumber"), rs.getInt("ProductID"), rs.getInt("Quantity"), rs.getInt("People"),rs.getDouble("Cost")));
+            }
+            log("Server> Successfully Got all BookingAccommodation for Package: " + packageID);
+            return bookingAccommodation;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> getTripAccommodation> " + ex);
+            return null;
+        }
+    }
+
+    private List<BookingGolf> getTripGolf (int packageID) {
+        List<BookingGolf> bookingGolf = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGESINCLUDE WHERE PackageID = ? AND Category = ?;");
+            preparedStatement.setInt(1, packageID);
+            preparedStatement.setString(2, "BookingGolf");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                bookingGolf.add(new BookingGolf(-2, rs.getInt("SupplierNumber"), rs.getInt("ProductID"), rs.getInt("People"), rs.getInt("Quantity"), rs.getInt("Extra"), rs.getDouble("Cost")));
+            }
+            log("Server> Successfully Got all BookingGolf for Package: " + packageID);
+            return bookingGolf;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> getTripActivities> " + ex);
+            return null;
+        }
+    }
+
+    private List<BookingActivity> getTripActivities (int packageID) {
+        List<BookingActivity> activities = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGESINCLUDE WHERE PackageID = ? AND Category = ?;");
+            preparedStatement.setInt(1, packageID);
+            preparedStatement.setString(2, "BookingActivity");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                activities.add(new BookingActivity(-2, rs.getInt("SupplierNumber"), rs.getInt("ProductID"), rs.getInt("People"), rs.getDouble("Cost")));
+            }
+            log("Server> Successfully Got all Activities for Package: " + packageID);
+            return activities;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> getTripActivities> " + ex);
+            return null;
+        }
+    }
+
+    private List<BookingTransport> getTripTransport (int packageID) {
+        List<BookingTransport> bookingTransport = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGESINCLUDE WHERE PackageID = ? AND Category = ?;");
+            preparedStatement.setInt(1, packageID);
+            preparedStatement.setString(2, "BookingTransport");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                bookingTransport.add(new BookingTransport(-2, rs.getInt("SupplierNumber"), rs.getInt("ProductID"), rs.getInt("People"), rs.getDouble("Cost")));
+            }
+            log("Server> Successfully Got all BookingTransport for Package: " + packageID);
+            return bookingTransport;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> getTripTransport> " + ex);
             return null;
         }
     }
@@ -439,7 +884,7 @@ public class DatabaseHandler {
             if (rs.next()) {
                 gsNumber = rs.getInt("LastGSNumber");
             }
-            for (Accommodation ac: booking.getAccommodation()) {
+            for (BookingAccommodation ac: booking.getBookingAccommodation()) {
                 preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSACCOMMODATION (GSNumber, SupplierNumber, AccommodationID, Nights, People) VALUES (?,?,?,?,?);");
                 preparedStatement.setInt(1, gsNumber);
                 preparedStatement.setInt(2, ac.getSupplierNumber());
@@ -448,7 +893,7 @@ public class DatabaseHandler {
                 preparedStatement.setInt(5, ac.getPeople());
                 preparedStatement.execute();
             }
-            for (Golf gf: booking.getGolf()) {
+            for (BookingGolf gf: booking.getBookingGolf()) {
                 preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSGOLF (GSNumber, SupplierNumber, GolfID, Rounds, People) VALUES (?,?,?,?,?);");
                 preparedStatement.setInt(1, gsNumber);
                 preparedStatement.setInt(2, gf.getSupplierNumber());
@@ -457,7 +902,7 @@ public class DatabaseHandler {
                 preparedStatement.setInt(5, gf.getPeople());
                 preparedStatement.execute();
             }
-            for (Activity at: booking.getActivities()) {
+            for (BookingActivity at: booking.getActivities()) {
                 preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSACTIVITIES (GSNumber, SupplierNumber, ActivityID, People) VALUES (?,?,?,?);");
                 preparedStatement.setInt(1, gsNumber);
                 preparedStatement.setInt(2, at.getSupplierNumber());
@@ -476,15 +921,12 @@ public class DatabaseHandler {
 
     void addSupplier(Supplier supplier) {
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO SUPPLIERS (SupplierName, Category, Province, Address, CoOrdinates, ContactPerson, ContactNumber, Email) VALUES (?,?,?,?,?,?,?,?);");
+            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO SUPPLIERS (SupplierName, Category, Province, Address, CoOrdinates) VALUES (?,?,?,?,?);");
             preparedStatement.setString(1, supplier.getSupplierName());
             preparedStatement.setString(2, supplier.getCategory());
             preparedStatement.setString(3, supplier.getProvince());
             preparedStatement.setString(4, supplier.getAddress());
             preparedStatement.setString(5, supplier.getCoOrdinates());
-            preparedStatement.setString(6, supplier.getContactPerson());
-            preparedStatement.setString(7, supplier.getContactNumber());
-            preparedStatement.setString(8, supplier.getEmail());
             preparedStatement.execute();
             log("Server> Successfully Added Supplier: " + supplier.getSupplierName());
             //notifyUpdatedStudent(s[0]);
@@ -547,7 +989,7 @@ public class DatabaseHandler {
             preparedStatement.setString(13, booking.getBookingMadeDate());
             preparedStatement.setInt(14, Integer.parseInt(booking.getGsNumber().substring(2)));
             preparedStatement.execute();
-            for (Accommodation ac: booking.getAccommodation()) {
+            for (BookingAccommodation ac: booking.getBookingAccommodation()) {
                 preparedStatement = con.prepareStatement("UPDATE BOOKINGSACCOMMODATION SET SupplierNumber = ?, AccommodationID = ?, Nights = ?, People = ? WHERE BAID = ?;");
                 preparedStatement.setInt(1, ac.getSupplierNumber());
                 preparedStatement.setInt(2, ac.getAccommodationId());
@@ -556,7 +998,7 @@ public class DatabaseHandler {
                 preparedStatement.setInt(5, ac.getBAID());
                 preparedStatement.execute();
             }
-            for (Golf gf: booking.getGolf()) {
+            for (BookingGolf gf: booking.getBookingGolf()) {
                 preparedStatement = con.prepareStatement("UPDATE BOOKINGSGOLF SET SupplierNumber = ?, GolfID = ?, Rounds = ?, People = ? WHERE BGID = ?;");
                 preparedStatement.setInt(1, gf.getSupplierNumber());
                 preparedStatement.setInt(2, gf.getGolfID());
@@ -565,7 +1007,7 @@ public class DatabaseHandler {
                 preparedStatement.setInt(5, gf.getBGID());
                 preparedStatement.execute();
             }
-            for (Activity at: booking.getActivities()) {
+            for (BookingActivity at: booking.getActivities()) {
                 preparedStatement = con.prepareStatement("UPDATE BOOKINGSACTIVITIES SET GSNumber = ?, SupplierNumber = ?, ActivityID = ?, People = ? WHERE BTID = ?;");
                 preparedStatement.setInt(1, at.getSupplierNumber());
                 preparedStatement.setInt(2, at.getActivityId());
@@ -584,16 +1026,13 @@ public class DatabaseHandler {
 
     void updateSupplier(Supplier supplier) {
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("UPDATE SUPPLIER SET SupplierName = ?, Category = ?, Province = ?, Address = ?, CoOrdinates = ?, ContactPerson = ?, ContactNumber = ?, Email = ? WHERE SupplierNumber = ?");
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE SUPPLIER SET SupplierName = ?, Category = ?, Province = ?, Address = ?, CoOrdinates = ? WHERE SupplierNumber = ?");
             preparedStatement.setString(1, supplier.getSupplierName());
             preparedStatement.setString(2, supplier.getCategory());
             preparedStatement.setString(3, supplier.getProvince());
             preparedStatement.setString(4, supplier.getAddress());
             preparedStatement.setString(5, supplier.getCoOrdinates());
-            preparedStatement.setString(6, supplier.getContactPerson());
-            preparedStatement.setString(7, supplier.getContactNumber());
-            preparedStatement.setString(8, supplier.getEmail());
-            preparedStatement.setInt(9, supplier.getSupplierNumber());
+            preparedStatement.setInt(6, supplier.getSupplierNumber());
             preparedStatement.execute();
             log("Server> Successfully Updated Supplier: " + supplier.getSupplierName());
             //notifyUpdatedStudent(s[0]);
@@ -611,6 +1050,62 @@ public class DatabaseHandler {
             preparedStatement.setString(3, login.getPassword());
             preparedStatement.execute();
             log("Server> Successfully Updated Login: " + login.getLoginName());
+            //notifyUpdatedStudent(s[0]);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> updateLogin> " + ex);
+        }
+    }
+
+    void updateSuppliersBookedAccommodation(){
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE SUPPLIERSBOOKEDACCOMMODATION SET Process = ?, PaidAmount = ? WHERE SBAID = ?");
+            //preparedStatement.setString(1, login.getLoginName());
+            //preparedStatement.setString(2, login.getUsername());
+            preparedStatement.execute();
+            //log("Server> Successfully Suppliers Booked : " + login.getLoginName());
+            //notifyUpdatedStudent(s[0]);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> updateLogin> " + ex);
+        }
+    }
+
+    void updateSuppliersBookedGolf(){
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE SUPPLIERSBOOKEDGOLF SET Process = ?, PaidAmount = ? WHERE SBGID = ?");
+            //preparedStatement.setString(1, login.getLoginName());
+            //preparedStatement.setString(2, login.getUsername());
+            preparedStatement.execute();
+            //log("Server> Successfully Suppliers Booked : " + login.getLoginName());
+            //notifyUpdatedStudent(s[0]);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> updateLogin> " + ex);
+        }
+    }
+
+    void updateSuppliersBookedTransport(){
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE SUPPLIERSBOOKEDTRANSPORT SET Process = ?, PaidAmount = ? WHERE SBRID = ?");
+            //preparedStatement.setString(1, login.getLoginName());
+            //preparedStatement.setString(2, login.getUsername());
+            preparedStatement.execute();
+            //log("Server> Successfully Suppliers Booked : " + login.getLoginName());
+            //notifyUpdatedStudent(s[0]);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> updateLogin> " + ex);
+        }
+    }
+
+    void updateSuppliersBookedActivities(){
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE SUPPLIERSBOOKEDACTIVITIES SET Process = ?, PaidAmount = ? WHERE SBTID = ?");
+            //preparedStatement.setString(1, login.getLoginName());
+            //preparedStatement.setString(2, login.getUsername());
+            preparedStatement.execute();
+            //log("Server> Successfully Suppliers Booked : " + login.getLoginName());
             //notifyUpdatedStudent(s[0]);
         } catch (SQLException ex) {
             ex.printStackTrace();

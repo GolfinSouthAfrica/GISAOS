@@ -23,16 +23,25 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
     private ObjectProperty<User> user = new SimpleObjectProperty<>();
     private ObservableList<Supplier> suppliers = FXCollections.observableArrayList();
     private ObservableList<Booking> bookings = FXCollections.observableArrayList();
-    private ObservableList<Mail> mails = FXCollections.observableArrayList();
     private ObservableList<Login> logins = FXCollections.observableArrayList();
     private ObservableList<DataFile> documents = FXCollections.observableArrayList();
+    private ObservableList<TripPackage> packages = FXCollections.observableArrayList();
+    public ObservableList<Integer> unreadMails = FXCollections.observableArrayList();
+    private ObservableList<ProductAccomodation> accommodation = FXCollections.observableArrayList();
+    private ObservableList<ProductGolf> golf = FXCollections.observableArrayList();
+    private ObservableList<ProductTransport> transport = FXCollections.observableArrayList();
+    private ObservableList<ProductActivity> activities = FXCollections.observableArrayList();
     private volatile ObservableList<Object> outputQueue = FXCollections.observableArrayList();
     volatile BooleanProperty updateUser = new SimpleBooleanProperty(false);
     volatile BooleanProperty updateSuppliers = new SimpleBooleanProperty(false);
     volatile BooleanProperty updateBookings = new SimpleBooleanProperty(false);
-    volatile BooleanProperty updateMails = new SimpleBooleanProperty(false);
     volatile BooleanProperty updateLogins = new SimpleBooleanProperty(false);
     volatile BooleanProperty updateDocuments = new SimpleBooleanProperty(false);
+    volatile BooleanProperty updatePackages = new SimpleBooleanProperty(false);
+    volatile BooleanProperty updateAccommodation = new SimpleBooleanProperty(false);
+    volatile BooleanProperty updateGolf = new SimpleBooleanProperty(false);
+    volatile BooleanProperty updateTransport = new SimpleBooleanProperty(false);
+    volatile BooleanProperty updateActivities = new SimpleBooleanProperty(false);
 
     public UserConnectionHandler(Socket socket, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream, String username, ObservableList<ConnectionHandler> connectionsList, DatabaseHandler dh) {
         super(socket, objectInputStream, objectOutputStream, connectionsList, dh);
@@ -58,12 +67,6 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                 updateBookings.set(false);
             }
         });
-        updateMails.addListener((obs, oldV, newV) -> {
-            if (newV) {
-                updateMails();
-                updateMails.set(false);
-            }
-        });
         updateLogins.addListener((obs, oldV, newV) -> {
             if (newV) {
                 updateLogins();
@@ -76,6 +79,36 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                 updateDocuments.set(false);
             }
         });
+        updatePackages.addListener((obs, oldV, newV) -> {
+            if (newV) {
+                updatePackages();
+                updatePackages.set(false);
+            }
+        });
+        updateAccommodation.addListener((obs, oldV, newV) -> {
+            if (newV) {
+                updateAccommodation();
+                updateAccommodation.set(false);
+            }
+        });
+        updateGolf.addListener((obs, oldV, newV) -> {
+            if (newV) {
+                updateGolf();
+                updateGolf.set(false);
+            }
+        });
+        updateTransport.addListener((obs, oldV, newV) -> {
+            if (newV) {
+                updateTransport();
+                updateTransport.set(false);
+            }
+        });
+        updateActivities.addListener((obs, oldV, newV) -> {
+            if (newV) {
+                updateActivities();
+                updateActivities.set(false);
+            }
+        });
         user.addListener(e -> {
             outputQueue.add(0, user.get());
         });
@@ -85,21 +118,40 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         bookings.addListener((InvalidationListener) e -> {
             outputQueue.add(0, Arrays.asList(bookings.toArray()));
         });
-        mails.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(mails.toArray()));
-        });
         logins.addListener((InvalidationListener) e -> {
             outputQueue.add(0, Arrays.asList(logins.toArray()));
         });
         documents.addListener((InvalidationListener) e -> {
             outputQueue.add(0, Arrays.asList(documents.toArray()));
         });
+        packages.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(packages.toArray()));
+        });
+        unreadMails.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(unreadMails.toArray()));
+        });
+        accommodation.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(accommodation.toArray()));
+        });
+        golf.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(golf.toArray()));
+        });
+        transport.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(transport.toArray()));
+        });
+        activities.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(activities.toArray()));
+        });
         updateUser();
         updateSuppliers();
         updateBookings();
-        updateMails();
         updateLogins();
         updateDocuments();
+        updatePackages();
+        updateAccommodation();
+        updateGolf();
+        updateTransport();
+        updateActivities();
         new InputProcessor().start();
         new OutputProcessor().start();
     }
@@ -117,8 +169,8 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.log("User " + username + "> Requested Change Password");
                             changePassword(text.substring(3).split(":")[0], text.substring(3).split(":")[1]);
                         }  else if (text.startsWith("gf:")) {
-                            dh.log("User " + username + "> Requested File: " + text.substring(3).split(":")[1] + " From FileType: " + text.substring(3).split(":")[0]);
-                            getFile(text.substring(3).split(":")[0], text.substring(3).split(":")[1]);
+                            dh.log("User " + username + "> Requested File: " + text.substring(3).split(":")[0]);
+                            getFile(text.substring(3).split(":")[0]);
                         } else if (text.startsWith("rb:")) {
                             dh.log("User " + username + "> Removed Booking: " + text.substring(3));
                             dh.removeBooking(Integer.parseInt(text.substring(3)));
@@ -155,6 +207,32 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             /*dh.log("User " + username + "> Processed Quotation " + text.substring(3).split(":")[0] + " to an invoice.");
                             dh.processQuotationToInvoice(text.substring(3).split(":")[0]);
                             updateLogins.setValue(true);*/
+                        } else if (text.startsWith("gm:")) {
+                            if(text.substring(3).split(":")[0].matches("Quotes") && text.substring(3).split(":")[1].matches("unread")){
+                                outputQueue.addAll(Server.unreadNewQuotesMails);
+                            } else if (text.substring(3).split(":")[0].matches("Quotes") && text.substring(3).split(":")[1].matches("all")){
+                                outputQueue.addAll(Server.readNewQuotesMails);
+                            } else if (text.substring(3).split(":")[0].matches("Contact") && text.substring(3).split(":")[1].matches("unread")){
+                                outputQueue.addAll(Server.unreadContactMails);
+                            } else if (text.substring(3).split(":")[0].matches("Contact") && text.substring(3).split(":")[1].matches("all")){
+                                outputQueue.addAll(Server.readContactMails);
+                            } else if (text.substring(3).split(":")[0].matches("Finance") && text.substring(3).split(":")[1].matches("unread")){
+                                outputQueue.addAll(Server.unreadFinanceMails);
+                            } else if (text.substring(3).split(":")[0].matches("Finance") && text.substring(3).split(":")[1].matches("all")){
+                                outputQueue.addAll(Server.readFinanceMails);
+                            } else if (text.substring(3).split(":")[0].matches("Other") && text.substring(3).split(":")[1].matches("unread")){
+                                outputQueue.addAll(Server.unreadOtherMails);
+                            } else if (text.substring(3).split(":")[0].matches("Other") && text.substring(3).split(":")[1].matches("all")){
+                                outputQueue.addAll(Server.readOtherMails);
+                            }
+                        }else if (text.startsWith("usba:")) {
+                            dh.updateSuppliersBookedAccommodation();
+                        } else if (text.startsWith("usbg:")) {
+                            dh.updateSuppliersBookedGolf();
+                        } else if (text.startsWith("usbt:")) {
+                            dh.updateSuppliersBookedTransport();
+                        } else if (text.startsWith("usbr:")) {
+                            dh.updateSuppliersBookedActivities();
                         } else {
                             dh.log("User " + username + "> Requested Unknown Command: " + input);
                             System.out.println("Server> Unknown command: " + input);
@@ -191,7 +269,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         } else {
                             dh.updateQuotation((Quotation)input);
                         }*/
-                        updateMails.setValue(true);
+                        //updateMails.setValue(true);
                     }  else if (input instanceof Login) {
                         if (((Login) input).getLoginID() == -1) {
                             dh.addLogin((Login) input);
@@ -199,6 +277,8 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.updateLogin((Login) input);
                         }
                         updateLogins.setValue(true);
+                    } else if (input instanceof TripPackage) {//TODO
+
                     }
                 }
             }
@@ -252,8 +332,8 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         }
     }
 
-    private void getFile(String fileType, String fileName) {
-        File file = new File(Server.APPLICATION_FOLDER + "/" + fileType + "/" + fileName);
+    private void getFile(String fileName) {
+        File file = new File(Server.DOCUMENTS_FOLDER + "/" + fileName);
         try {
             byte[] fileBytes = Files.readAllBytes(file.toPath());
             int size = 0;
@@ -261,7 +341,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                 System.out.println(Math.min(Server.BUFFER_SIZE, fileBytes.length - size));
                 outputQueue.add(new FilePart(Arrays.copyOfRange(fileBytes, size, size + Math.min(Server.BUFFER_SIZE, fileBytes.length - size)), fileName));
                 size += Math.min(Server.BUFFER_SIZE, fileBytes.length - size);
-                dh.log("User " + username + "> Successfully Downloaded " + fileType + ": " + fileName);
+                dh.log("User " + username + "> Successfully Downloaded : " + fileName);
             }
         } catch (Exception ex) {
             dh.log("Server> getFile> " + ex);
@@ -287,11 +367,6 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         bookings.addAll(dh.getBookings());
     }
 
-    private void updateMails() {
-        mails.clear();
-        mails.addAll(dh.getMails());
-    }
-
     private void updateLogins() {
         logins.clear();
         logins.addAll(dh.getLogins());
@@ -300,6 +375,31 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
     private void updateDocuments() {
         documents.clear();
         documents.addAll(dh.getDocuments());
+    }
+
+    private void updatePackages() {
+        packages.clear();
+        packages.addAll(dh.getPackages());
+    }
+
+    private void updateAccommodation() {
+        accommodation.clear();
+        accommodation.addAll(dh.getProductAccommodation());
+    }
+
+    private void updateGolf() {
+        golf.clear();
+        golf.addAll(dh.getProductGolf());
+    }
+
+    private void updateTransport() {
+        transport.clear();
+        transport.addAll(dh.getProductTransport());
+    }
+
+    private void updateActivities() {
+        activities.clear();
+        activities.addAll(dh.getProductActivities());
     }
 
     public String getUsername() {
