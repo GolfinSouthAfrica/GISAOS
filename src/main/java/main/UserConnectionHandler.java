@@ -142,6 +142,9 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         activities.addListener((InvalidationListener) e -> {
             outputQueue.add(0, Arrays.asList(activities.toArray()));
         });
+        unreadMails.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(unreadMails.toArray()));
+        });
         updateUser();
         updateSuppliers();
         updateBookings();
@@ -152,6 +155,8 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         updateGolf();
         updateTransport();
         updateActivities();
+        unreadMails.clear();
+        unreadMails.addAll(Server.unreadMails);
         new InputProcessor().start();
         new OutputProcessor().start();
     }
@@ -163,31 +168,33 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                 if ((input = getReply()) != null) {
                     if (input instanceof String) {
                         String text = input.toString();
-                        if (text.startsWith("lo:")) {
-
-                        } else if (text.startsWith("cp:")) {
+                        if (text.startsWith("cp:")) {//ChangePassword
                             dh.log("User " + username + "> Requested Change Password");
                             changePassword(text.substring(3).split(":")[0], text.substring(3).split(":")[1]);
-                        }  else if (text.startsWith("gf:")) {
+                        }  else if (text.startsWith("gf:")) {//GetFile
                             dh.log("User " + username + "> Requested File: " + text.substring(3).split(":")[0]);
                             getFile(text.substring(3).split(":")[0]);
-                        } else if (text.startsWith("rb:")) {
+                        } else if (text.startsWith("rb:")) {//RemoveBooking
                             dh.log("User " + username + "> Removed Booking: " + text.substring(3));
                             dh.removeBooking(Integer.parseInt(text.substring(3)));
                             updateBookings.setValue(true);
-                        } else if (text.startsWith("rs:")) {
+                        } else if (text.startsWith("rs:")) {//RemoveSupplier
                             dh.log("User " + username + "> Removed Supplier: " + text.substring(3));
                             dh.removeSupplier(Integer.parseInt(text.substring(3)));
                             updateSuppliers.setValue(true);
-                        } else if (text.startsWith("rd:")) {
+                        } else if (text.startsWith("rd:")) {//RemoveDocument
                             dh.log("User " + username + "> Removed Document: " + text.substring(3));
-                            dh.deleteFile(text.substring(3).split(":")[0], text.substring(3).split(":")[1]);
+                            dh.deleteFile(Server.DOCUMENTS_FOLDER.getAbsolutePath(), text.substring(3).split(":")[0]);
                             updateDocuments.setValue(true);
-                        } else if (text.startsWith("rl:")) {
+                        } else if (text.startsWith("rl:")) {//RemoveLogin
                             dh.log("User " + username + "> Removed Login: " + text.substring(3));
                             dh.removeLogin(Integer.parseInt(text.substring(3)));
                             updateLogins.setValue(true);
-                        } else if (text.startsWith("se:")) {
+                        } else if (text.startsWith("rcd:")) {//RemoveContactDetails
+                            dh.log("User " + username + "> Removed Login: " + text.substring(3));
+                            dh.removeContactDetails(Integer.parseInt(text.substring(4)));
+                            updateSuppliers.setValue(true);
+                        } else if (text.startsWith("se:")) {//TODO
                             /*if((!text.substring(3).split(":")[3].matches(""))) {
                                 dh.log("User " + username + "> Emailed " + text.substring(3).split(":")[4] + "(" + text.substring(3).split(":")[3] + " to: " + text.substring(3).split(":")[0]);
                                 if (new Email().email(text.substring(3).split(":")[0], text.substring(3).split(":")[1], text.substring(3).split(":")[2], text.substring(3).split(":")[3], text.substring(3).split(":")[4])) {
@@ -203,11 +210,11 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                                     outputQueue.add("es:f");
                                 }
                             }*/
-                        } else if (text.startsWith("pq:")) {
+                        } else if (text.startsWith("pq:")) {//TODO
                             /*dh.log("User " + username + "> Processed Quotation " + text.substring(3).split(":")[0] + " to an invoice.");
                             dh.processQuotationToInvoice(text.substring(3).split(":")[0]);
                             updateLogins.setValue(true);*/
-                        } else if (text.startsWith("gm:")) {
+                        } else if (text.startsWith("gm:")) {//GetMails
                             if(text.substring(3).split(":")[0].matches("Quotes") && text.substring(3).split(":")[1].matches("unread")){
                                 outputQueue.addAll(Server.unreadNewQuotesMails);
                             } else if (text.substring(3).split(":")[0].matches("Quotes") && text.substring(3).split(":")[1].matches("all")){
@@ -225,41 +232,41 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             } else if (text.substring(3).split(":")[0].matches("Other") && text.substring(3).split(":")[1].matches("all")){
                                 outputQueue.addAll(Server.readOtherMails);
                             }
-                        }else if (text.startsWith("usba:")) {
+                        }else if (text.startsWith("usba:")) {//UpdateSupplierBookedAccommodation
                             dh.updateSuppliersBookedAccommodation();
-                        } else if (text.startsWith("usbg:")) {
+                        } else if (text.startsWith("usbg:")) {//UpdateSupplierBookedGolf
                             dh.updateSuppliersBookedGolf();
-                        } else if (text.startsWith("usbt:")) {
+                        } else if (text.startsWith("usbr:")) {//UpdateSupplierBookedTransport
                             dh.updateSuppliersBookedTransport();
-                        } else if (text.startsWith("usbr:")) {
+                        } else if (text.startsWith("usbt:")) {//UpdateSupplierBookedActivities
                             dh.updateSuppliersBookedActivities();
                         } else {
                             dh.log("User " + username + "> Requested Unknown Command: " + input);
                             System.out.println("Server> Unknown command: " + input);
                         }
-                    } else if (input instanceof Booking) {
+                    } else if (input instanceof Booking) {//AddUpdateBookings
                         if (((Booking) input).getGsNumber().matches("New")) {
                             dh.addBooking((Booking)input);
                         } else {
                             dh.updateBooking((Booking)input);
                         }
                         updateBookings.setValue(true);
-                    } else if (input instanceof Supplier) {
+                    } else if (input instanceof Supplier) {//AddUpdateSuppliers
                         if (((Supplier) input).getSupplierNumber() == -1) {
                             dh.addSupplier((Supplier)input);
                         } else {
                             dh.updateSupplier((Supplier)input);
                         }
                         updateSuppliers.set(true);
-                    } else if (input instanceof UploadFile){
+                    } else if (input instanceof UploadFile){//UploadFile
                         try {
                             UploadFile uploadFile = (UploadFile) input;
-                            File newFile = new File(Server.APPLICATION_FOLDER.getAbsolutePath() + "/" + uploadFile.getFileType() + "/" + uploadFile.getFileName());
+                            File newFile = new File(Server.DOCUMENTS_FOLDER + "/" + uploadFile.getFileName());//IF Others
                             newFile.getParentFile().mkdirs();
                             Files.write(newFile.toPath(), uploadFile.getFileData());
                             if (uploadFile.getFileType().matches("Documents")) {
                                 updateDocuments.setValue(true);
-                            } //TODO other
+                            } //other
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
@@ -270,7 +277,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.updateQuotation((Quotation)input);
                         }*/
                         //updateMails.setValue(true);
-                    }  else if (input instanceof Login) {
+                    }  else if (input instanceof Login) {//AddUpdateLogins
                         if (((Login) input).getLoginID() == -1) {
                             dh.addLogin((Login) input);
                         } else {
@@ -279,6 +286,14 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         updateLogins.setValue(true);
                     } else if (input instanceof TripPackage) {//TODO
 
+                    } else if (input instanceof ContactDetails){//AddUpdateContactDetails
+                        System.out.println(((ContactDetails)input).getContactDetailsID());
+                        if (((ContactDetails) input).getContactDetailsID() > 100000) {
+                            dh.addContactDetails((ContactDetails) input);
+                        } else {
+                            dh.updateContactDetails((ContactDetails) input);
+                        }
+                        updateSuppliers.setValue(true);
                     }
                 }
             }

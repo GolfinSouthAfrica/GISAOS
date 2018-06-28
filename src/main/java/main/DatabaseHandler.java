@@ -109,27 +109,27 @@ public class DatabaseHandler {
                 stmt.execute("CREATE TABLE SUPPLIERSBOOKEDACCOMMODATION (" +
                         "SBAID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "BAID INTEGER, " +
-                        "Pocess TEXT, " +
+                        "Process TEXT, " +
                         "PaidAmount REAL);");
                 stmt.execute("CREATE TABLE SUPPLIERSBOOKEDGOLF (" +
                         "SBGID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "BGID INTEGER, " +
-                        "Pocess TEXT, " +
+                        "Process TEXT, " +
                         "PaidAmount REAL);");
                 stmt.execute("CREATE TABLE SUPPLIERSBOOKEDTRANSPORT (" +
                         "SBRID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "BRID INTEGER, " +
-                        "Pocess TEXT, " +
+                        "Process TEXT, " +
                         "PaidAmount REAL);");
                 stmt.execute("CREATE TABLE SUPPLIERSBOOKEDACTIVITIES (" +
                         "SBTID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "BTID INTEGER, " +
-                        "Pocess TEXT, " +
+                        "Process TEXT, " +
                         "PaidAmount REAL);");
                 stmt.execute("CREATE TABLE PACKAGES (" +
                         "PackageID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "PackageName TEXT, " +
-                        "Category TEXT, " +//TODO Ex short break exc.
+                        "Category TEXT, " +//Ex short break exc.
                         "People TEXT, " +
                         "TotalPackageAmount TEXT, " +
                         "ExpiryDate TEXT, " +
@@ -255,7 +255,7 @@ public class DatabaseHandler {
                                 }
                             }
                         }
-                        if (cell.getContents().matches("")) {//TODO Max Alphabet
+                        if (cell.getContents().matches("")) {
                             if(j == 0) {
                                 i = rows;
                             } else {
@@ -278,7 +278,7 @@ public class DatabaseHandler {
                                 }
                             }
                         }
-                        if (cell.getContents().matches("")) {//TODO Max Alphabet
+                        if (cell.getContents().matches("")) {
                             if(j == 0) {
                                 i = rows;
                             } else {
@@ -301,7 +301,7 @@ public class DatabaseHandler {
                                 }
                             }
                         }
-                        if (cell.getContents().matches("")) {//TODO Max Alphabet
+                        if (cell.getContents().matches("")) {
                             if(j == 0) {
                                 i = rows;
                             } else {
@@ -324,7 +324,7 @@ public class DatabaseHandler {
                                 }
                             }
                         }
-                        if (cell.getContents().matches("")) {//TODO Max Alphabet
+                        if (cell.getContents().matches("")) {
                             if(j == 0) {
                                 i = rows;
                             } else {
@@ -349,7 +349,7 @@ public class DatabaseHandler {
             while (rs.next()) {
                 contactDetails.add(new ContactDetails(rs.getInt("ContactDetailsID"), rs.getString("PersonName"), rs.getString("PersonPosition"), rs.getString("ContactNumber"), rs.getString("Email"), rs.getString("DateAdded")));
             }
-            log("Server> Successfully Gotten Suppliers Contact Details");
+            log("Server> Successfully Gotten Suppliers Contact Details: " + contactDetails.size());
             return contactDetails;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -358,7 +358,7 @@ public class DatabaseHandler {
         }
     }
 
-    List<Booking> getBookings() {//TODO Get File separately when requested
+    List<Booking> getBookings() {
         List<Booking> bookings = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM BOOKINGS;");
@@ -495,7 +495,7 @@ public class DatabaseHandler {
                                     }
                                 }
                             }
-                            if (cell.getContents().matches("")) {//TODO Max Alphabet
+                            if (cell.getContents().matches("")) {
                                 if (j == 0) {
                                     i = rows;
                                 } else {
@@ -540,7 +540,7 @@ public class DatabaseHandler {
                                     }
                                 }
                             }
-                            if (cell.getContents().matches("")) {//TODO Max Alphabet
+                            if (cell.getContents().matches("")) {
                                 if (j == 0) {
                                     i = rows;
                                 } else {
@@ -585,7 +585,7 @@ public class DatabaseHandler {
                                     }
                                 }
                             }
-                            if (cell.getContents().matches("")) {//TODO Max Alphabet
+                            if (cell.getContents().matches("")) {
                                 if (j == 0) {
                                     i = rows;
                                 } else {
@@ -630,7 +630,7 @@ public class DatabaseHandler {
                                     }
                                 }
                             }
-                            if (cell.getContents().matches("")) {//TODO Max Alphabet
+                            if (cell.getContents().matches("")) {
                                 if (j == 0) {
                                     i = rows;
                                 } else {
@@ -645,38 +645,6 @@ public class DatabaseHandler {
             }
         }
         return transport;
-    }
-
-    List<Mail> getMails(){
-        /*Store store = null;
-        IMAPFolder folder = null;
-        try {
-            Properties props = System.getProperties();
-            props.put("mail.store.protocol", "imaps");
-            Session session = Session.getDefaultInstance(props, null);
-            store = session.getStore("imaps");
-            store.connect("imap.googlemail.com", "info@golfinsouthafrica.com", "password");//TODO
-            folder = (IMAPFolder) store.getFolder("[Gmail]/Inbox");
-            if(!folder.isOpen()){
-                folder.open(Folder.READ_WRITE);
-            }
-            Message[] messages = folder.getMessages();
-
-            Message msg = messages[0];
-            String sub = msg.getSubject();
-            Address[] from = msg.getFrom();
-            Address[] to = msg.getAllRecipients();
-            Date date = msg.getReceivedDate();
-            int size = msg.getSize();
-            Flags flags = msg.getFlags();
-            String con = msg.getContentType();
-            Object bod = msg.getContent();
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }*/
-        return null;//TODO
     }
 
     List<Login> getLogins(){
@@ -698,11 +666,12 @@ public class DatabaseHandler {
 
     List<TripPackage> getPackages(){
         List<TripPackage> packages = new ArrayList<>();
+        packages.add(new TripPackage(0, "Bespoke", 0, "Bespoke", "Bespoke", "Bespoke",  "Bespoke",  "Bespoke", null, null, null, null));
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGES;");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                packages.add(new TripPackage(rs.getInt("PackageID"), rs.getString("PackageName"), rs.getDouble("TotalPackageAmount"), rs.getString("Category"), rs.getInt("People"), rs.getString("Province"), rs.getString("ExpiryDate"), rs.getString("Extra"), getTripAccommodation(rs.getInt("PackageID")), getTripGolf(rs.getInt("PackageID")), getTripTransport(rs.getInt("PackageID")), getTripActivities(rs.getInt("PackageID"))));
+                packages.add(new TripPackage(rs.getInt("PackageID"), rs.getString("PackageName"), rs.getDouble("TotalPackageAmount"), rs.getString("Category"), rs.getString("People"), rs.getString("Province"), rs.getString("ExpiryDate"), rs.getString("Extra"), getTripAccommodation(rs.getInt("PackageID")), getTripGolf(rs.getInt("PackageID")), getTripTransport(rs.getInt("PackageID")), getTripActivities(rs.getInt("PackageID"))));
             }
             log("Server> Successfully Got all Packages");
             return packages;
@@ -796,6 +765,9 @@ public class DatabaseHandler {
             for (File file : classFilesDirectory.listFiles()) {
                 documents.add(new DataFile("Documents", file.getName().substring(0, file.getName().lastIndexOf(".")), file.getName().substring(file.getName().lastIndexOf("."), file.getName().length()), (int) file.length()));
             }
+        }
+        if(documents.size() == 0){
+            documents.add(new DataFile("NoDocuments", "NoDocuments", "NoDocuments", 0));
         }
         log("Server> Successfully Gotten Documents");
         return documents;
@@ -936,16 +908,21 @@ public class DatabaseHandler {
         }
     }
 
-    void newMail(String category) {//TODO
+    void addContactDetails(ContactDetails cd) {
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO CATEGORIES (CategoryName) VALUES (?);");
-            preparedStatement.setString(1, category);
-            log("Server> Successfully Added Category: " + category);
+            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO CONTACTDETAILS (SupplierNumber, PersonName, PersonPosition, ContactNumber, Email, DateAdded) VALUES (?,?,?,?,?,?);");
+            preparedStatement.setInt(1, cd.getContactDetailsID() - 100000);
+            preparedStatement.setString(2, cd.getPersonName());
+            preparedStatement.setString(3, cd.getPosition());
+            preparedStatement.setString(4, cd.getNumber());
+            preparedStatement.setString(5, cd.getEmail());
+            preparedStatement.setString(6, cd.getDateAdded());
             preparedStatement.execute();
+            log("Server> Successfully Added Contact Details for Supplier: " + (cd.getContactDetailsID() - 100000));
             //notifyUpdatedStudent(s[0]);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            log("Server> addSupplier> " + ex);
+            log("Server> addContactDetails> " + ex);
         }
     }
 
@@ -1039,6 +1016,23 @@ public class DatabaseHandler {
         } catch (SQLException ex) {
             ex.printStackTrace();
             log("Server> updateSupplier> " + ex);
+        }
+    }
+
+    void updateContactDetails(ContactDetails cd) {
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE CONTACTDETAILS SET PersonName = ?, PersonPosition = ?, ContactNumber = ?, Email = ? WHERE ContactDetailsID = ?");
+            preparedStatement.setString(1, cd.getPersonName());
+            preparedStatement.setString(2, cd.getPosition());
+            preparedStatement.setString(3, cd.getNumber());
+            preparedStatement.setString(4, cd.getEmail());
+            preparedStatement.setInt(5, cd.getContactDetailsID());
+            preparedStatement.execute();
+            log("Server> Successfully Updated Contact Details: " + cd.getContactDetailsID());
+            //notifyUpdatedStudent(s[0]);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> updateContactDetails> " + ex);
         }
     }
 
@@ -1151,6 +1145,19 @@ public class DatabaseHandler {
         }
     }
 
+    void removeContactDetails(int contactDetailsID) {
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM CONTACTDETAILS WHERE ContactDetailsID = ?;");
+            preparedStatement.setInt(1, contactDetailsID);
+            preparedStatement.executeUpdate();
+            log("Server> Successfully Removed Contact Details: " + contactDetailsID);
+            //notifyUpdatedStudent(studentNumber);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> removeContactDetails> " + ex);
+        }
+    }
+
     void removeLogin(int loginID) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM LOGINS WHERE LoginID = ?;");
@@ -1178,8 +1185,8 @@ public class DatabaseHandler {
         }
     }*/
 
-    void deleteFile(String fileType, String fileName) {
-        File fileToDelete = new File(Server.APPLICATION_FOLDER + "/" + fileType + "/" + fileName);
+    void deleteFile(String location, String fileName) {
+        File fileToDelete = new File(location + "/" + fileName);
         if (fileToDelete.exists()) {
             fileToDelete.delete();
             try {
@@ -1200,7 +1207,49 @@ public class DatabaseHandler {
         }
     }
 
-    void processQuotationToInvoice(String quoteNumber) {
+    public void convertExceltoPDF(File excelFile){//TODO
+        /*try {
+            FileInputStream input_document = new FileInputStream(new File("C:\\excel_to_pdf.xlsx"));
+            // Read workbook into XSSFWorkbook
+            XSSFWorkbook my_xls_workbook = new XSSFWorkbook(input_document);
+            // Read worksheet into XSSFSheet
+            XSSFSheet my_worksheet = my_xls_workbook.getSheetAt(0);
+            // To iterate over the rows
+            Iterator<Row> rowIterator = my_worksheet.iterator();
+            //We will create output PDF document objects at this point
+            Document iText_xls_2_pdf = new Document();
+            PdfWriter.getInstance(iText_xls_2_pdf, new FileOutputStream("PDFOutput.pdf"));
+            iText_xls_2_pdf.open();
+            //we have two columns in the Excel sheet, so we create a PDF table with two columns
+            PdfPTable my_table = new PdfPTable(2);
+            //cell object to capture data
+            PdfPCell table_cell;
+            //Loop through rows.
+            while(rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+                while(cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next(); //Fetch CELL
+                    switch(cell.getCellType()) { //Identify CELL type
+
+                        case Cell.CELL_TYPE_STRING:
+                            //Push the data from Excel to PDF Cell
+                            table_cell=new PdfPCell(new Phrase(cell.getStringCellValue()));
+                            my_table.addCell(table_cell);
+                            break;
+                    }
+                    //next line
+                }
+
+            }
+            //Finally add the table to PDF document
+            iText_xls_2_pdf.add(my_table);
+            iText_xls_2_pdf.close();
+            //we created our pdf file..
+            input_document.close(); //close xlsx
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }*/
 
     }
 

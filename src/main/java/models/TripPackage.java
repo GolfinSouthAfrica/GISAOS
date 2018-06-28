@@ -9,16 +9,16 @@ public class TripPackage implements Serializable {
     private String packageName;
     private double totalPackageAmount;
     private String category;
-    private int people;
+    private String people;
     private String province;
     private String expiryDate;
     private String extra;
     private List<BookingAccommodation> bookingAccommodation;
     private List<BookingGolf> bookingGolf;
     private List<BookingTransport> bookingTransport;
-    private List<BookingActivity> activities;
+    private List<BookingActivity> bookingActivities;
 
-    public TripPackage(int packageID, String packageName, double totalPackageAmount, String category, int people, String province, String expiryDate, String extra, List<BookingAccommodation> bookingAccommodation, List<BookingGolf> bookingGolf, List<BookingTransport> bookingTransport, List<BookingActivity> activities) {
+    public TripPackage(int packageID, String packageName, double totalPackageAmount, String category, String people, String province, String expiryDate, String extra, List<BookingAccommodation> bookingAccommodation, List<BookingGolf> bookingGolf, List<BookingTransport> bookingTransport, List<BookingActivity> bookingActivities) {
         this.packageID = packageID;
         this.packageName = packageName;
         this.totalPackageAmount = totalPackageAmount;
@@ -30,7 +30,7 @@ public class TripPackage implements Serializable {
         this.bookingAccommodation = bookingAccommodation;
         this.bookingGolf = bookingGolf;
         this.bookingTransport = bookingTransport;
-        this.activities = activities;
+        this.bookingActivities = bookingActivities;
     }
 
     public int getPackageID() {
@@ -49,7 +49,7 @@ public class TripPackage implements Serializable {
         return category;
     }
 
-    public int getPeople() {
+    public String getPeople() {
         return people;
     }
 
@@ -77,7 +77,16 @@ public class TripPackage implements Serializable {
         return bookingTransport;
     }
 
-    public List<BookingActivity> getActivities() {
-        return activities;
+    public List<BookingActivity> getBookingActivities() {
+        return bookingActivities;
+    }
+
+    @Override
+    public String toString(){
+        if(!packageName.matches("Bespoke")) {
+            return packageName + " - " + category + " - " + province + " - R" + totalPackageAmount + " - Expiring:" + expiryDate;
+        } else {
+            return packageName + " Package";
+        }
     }
 }

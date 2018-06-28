@@ -47,6 +47,9 @@ public class Server {
     public DatabaseHandler dh = new DatabaseHandler();
     private Timer timer;
     private Store store;
+    private int unread = 0;
+    private int read = 0;
+    public static List<Integer> unreadMails = FXCollections.observableArrayList();
 
     public Server() {
         if (!TEMPLATES_FOLDER.exists()) {
@@ -77,7 +80,7 @@ public class Server {
             props.put("mail.imaps.port", "993");
             Session session = Session.getDefaultInstance(props, null);
             store = session.getStore("imaps");
-            store.connect("info@golfinsouthafrica.com", "GISADefault1234@");//TODO
+            store.connect("info@golfinsouthafrica.com", "GISADefault1234@");
             System.out.println(store);
             timer = new Timer();
             timer.schedule(new UpdateChecker(), 3000);
@@ -93,7 +96,7 @@ public class Server {
         public void run() {
             try {
                 dh.log("Server> Trying to set up client on port " + PORT);
-                /*System.setProperty("javax.net.ssl.keyStore", APPLICATION_FOLDER.getAbsolutePath() + "/campuslive.store");//TODO
+                /*System.setProperty("javax.net.ssl.keyStore", APPLICATION_FOLDER.getAbsolutePath() + "/campuslive.store");
                 System.setProperty("javax.net.ssl.keyStorePassword", "campuslivepassword1");*/
                 dh.log("Server> Set up client on port " + PORT);
                 //ServerSocket ss = SSLServerSocketFactory.getDefault().createServerSocket(PORT);
@@ -161,7 +164,7 @@ public class Server {
                     } catch (SocketException e) {
                         dh.log("Server> User Disconnected");
                         this.stop();
-                        connectionsList.remove(this);//TODO
+                        connectionsList.remove(this);
                     } catch (EOFException e) {
                         e.printStackTrace();
                     }
@@ -250,17 +253,17 @@ public class Server {
             readFinanceMails.clear();
             readOtherMails.clear();
             try {
-                Folder folder = store.getFolder("inbox");//TODO sent
+                IMAPFolder folder = (IMAPFolder) store.getFolder("inbox");//TODO sent
                 if(!folder.isOpen()){
                     folder.open(Folder.READ_ONLY);
                 }
 
                 Message[] messages = folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
                 for (int i = 0; i < messages.length; i++) {
-                    Object obj = messages[i].getContent();
+                    /*Object obj = messages[i].getContent();
                     Multipart mp = (Multipart) messages[i].getContent();
                     BodyPart bp = ((Multipart) messages[i].getContent()).getBodyPart(0);
-                    String msg = (String) bp.getContent();//TODO
+                    String msg = (String) bp.getContent();//TODO*/
                     List<String> toAddresses = new ArrayList<String>();
                     Address[] recipients = messages[i].getRecipients(Message.RecipientType.TO);
                     for (Address address : recipients) {
@@ -271,7 +274,7 @@ public class Server {
                     for (Address address : from) {
                         fromAddresses.add(address.toString());
                     }
-                    Mail mail = new Mail(toAddresses, fromAddresses, messages[i].getSubject(), messages[i].getReceivedDate().toString(), msg, null, false);
+                    Mail mail = new Mail(toAddresses, fromAddresses, messages[i].getSubject(), messages[i].getReceivedDate().toString(), null, null, false);
                     System.out.println("------------------------------");
                     //System.out.println("Attachments: " + mail.getAttachments().size());//TODO
                     if(messages[i].getFrom()[0].equals("info@golfinsouthafrica.com")){
@@ -297,14 +300,29 @@ public class Server {
                         unreadOtherMails.add(mail);
                         readOtherMails.add(mail);
                     }
+                    unread++;
+                }
+                System.out.println("Unread" + unread);
+
+                unreadMails.clear();
+                unreadMails.add(unreadNewQuotesMails.size());
+                unreadMails.add(unreadContactMails.size());
+                unreadMails.add(unreadFinanceMails.size());
+                unreadMails.add(unreadOtherMails.size());
+
+                for(ConnectionHandler ch: connectionsList){
+                    if(ch instanceof UserConnectionHandler){
+                        ((UserConnectionHandler) ch).unreadMails.clear();
+                        ((UserConnectionHandler) ch).unreadMails.addAll(unreadMails);
+                    }
                 }
 
                 messages = folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), true));
                 for (int i = 0; i < messages.length; i++) {
-                    Object obj = messages[i].getContent();
+                    /*Object obj = messages[i].getContent();
                     Multipart mp = (Multipart) messages[i].getContent();
                     BodyPart bp = ((Multipart) messages[i].getContent()).getBodyPart(0);
-                    String msg = (String) bp.getContent();
+                    String msg = (String) bp.getContent();*/
                     List<String> toAddresses = new ArrayList<String>();
                     Address[] recipients = messages[i].getRecipients(Message.RecipientType.TO);
                     for (Address address : recipients) {
@@ -315,9 +333,9 @@ public class Server {
                     for (Address address : from) {
                         fromAddresses.add(address.toString());
                     }
-                    Mail mail = new Mail(toAddresses, fromAddresses, messages[i].getSubject(), messages[i].getReceivedDate().toString(), msg, null, false);
+                    Mail mail = new Mail(toAddresses, fromAddresses, messages[i].getSubject(), messages[i].getReceivedDate().toString(), null, null, false);
                     System.out.println("------------------------------");
-                    System.out.println("Attachments: " + mail.getAttachments().size());
+                    //System.out.println("Attachments: " + mail.getAttachments().size());
                     if(messages[i].getFrom()[0].equals("info@golfinsouthafrica.com")){
                         if(messages[i].getSubject().contains("GISA Enquiry About:")){
                             //new enquiry
@@ -336,7 +354,9 @@ public class Server {
                         //other
                         readOtherMails.add(mail);
                     }
+                    read++;
                 }
+                System.out.println("Read: " + read);
 
                 sortQuotesMailsByDate(readNewQuotesMails);
                 sortContactMailsByDate(readContactMails);
