@@ -1,10 +1,12 @@
 package main;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 import models.*;
 
 import java.io.BufferedWriter;
@@ -16,6 +18,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -49,48 +52,79 @@ public class DatabaseHandler {
                         "ClientName TEXT, " +
                         "ContactNumber TEXT, " +
                         "Email TEXT, " +
-                        "People TEXT, " +
+                        "GolfersSharing INTEGER , " +
+                        "NonGolfersSharing INTEGER , " +
+                        "GolfersSingle INTEGER , " +
+                        "NonGolfersSingle INTEGER , " +
                         "Arrival TEXT, " +
                         "Departure TEXT, " +
                         "Process TEXT, " +
-                        "BookingAmount TEXT, " +
-                        "Consultant INTEGER, " +
+                        "BookingAmount REAL, " +
+                        "Consultant TEXT, " +
                         "DepositDate TEXT, " +
                         "DepositPaid INTEGER, " +
                         "FullPaid INTEGER, " +
-                        "BookingMadeDate INTEGER, " +
-                        "PackageID INTEGER, " + //Bespoke Custom
-                        "PackageQuantity TEXT);"); //Bespoke 1
+                        "PackageName TEXT, " +
+                        "BookingMadeDate INTEGER," +
+                        "Notes TEXT);");
                 stmt.execute("CREATE TABLE BOOKINGSACCOMMODATION (" +
                         "BAID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
-                        "SupplierNumber INTEGER, " +
-                        "AccomodationID INTEGER, " +
+                        "SupplierName TEXT, " +
+                        "Province TEXT," +
+                        "ProductName TEXT, " +
+                        "MaxSleep INTEGER, " +
+                        "Arrival TEXT, " +
                         "Nights INTEGER, " +
-                        "People TEXT, " +
-                        "Cost REAL);");
+                        "Quantity INTEGER, " +
+                        "CostPricePerUnit REAL," +
+                        "SellPricePerUnit REAL," +
+                        "SupplierBooked INTEGER ," +
+                        "AmountPaid REAL," +
+                        "AddTo TEXT);");
                 stmt.execute("CREATE TABLE BOOKINGSGOLF (" +
                         "BGID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
-                        "SupplierNumber INTEGER, " +
-                        "GolfID INTEGER, " +
+                        "SupplierName TEXT, " +
+                        "Province TEXT," +
+                        "ProductName TEXT, " +
+                        "Dates TEXT, " +
+                        "Quantity INTEGER, " +
                         "Rounds INTEGER, " +
-                        "People TEXT, " +
-                        "Cost REAL);");
+                        "Carts INTEGER, " +
+                        "CostPricePerUnit REAL, " +
+                        "SellPricePerUnit REAL, " +
+                        "SupplierBooked INTEGER, " +
+                        "AmountPaid REAL, " +
+                        "AddTo TEXT);");
                 stmt.execute("CREATE TABLE BOOKINGSACTIVITIES (" +
                         "BTID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
-                        "SupplierNumber INTEGER, " +
-                        "ActivityID INTEGER, " +
-                        "People TEXT, " +
-                        "Cost REAL);");
+                        "SupplierName TEXT, " +
+                        "Province TEXT," +
+                        "ProductName TEXT, " +
+                        "ActivityDate TEXT, " +
+                        "Quantity INTEGER, " +
+                        "CostPricePerUnit REAL," +
+                        "SellPricePerUnit REAL," +
+                        "SupplierBooked INTEGER ," +
+                        "AmountPaid REAL," +
+                        "AddTo TEXT);");
                 stmt.execute("CREATE TABLE BOOKINGSTRANSPORT (" +
                         "BRID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "GSNumber INTEGER, " +
-                        "SupplierNumber INTEGER, " +
-                        "TransportID INTEGER, " +
+                        "SupplierName TEXT, " +
+                        "Province TEXT," +
+                        "ProductName TEXT, " +
+                        "TravelDate TEXT, " +
+                        "TravelFrom TEXT, " +
+                        "TravelTo TEXT, " +
                         "Quantity INTEGER," +
-                        "Cost REAL);");
+                        "CostPricePerUnit REAL," +
+                        "SellPricePerUnit REAL," +
+                        "SupplierBooked INTEGER ," +
+                        "AmountPaid REAL," +
+                        "AddTo TEXT);");
                 stmt.execute("CREATE TABLE SUPPLIERS (" +
                         "SupplierNumber INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "SupplierName TEXT, " +
@@ -106,45 +140,30 @@ public class DatabaseHandler {
                         "ContactNumber TEXT," +
                         "Email TEXT," +
                         "DateAdded TEXT);");
-                stmt.execute("CREATE TABLE SUPPLIERSBOOKEDACCOMMODATION (" +
-                        "SBAID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "BAID INTEGER, " +
-                        "Process TEXT, " +
-                        "PaidAmount REAL);");
-                stmt.execute("CREATE TABLE SUPPLIERSBOOKEDGOLF (" +
-                        "SBGID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "BGID INTEGER, " +
-                        "Process TEXT, " +
-                        "PaidAmount REAL);");
-                stmt.execute("CREATE TABLE SUPPLIERSBOOKEDTRANSPORT (" +
-                        "SBRID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "BRID INTEGER, " +
-                        "Process TEXT, " +
-                        "PaidAmount REAL);");
-                stmt.execute("CREATE TABLE SUPPLIERSBOOKEDACTIVITIES (" +
-                        "SBTID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "BTID INTEGER, " +
-                        "Process TEXT, " +
-                        "PaidAmount REAL);");
                 stmt.execute("CREATE TABLE PACKAGES (" +
                         "PackageID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "PackageName TEXT, " +
                         "Category TEXT, " +//Ex short break exc.
-                        "People TEXT, " +
-                        "TotalPackageAmount TEXT, " +
+                        "GolfersSharing INTEGER , " +
+                        "NonGolfersSharing INTEGER , " +
+                        "GolfersSingle INTEGER , " +
+                        "NonGolfersSingle INTEGER , " +
+                        "TotalPackageAmount REAL , " +
                         "ExpiryDate TEXT, " +
-                        "Province TEXT, " +
-                        "Extra TEXT);");
+                        "Province TEXT);");
                 stmt.execute("CREATE TABLE PACKAGESINCLUDE (" +
                         "PackageIncludeID INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "PackageID INTEGER," +
-                        "SupplierID TEXT," +
-                        "ProductID TEXT," +
+                        "SupplierName TEXT," +
+                        "Province TEXT," +
+                        "ProductName TEXT," +
                         "Category TEXT," +
-                        "Quanity TEXT," +
-                        "People TEXT," +
-                        "Extra INTEGER ," + //ex carts yes = 1
-                        "Cost REAL);");
+                        "Quantity INTEGER," +
+                        "NightsRounds INTEGER," +
+                        "AddTo TEXT," +
+                        "CostPricePerUnit REAL ," +
+                        "SellPricePerUnit REAL ," +
+                        "Extra INTEGER);");//ex carts yes = 1
                 stmt.execute("CREATE TABLE LOGINS (" +
                         "LoginID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         "LoginName TEXT," +
@@ -218,7 +237,7 @@ public class DatabaseHandler {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM SUPPLIERS;");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                suppliers.add(new Supplier(rs.getInt("SupplierNumber"), rs.getString("SupplierName"), rs.getString("Category"), rs.getString("Province"), rs.getString("Address"), rs.getString("coOrdinates"), getSuppliersProducts(rs.getString("SupplierName"), rs.getString("Category"), rs.getString("Province")), getSuppliersContactDetails(rs.getInt("SupplierNumber"))));
+                suppliers.add(new Supplier(rs.getInt("SupplierNumber"), rs.getString("SupplierName"), rs.getString("Category"), rs.getString("Province"), rs.getString("Address"), rs.getString("coOrdinates"), getSuppliersContactDetails(rs.getInt("SupplierNumber"))));
             }
             log("Server> Successfully Created Suppliers");
             return suppliers;
@@ -227,117 +246,6 @@ public class DatabaseHandler {
             log("Server> getSuppliers> " + ex);
             return null;
         }
-    }
-
-    List<Product> getSuppliersProducts(String supplierName, String category, String province){
-        List<Product>products = new ArrayList<>();
-        File supplierCost = new File(Server.SUPPLIER_FOLDER.getAbsolutePath() + "/" + province + "/" + category + "/" + supplierName + ".xls");
-        Workbook wb;
-        try {
-            System.out.println(supplierCost.getAbsolutePath());
-            wb = Workbook.getWorkbook(supplierCost);
-            Sheet sheet = wb.getSheet(0);
-            Cell cell;//Start 0,0 column, row
-            int rows = sheet.getRows();
-            int columns = sheet.getColumns();
-
-            if(category.matches("Accommodation")) {
-                for (int i = 0; i < rows; i++){//rows
-                    for (int j = 0; j < columns; j++){//columns
-                        cell = sheet.getCell(j, i);
-                        if(cell.getContents().contains("#")){
-                            LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
-                            LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
-                            LocalDate today = LocalDate.now();
-                            if(today.isEqual(start)||today.isAfter(start)){
-                                if(today.isEqual(expire)||today.isBefore(expire)){
-                                    products.add(new ProductAccomodation(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), Integer.parseInt(sheet.getCell(1, i).getContents()), sheet.getCell(j+1, i).getContents()));
-                                }
-                            }
-                        }
-                        if (cell.getContents().matches("")) {
-                            if(j == 0) {
-                                i = rows;
-                            } else {
-                                j = columns;
-                            }
-                        }
-                    }
-                }
-            } else if(category.matches("Golf")) {
-                for (int i = 0; i < rows; i++){//rows
-                    for (int j = 0; j < columns; j++){//columns
-                        cell = sheet.getCell(j, i);
-                        if(cell.getContents().contains("#")){
-                            LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
-                            LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
-                            LocalDate today = LocalDate.now();
-                            if(today.isEqual(start)||today.isAfter(start)){
-                                if(today.isEqual(expire)||today.isBefore(expire)){
-                                    products.add(new ProductGolf(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j+1, i).getContents()));
-                                }
-                            }
-                        }
-                        if (cell.getContents().matches("")) {
-                            if(j == 0) {
-                                i = rows;
-                            } else {
-                                j = columns;
-                            }
-                        }
-                    }
-                }
-            } else if(category.matches("Transport")) {
-                for (int i = 0; i < rows; i++){//rows
-                    for (int j = 0; j < columns; j++){//columns
-                        cell = sheet.getCell(j, i);
-                        if(cell.getContents().contains("#")){
-                            LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
-                            LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
-                            LocalDate today = LocalDate.now();
-                            if(today.isEqual(start)||today.isAfter(start)){
-                                if(today.isEqual(expire)||today.isBefore(expire)){
-                                    products.add(new ProductTransport(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), Integer.parseInt(sheet.getCell(1, i).getContents()), sheet.getCell(j+1, i).getContents()));
-                                }
-                            }
-                        }
-                        if (cell.getContents().matches("")) {
-                            if(j == 0) {
-                                i = rows;
-                            } else {
-                                j = columns;
-                            }
-                        }
-                    }
-                }
-            } else if(category.matches("Activities")) {
-                for (int i = 0; i < rows; i++){//rows
-                    for (int j = 0; j < columns; j++){//columns
-                        cell = sheet.getCell(j, i);
-                        if(cell.getContents().contains("#")){
-                            LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
-                            LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
-                            LocalDate today = LocalDate.now();
-                            if(today.isEqual(start)||today.isAfter(start)){
-                                if(today.isEqual(expire)||today.isBefore(expire)){
-                                    products.add(new ProductActivity(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j+1, i).getContents()));
-                                }
-                            }
-                        }
-                        if (cell.getContents().matches("")) {
-                            if(j == 0) {
-                                i = rows;
-                            } else {
-                                j = columns;
-                            }
-                        }
-                    }
-                }
-            }
-        } catch(Exception ioe) {
-            ioe.printStackTrace();
-        }
-        return products;
     }
 
     List<ContactDetails> getSuppliersContactDetails(int supplierNumber) {
@@ -364,7 +272,7 @@ public class DatabaseHandler {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM BOOKINGS;");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                bookings.add(new Booking(rs.getString("GSNumber"), rs.getString("ClientName"), rs.getString("ContactNumber"), rs.getString("Email"), rs.getString("People"), rs.getString("Arrival"), rs.getString("Departure"), rs.getString("Process"), rs.getString("BookingAmount"), rs.getString("Consultant"), rs.getString("DepositDate"), rs.getInt("DepositAmount"), rs.getInt("FullPaid"), rs.getString("BookingMadeDate"), null, getBookingAccommodation(rs.getString("GSNumber")), getBookingGolf(rs.getString("GSNumber")), getBookingActivities(rs.getString("GSNumber")), getBookingTransport(rs.getString("GSNumber"))));
+                bookings.add(new Booking(Integer.toString(rs.getInt("GSNumber")), rs.getString("ClientName"), rs.getString("ContactNumber"), rs.getString("Email"), rs.getInt("GolfersSharing"), rs.getInt("NonGolfersSharing"), rs.getInt("GolfersSingle"), rs.getInt("NonGolfersSingle"), rs.getString("Arrival"), rs.getString("Departure"), rs.getString("Process"), rs.getDouble("BookingAmount"), rs.getString("Consultant"), rs.getString("DepositDate"), rs.getInt("DepositPaid"), rs.getInt("FullPaid"), rs.getString("PackageName"), rs.getString("BookingMadeDate"), null, getBookingAccommodation(rs.getString("GSNumber")), getBookingGolf(rs.getString("GSNumber")), getBookingActivities(rs.getString("GSNumber")), getBookingTransport(rs.getString("GSNumber"))));
             }
             log("Server> Successfully Got all Bookings");
             return bookings;
@@ -382,7 +290,7 @@ public class DatabaseHandler {
             preparedStatement.setString(1, gsNumber);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                bookingAccommodation.add(new BookingAccommodation(rs.getInt("BAID"), rs.getInt("SupplierNumber"), rs.getInt("AccommodationID"), rs.getInt("Nights"), rs.getInt("People"), rs.getDouble("Cost")));
+                bookingAccommodation.add(new BookingAccommodation(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductName"), rs.getString("MaxSleep"), rs.getString("Arrival"), rs.getInt("Nights"), rs.getInt("Quantity"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"),0, rs.getDouble("AmountPaid")));
             }
             log("Server> Successfully Got all BookingAccommodation for Booking: " + gsNumber);
             return bookingAccommodation;
@@ -400,7 +308,7 @@ public class DatabaseHandler {
             preparedStatement.setString(1, gsNumber);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                bookingGolf.add(new BookingGolf(rs.getInt("BGID"), rs.getInt("SupplierNumber"), rs.getInt("GolfID"), rs.getInt("People"), rs.getInt("Rounds"), rs.getInt("Carts"), rs.getDouble("Cost")));
+                bookingGolf.add(new BookingGolf(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductName"), Arrays.asList(rs.getString("Dates").substring(1, rs.getString("Dates").length() - 1).split(", ")), rs.getInt("Quantity"), rs.getInt("Rounds"), rs.getInt("Carts"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"),0, rs.getDouble("AmountPaid")));
             }
             log("Server> Successfully Got all BookingGolf for Booking: " + gsNumber);
             return bookingGolf;
@@ -418,7 +326,7 @@ public class DatabaseHandler {
             preparedStatement.setString(1, gsNumber);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                activities.add(new BookingActivity(rs.getInt("BTID"), rs.getInt("SupplierNumber"), rs.getInt("ActivityID"), rs.getInt("People"), rs.getDouble("Cost")));
+                activities.add(new BookingActivity(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductNumber"), rs.getString("ActivityDate"), rs.getInt("Quantity"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"), 0, rs.getDouble("AmountPaid")));
             }
             log("Server> Successfully Got all Activities for Booking: " + gsNumber);
             return activities;
@@ -436,7 +344,7 @@ public class DatabaseHandler {
             preparedStatement.setString(1, gsNumber);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                bookingTransport.add(new BookingTransport(rs.getInt("BRID"), rs.getInt("SupplierNumber"), rs.getInt("TransportID"), rs.getInt("Quantity"), rs.getDouble("Cost")));
+                bookingTransport.add(new BookingTransport(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductName"), rs.getString("TravelDate"), rs.getInt("Quantity"), rs.getString("TravelFrom"), rs.getString("TravelTo"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"),0, rs.getDouble("AmountPaid")));
             }
             log("Server> Successfully Got all Activities for Booking: " + gsNumber);
             return bookingTransport;
@@ -467,43 +375,48 @@ public class DatabaseHandler {
         return rates;
     }
 
-    List<ProductAccomodation> getProductAccommodation () {
-        List<ProductAccomodation> accommodation = new ArrayList<>();
+    List<ProductAccommodation> getProductAccommodation () {
+        List<ProductAccommodation> accommodation = new ArrayList<>();
         File[] accommodationRates = getRateFiles("Accommodation");
         for(File file: accommodationRates) {
             String province = file.getAbsolutePath().split("\\\\")[3];
             String category = file.getAbsolutePath().split("\\\\")[4];
             String supplierName = file.getAbsolutePath().split("\\\\")[5].substring(0, file.getAbsolutePath().split("\\\\")[5].lastIndexOf("."));
             Workbook wb;
-            if(file.getAbsolutePath().split("\\\\")[5].substring(file.getAbsolutePath().split("\\\\")[5].lastIndexOf(".")).matches("xls")) {
+            if(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1).matches("xls")) {
                 try {
                     wb = Workbook.getWorkbook(file);
                     Sheet sheet = wb.getSheet(0);
                     Cell cell;//Start 0,0 column, row
                     int rows = sheet.getRows();
                     int columns = sheet.getColumns();
-                    for (int i = 0; i < rows; i++) {//rows
-                        for (int j = 0; j < columns; j++) {//columns
-                            cell = sheet.getCell(j, i);
-                            if (cell.getContents().contains("#")) {
-                                LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
-                                LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
-                                LocalDate today = LocalDate.now();
-                                if (today.isEqual(start) || today.isAfter(start)) {
-                                    if (today.isEqual(expire) || today.isBefore(expire)) {
-                                        accommodation.add(new ProductAccomodation(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), Integer.parseInt(sheet.getCell(1, i).getContents()), sheet.getCell(j + 1, i).getContents()));
+                    for (int i = 0; i < rows-1; i++) {//rows
+                        for (int j = 0; j < columns-1; j++) {//columns
+                            try {
+                                cell = sheet.getCell(j, i);
+                                if (cell.getContents().contains("#")) {
+                                    LocalDate start = LocalDate.parse(cell.getContents().split("#")[0]);
+                                    LocalDate expire = LocalDate.parse(cell.getContents().split("#")[1]);
+                                    LocalDate today = LocalDate.now();
+                                    if (today.isEqual(start) || today.isAfter(start)) {
+                                        if (today.isEqual(expire) || today.isBefore(expire)) {
+                                            accommodation.add(new ProductAccommodation(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), Integer.parseInt(sheet.getCell(2, i).getContents()), sheet.getCell(j + 1, i).getContents(), sheet.getCell(1, i).getContents()));
+                                        }
                                     }
                                 }
-                            }
-                            if (cell.getContents().matches("")) {
-                                if (j == 0) {
-                                    i = rows;
-                                } else {
-                                    j = columns;
+                                if (cell.getContents().matches("")) {
+                                    if (j == 0) {
+                                        i = rows;
+                                    } else {
+                                        j = columns;
+                                    }
                                 }
+                            } catch (ArrayIndexOutOfBoundsException ex) {
+
                             }
                         }
                     }
+                    wb.close();
                 } catch (Exception ioe) {
                     ioe.printStackTrace();
                 }
@@ -520,7 +433,7 @@ public class DatabaseHandler {
             String category = file.getAbsolutePath().split("\\\\")[4];
             String supplierName = file.getAbsolutePath().split("\\\\")[5].substring(0, file.getAbsolutePath().split("\\\\")[5].lastIndexOf("."));
             Workbook wb;
-            if(file.getAbsolutePath().split("\\\\")[5].substring(file.getAbsolutePath().split("\\\\")[5].lastIndexOf(".")).matches("xls")) {
+            if(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1).matches("xls")) {
                 try {
                     wb = Workbook.getWorkbook(file);
                     Sheet sheet = wb.getSheet(0);
@@ -536,7 +449,7 @@ public class DatabaseHandler {
                                 LocalDate today = LocalDate.now();
                                 if (today.isEqual(start) || today.isAfter(start)) {
                                     if (today.isEqual(expire) || today.isBefore(expire)) {
-                                        golf.add(new ProductGolf(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j + 1, i).getContents()));
+                                        golf.add(new ProductGolf(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j + 1, i).getContents(), sheet.getCell(1, i).getContents(), Integer.parseInt(sheet.getCell(2, i).getContents())));
                                     }
                                 }
                             }
@@ -549,6 +462,7 @@ public class DatabaseHandler {
                             }
                         }
                     }
+                    wb.close();
                 } catch (Exception ioe) {
                     ioe.printStackTrace();
                 }
@@ -565,7 +479,7 @@ public class DatabaseHandler {
             String category = file.getAbsolutePath().split("\\\\")[4];
             String supplierName = file.getAbsolutePath().split("\\\\")[5].substring(0, file.getAbsolutePath().split("\\\\")[5].lastIndexOf("."));
             Workbook wb;
-            if(file.getAbsolutePath().split("\\\\")[5].substring(file.getAbsolutePath().split("\\\\")[5].lastIndexOf(".")).matches("xls")) {
+            if(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1).matches("xls")) {
                 try {
                     wb = Workbook.getWorkbook(file);
                     Sheet sheet = wb.getSheet(0);
@@ -581,7 +495,7 @@ public class DatabaseHandler {
                                 LocalDate today = LocalDate.now();
                                 if (today.isEqual(start) || today.isAfter(start)) {
                                     if (today.isEqual(expire) || today.isBefore(expire)) {
-                                        activities.add(new ProductActivity(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j + 1, i).getContents()));
+                                        activities.add(new ProductActivity(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j + 1, i).getContents(), sheet.getCell(1, i).getContents()));
                                     }
                                 }
                             }
@@ -594,6 +508,7 @@ public class DatabaseHandler {
                             }
                         }
                     }
+                    wb.close();
                 } catch (Exception ioe) {
                     ioe.printStackTrace();
                 }
@@ -610,7 +525,7 @@ public class DatabaseHandler {
             String category = file.getAbsolutePath().split("\\\\")[4];
             String supplierName = file.getAbsolutePath().split("\\\\")[5].substring(0, file.getAbsolutePath().split("\\\\")[5].lastIndexOf("."));
             Workbook wb;
-            if(file.getAbsolutePath().split("\\\\")[5].substring(file.getAbsolutePath().split("\\\\")[5].lastIndexOf(".")).matches("xls")) {
+            if(file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1).matches("xls")) {
                 try {
                     wb = Workbook.getWorkbook(file);
                     Sheet sheet = wb.getSheet(0);
@@ -626,7 +541,7 @@ public class DatabaseHandler {
                                 LocalDate today = LocalDate.now();
                                 if (today.isEqual(start) || today.isAfter(start)) {
                                     if (today.isEqual(expire) || today.isBefore(expire)) {
-                                        transport.add(new ProductTransport(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), Integer.parseInt(sheet.getCell(1, i).getContents()), sheet.getCell(j + 1, i).getContents()));
+                                        transport.add(new ProductTransport(supplierName, category, province, sheet.getCell(0, i).getContents(), expire.toString(), sheet.getCell(j + 1, i).getContents(), sheet.getCell(1, i).getContents()));
                                     }
                                 }
                             }
@@ -639,6 +554,7 @@ public class DatabaseHandler {
                             }
                         }
                     }
+                    wb.close();
                 } catch (Exception ioe) {
                     ioe.printStackTrace();
                 }
@@ -666,12 +582,12 @@ public class DatabaseHandler {
 
     List<TripPackage> getPackages(){
         List<TripPackage> packages = new ArrayList<>();
-        packages.add(new TripPackage(0, "Bespoke", 0, "Bespoke", "Bespoke", "Bespoke",  "Bespoke",  "Bespoke", null, null, null, null));
+        packages.add(new TripPackage(0, "Bespoke", 0, "Bespoke", 0, 0, 0, 0, "Bespoke", "Bespoke",  null, null, null, null));
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGES;");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                packages.add(new TripPackage(rs.getInt("PackageID"), rs.getString("PackageName"), rs.getDouble("TotalPackageAmount"), rs.getString("Category"), rs.getString("People"), rs.getString("Province"), rs.getString("ExpiryDate"), rs.getString("Extra"), getTripAccommodation(rs.getInt("PackageID")), getTripGolf(rs.getInt("PackageID")), getTripTransport(rs.getInt("PackageID")), getTripActivities(rs.getInt("PackageID"))));
+                packages.add(new TripPackage(rs.getInt("PackageID"), rs.getString("PackageName"), rs.getDouble("TotalPackageAmount"), rs.getString("Category"), rs.getInt("GolfersSharing"), rs.getInt("NonGolfersSharing"), rs.getInt("GolfersSingle"), rs.getInt("NonGolfersSingle"),  rs.getString("Province"), rs.getString("ExpiryDate"), getTripAccommodation(rs.getInt("PackageID")), getTripGolf(rs.getInt("PackageID")), getTripTransport(rs.getInt("PackageID")), getTripActivities(rs.getInt("PackageID"))));
             }
             log("Server> Successfully Got all Packages");
             return packages;
@@ -687,12 +603,12 @@ public class DatabaseHandler {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGESINCLUDE WHERE PackageID = ? AND Category = ?;");
             preparedStatement.setInt(1, packageID);
-            preparedStatement.setString(2, "BookingAccommodation");
+            preparedStatement.setString(2, "Accommodation");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {//-2 if package
-                bookingAccommodation.add(new BookingAccommodation(-2, rs.getInt("SupplierNumber"), rs.getInt("ProductID"), rs.getInt("Quantity"), rs.getInt("People"),rs.getDouble("Cost")));
+                bookingAccommodation.add(new BookingAccommodation(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductName"), rs.getString("MaxSleep"), rs.getString("Arrival"), rs.getInt("Nights"), rs.getInt("Quantity"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"),0, 0.0));
             }
-            log("Server> Successfully Got all BookingAccommodation for Package: " + packageID);
+            log("Server> Successfully Got all Accommodation for Package: " + packageID);
             return bookingAccommodation;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -706,16 +622,16 @@ public class DatabaseHandler {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGESINCLUDE WHERE PackageID = ? AND Category = ?;");
             preparedStatement.setInt(1, packageID);
-            preparedStatement.setString(2, "BookingGolf");
+            preparedStatement.setString(2, "Golf");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                bookingGolf.add(new BookingGolf(-2, rs.getInt("SupplierNumber"), rs.getInt("ProductID"), rs.getInt("People"), rs.getInt("Quantity"), rs.getInt("Extra"), rs.getDouble("Cost")));
+                bookingGolf.add(new BookingGolf(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductName"), null, rs.getInt("Quantity"), rs.getInt("Rounds"), rs.getInt("Carts"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"),0, 0.0));
             }
-            log("Server> Successfully Got all BookingGolf for Package: " + packageID);
+            log("Server> Successfully Got all Golf for Package: " + packageID);
             return bookingGolf;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            log("Server> getTripActivities> " + ex);
+            log("Server> getTripGolf> " + ex);
             return null;
         }
     }
@@ -725,10 +641,10 @@ public class DatabaseHandler {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGESINCLUDE WHERE PackageID = ? AND Category = ?;");
             preparedStatement.setInt(1, packageID);
-            preparedStatement.setString(2, "BookingActivity");
+            preparedStatement.setString(2, "Activity");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                activities.add(new BookingActivity(-2, rs.getInt("SupplierNumber"), rs.getInt("ProductID"), rs.getInt("People"), rs.getDouble("Cost")));
+                activities.add(new BookingActivity(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductNumber"), rs.getString("ActivityDate"), rs.getInt("Quantity"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"), 0, 0.0));
             }
             log("Server> Successfully Got all Activities for Package: " + packageID);
             return activities;
@@ -744,12 +660,12 @@ public class DatabaseHandler {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM PACKAGESINCLUDE WHERE PackageID = ? AND Category = ?;");
             preparedStatement.setInt(1, packageID);
-            preparedStatement.setString(2, "BookingTransport");
+            preparedStatement.setString(2, "Transport");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                bookingTransport.add(new BookingTransport(-2, rs.getInt("SupplierNumber"), rs.getInt("ProductID"), rs.getInt("People"), rs.getDouble("Cost")));
+                bookingTransport.add(new BookingTransport(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductName"), rs.getString("TravelDate"), rs.getInt("Quantity"), rs.getString("From"), rs.getString("To"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"),0, 0.0));
             }
-            log("Server> Successfully Got all BookingTransport for Package: " + packageID);
+            log("Server> Successfully Got all Transport for Package: " + packageID);
             return bookingTransport;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -758,16 +674,13 @@ public class DatabaseHandler {
         }
     }
 
-    ObservableList<DataFile> getDocuments(){
-        ObservableList<DataFile> documents = FXCollections.observableArrayList();
+    List<DataFile> getDocuments(){
+        List<DataFile> documents = new ArrayList<>();
         File classFilesDirectory = new File(Server.DOCUMENTS_FOLDER.getAbsolutePath());
         if (classFilesDirectory.exists()) {
             for (File file : classFilesDirectory.listFiles()) {
                 documents.add(new DataFile("Documents", file.getName().substring(0, file.getName().lastIndexOf(".")), file.getName().substring(file.getName().lastIndexOf("."), file.getName().length()), (int) file.length()));
             }
-        }
-        if(documents.size() == 0){
-            documents.add(new DataFile("NoDocuments", "NoDocuments", "NoDocuments", 0));
         }
         log("Server> Successfully Gotten Documents");
         return documents;
@@ -833,61 +746,342 @@ public class DatabaseHandler {
     //</editor-fold>
 
     //<editor-fold desc="Adders">
-    void addBooking(Booking booking) {//TODO Create File
+    public int addBooking(Booking booking) {//TODO Create File
+        int gsNumber = -1;
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO BOOKINGS (ClientName, ContactNumber, Email, People, Arrival, Departure, Process, BookingAount, Consultant, DepositDate, DepositPaid, FullPaid, BookingMadeDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);");
+            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO BOOKINGS (ClientName, ContactNumber, Email, GolfersSharing, NonGolfersSharing, GolfersSingle, NonGolfersSingle, Arrival, Departure, Process, BookingAmount, Consultant, DepositDate, DepositPaid, FullPaid, PackageName, BookingMadeDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
             preparedStatement.setString(1, booking.getClientName());
             preparedStatement.setString(2, booking.getContactNumber());
             preparedStatement.setString(3, booking.getEmail());
-            preparedStatement.setString(4, booking.getPeople());
-            preparedStatement.setString(5, booking.getArrival());
-            preparedStatement.setString(6, booking.getDeparture());
-            preparedStatement.setString(7, booking.getProcess());
-            preparedStatement.setString(8, booking.getBookingAmount());
-            preparedStatement.setString(9, booking.getConsultant());
-            preparedStatement.setString(10, booking.getDepositDate());
-            preparedStatement.setInt(11, booking.getDepositPaid());
-            preparedStatement.setInt(12, booking.getFullPaid());
-            preparedStatement.setString(13, booking.getBookingMadeDate());
+            preparedStatement.setInt(4, booking.getGolfersSharing());
+            preparedStatement.setInt(5, booking.getNongolfersSharing());
+            preparedStatement.setInt(6, booking.getGolfersSingle());
+            preparedStatement.setInt(7, booking.getNongolfersSingle());
+            preparedStatement.setString(8, booking.getArrival());
+            preparedStatement.setString(9, booking.getDeparture());
+            preparedStatement.setString(10, booking.getProcess());
+            preparedStatement.setDouble(11, booking.getBookingAmount());
+            preparedStatement.setString(12, booking.getConsultant());
+            preparedStatement.setString(13, booking.getDepositDate());
+            preparedStatement.setInt(14, booking.getDepositPaid());
+            preparedStatement.setInt(15, booking.getFullPaid());
+            preparedStatement.setString(16, booking.getPackageName());
+            preparedStatement.setString(17, booking.getBookingMadeDate());
             preparedStatement.execute();
             preparedStatement = con.prepareStatement("SELECT MAX(GSNumber) AS LastGSNumber FROM BOOKINGS;");
             ResultSet rs = preparedStatement.executeQuery();
-            int gsNumber = -1;
             if (rs.next()) {
                 gsNumber = rs.getInt("LastGSNumber");
             }
             for (BookingAccommodation ac: booking.getBookingAccommodation()) {
-                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSACCOMMODATION (GSNumber, SupplierNumber, AccommodationID, Nights, People) VALUES (?,?,?,?,?);");
-                preparedStatement.setInt(1, gsNumber);
-                preparedStatement.setInt(2, ac.getSupplierNumber());
-                preparedStatement.setInt(3, ac.getAccommodationId());
-                preparedStatement.setInt(4, ac.getNights());
-                preparedStatement.setInt(5, ac.getPeople());
+                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSACCOMMODATION (GSNumber, SupplierName, Province, ProductName, MaxSleep, Nights, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, SupplierBooked) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, Integer.toString(gsNumber));
+                preparedStatement.setString(2, ac.getProvince());
+                preparedStatement.setString(3, ac.getSupplierName());
+                preparedStatement.setString(4, ac.getProductName());
+                preparedStatement.setString(5, ac.getMaxSleep());
+                preparedStatement.setInt(6, ac.getNights());
+                preparedStatement.setInt(7, ac.getQuantity());
+                preparedStatement.setString(8, ac.getAddTo());
+                preparedStatement.setDouble(9, ac.getCostPricePerUnit());
+                preparedStatement.setDouble(10, ac.getSellPricePerUnit());
+                preparedStatement.setInt(11, ac.getSupplierBooked());
                 preparedStatement.execute();
             }
             for (BookingGolf gf: booking.getBookingGolf()) {
-                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSGOLF (GSNumber, SupplierNumber, GolfID, Rounds, People) VALUES (?,?,?,?,?);");
-                preparedStatement.setInt(1, gsNumber);
-                preparedStatement.setInt(2, gf.getSupplierNumber());
-                preparedStatement.setInt(3, gf.getGolfID());
-                preparedStatement.setInt(4, gf.getRounds());
-                preparedStatement.setInt(5, gf.getPeople());
+                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSGOLF (GSNumber, SupplierName, Province, ProductName, Quantity, Rounds, AddTo, CostPricePerUnit, SellPricePerUnit, SupplierBooked) VALUES (?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, Integer.toString(gsNumber));
+                preparedStatement.setString(2, gf.getSupplierName());
+                preparedStatement.setString(3, gf.getProvince());
+                preparedStatement.setString(4, gf.getProductName());
+                preparedStatement.setInt(5, gf.getQuantity());
+                preparedStatement.setInt(6, gf.getRounds());
+                preparedStatement.setString(7, gf.getAddTo());
+                preparedStatement.setDouble(8, gf.getCostPricePerUnit());
+                preparedStatement.setDouble(9, gf.getSellPricePerUnit());
+                preparedStatement.setInt(10, gf.getSupplierBooked());
                 preparedStatement.execute();
             }
-            for (BookingActivity at: booking.getActivities()) {
-                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSACTIVITIES (GSNumber, SupplierNumber, ActivityID, People) VALUES (?,?,?,?);");
-                preparedStatement.setInt(1, gsNumber);
-                preparedStatement.setInt(2, at.getSupplierNumber());
-                preparedStatement.setInt(3, at.getActivityId());
-                preparedStatement.setInt(4, at.getPeople());
+            for (BookingActivity at: booking.getBookingActivities()) {
+                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSACTIVITIES (GSNumber, SupplierName, Province, ProductName, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, SupplierBooked) VALUES (?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, Integer.toString(gsNumber));
+                preparedStatement.setString(2, at.getSupplierName());
+                preparedStatement.setString(3, at.getProvince());
+                preparedStatement.setString(4, at.getProductName());
+                preparedStatement.setInt(5, at.getQuantity());
+                preparedStatement.setString(6, at.getAddTo());
+                preparedStatement.setDouble(7, at.getCostPricePerUnit());
+                preparedStatement.setDouble(8, at.getSellPricePerUnit());
+                preparedStatement.setInt(9, at.getSupplierBooked());
                 preparedStatement.execute();
             }
-            log("Server> Successfully Added Booking: " + booking.getClientName());
+            for (BookingTransport at: booking.getBookingTransport()) {
+                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSTRANSPORT (GSNumber, SupplierName, Province, ProductName, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, SupplierBooked) VALUES (?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, Integer.toString(gsNumber));
+                preparedStatement.setString(2, at.getSupplierName());
+                preparedStatement.setString(3, at.getProvince());
+                preparedStatement.setString(4, at.getProductName());
+                preparedStatement.setInt(5, at.getQuantity());
+                preparedStatement.setString(6, at.getAddTo());
+                preparedStatement.setDouble(7, at.getCostPricePerUnit());
+                preparedStatement.setDouble(8, at.getSellPricePerUnit());
+                preparedStatement.setInt(9, at.getSupplierBooked());
+                preparedStatement.execute();
+            }
 
-            //notifyUpdatedStudent(s[0]);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            log("Server> addBooking> " + ex);
+        File template = new File("G:/My Drive/b. Templates/Costing/Costing Template.xls");
+        File costing = new File("G:/My Drive/a. Bookings/a. Quotes/" + booking.getArrival() + " " + booking.getClientName() + " GS" + gsNumber);
+        if(!costing.exists()){
+            costing.mkdirs();
+        }
+        costing = new File(costing.getAbsolutePath() + "/Costing.xls");
+            WritableWorkbook wb;
+            wb = Workbook.createWorkbook(costing, Workbook.getWorkbook(template));
+            WritableSheet sheet = wb.getSheet(0);
+
+            Label packageName = new Label(12, 55, booking.getPackageName());
+            sheet.addCell(packageName);
+            Number golfersSharing = new Number(12, 56, booking.getGolfersSharing());
+            sheet.addCell(golfersSharing);
+            Number nonGolfersSharing = new Number(12, 57, booking.getNongolfersSharing());
+            sheet.addCell(nonGolfersSharing);
+            Number golfersSingle = new Number(12, 58, booking.getGolfersSingle());
+            sheet.addCell(golfersSingle);
+            Number nonGolfersSingle = new Number(12, 59, booking.getNongolfersSingle());
+            sheet.addCell(nonGolfersSingle);
+            int row = 1;
+            for (BookingAccommodation ac: booking.getBookingAccommodation()) {
+                Label category = new Label(1, row, "Accommodation");
+                sheet.addCell(category);
+                Label sName = new Label(2, row, ac.getSupplierName());
+                sheet.addCell(sName);
+                Label pName = new Label(3, row, ac.getProductName());
+                sheet.addCell(pName);
+                /*Label dates = new Label(4, row, ac.getDate() + " - From: " + ac.getFrom() + " - To: " + ac.getTo());
+                sheet.addCell(dates);*/
+                if (ac.getAddTo().matches("Golfer Sharing")) {
+                    Label addTo = new Label(5, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Non-Golfer Sharing")) {
+                    Label addTo = new Label(6, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Golfer and Non-Golfer Sharing")) {
+                    Label addTo = new Label(7, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Golfer Single")) {
+                    Label addTo = new Label(8, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Non-Golfer Single")){
+                    Label addTo = new Label(9, row, "x");
+                    sheet.addCell(addTo);
+                }
+                Number quantity = new Number(10, row, ac.getQuantity());
+                sheet.addCell(quantity);
+                Number nights = new Number(11, row, ac.getNights());
+                sheet.addCell(nights);
+                Number sto = new Number(12, row, ac.getCostPricePerUnit());
+                sheet.addCell(sto);
+                Number commission = new Number(17, row, (ac.getCostPricePerUnit() - ac.getSellPricePerUnit()) / (- ac.getSellPricePerUnit()));
+                sheet.addCell(commission);
+                row++;
+            }
+            for (BookingGolf ac: booking.getBookingGolf()) {
+                Label category = new Label(1, row, "Golf");
+                sheet.addCell(category);
+                Label sName = new Label(2, row, ac.getSupplierName());
+                sheet.addCell(sName);
+                Label pName = new Label(3, row, ac.getProductName());
+                sheet.addCell(pName);
+                /*Label dates = new Label(4, row, ac.getDate() + " - From: " + ac.getFrom() + " - To: " + ac.getTo());
+                sheet.addCell(dates);*/
+                if (ac.getAddTo().matches("Golfer Sharing")) {
+                    Label addTo = new Label(5, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Non-Golfer Sharing")) {
+                    Label addTo = new Label(6, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Golfer and Non-Golfer Sharing")) {
+                    Label addTo = new Label(7, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Golfer Single")) {
+                    Label addTo = new Label(8, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Non-Golfer Single")){
+                    Label addTo = new Label(9, row, "x");
+                    sheet.addCell(addTo);
+                }
+                Number quantity = new Number(10, row, ac.getQuantity());
+                sheet.addCell(quantity);
+                Number nights = new Number(11, row, ac.getRounds());
+                sheet.addCell(nights);
+                Number sto = new Number(12, row, ac.getCostPricePerUnit());
+                sheet.addCell(sto);
+                Number commission = new Number(17, row, (ac.getCostPricePerUnit() - ac.getSellPricePerUnit()) / (- ac.getSellPricePerUnit()));
+                sheet.addCell(commission);
+                row++;
+            }
+            for (BookingActivity ac: booking.getBookingActivities()) {
+                Label category = new Label(1, row, "Activity");
+                sheet.addCell(category);
+                Label sName = new Label(2, row, ac.getSupplierName());
+                sheet.addCell(sName);
+                Label pName = new Label(3, row, ac.getProductName());
+                sheet.addCell(pName);
+                /*Label dates = new Label(4, row, ac.getDate() + " - From: " + ac.getFrom() + " - To: " + ac.getTo());
+                sheet.addCell(dates);*/
+                if (ac.getAddTo().matches("Golfer Sharing")) {
+                    Label addTo = new Label(5, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Non-Golfer Sharing")) {
+                    Label addTo = new Label(6, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Golfer and Non-Golfer Sharing")) {
+                    Label addTo = new Label(7, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Golfer Single")) {
+                    Label addTo = new Label(8, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Non-Golfer Single")){
+                    Label addTo = new Label(9, row, "x");
+                    sheet.addCell(addTo);
+                }
+                Number quantity = new Number(10, row, ac.getQuantity());
+                sheet.addCell(quantity);
+                Number nights = new Number(11, row, 1);
+                sheet.addCell(nights);
+                Number sto = new Number(12, row, ac.getCostPricePerUnit());
+                sheet.addCell(sto);
+                Number commission = new Number(17, row, (ac.getCostPricePerUnit() - ac.getSellPricePerUnit()) / (- ac.getSellPricePerUnit()));
+                sheet.addCell(commission);
+                row++;
+            }
+            for (BookingTransport ac: booking.getBookingTransport()) {
+                Label category = new Label(1, row, "Transport");
+                sheet.addCell(category);
+                Label sName = new Label(2, row, ac.getSupplierName());
+                sheet.addCell(sName);
+                Label pName = new Label(3, row, ac.getProductName());
+                sheet.addCell(pName);
+                Label dates = new Label(4, row, ac.getDate() + " - From: " + ac.getFrom() + " - To: " + ac.getTo());
+                sheet.addCell(dates);
+                if (ac.getAddTo().matches("Golfer Sharing")) {
+                    Label addTo = new Label(5, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Non-Golfer Sharing")) {
+                    Label addTo = new Label(6, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Golfer and Non-Golfer Sharing")) {
+                    Label addTo = new Label(7, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Golfer Single")) {
+                    Label addTo = new Label(8, row, "x");
+                    sheet.addCell(addTo);
+                } else if (ac.getAddTo().matches("Non-Golfer Single")){
+                    Label addTo = new Label(9, row, "x");
+                    sheet.addCell(addTo);
+                }
+                Number quantity = new Number(10, row, ac.getQuantity());
+                sheet.addCell(quantity);
+                Number nights = new Number(11, row, 1);
+                sheet.addCell(nights);
+                Number sto = new Number(12, row, ac.getCostPricePerUnit());
+                sheet.addCell(sto);
+                Number commission = new Number(17, row, (ac.getCostPricePerUnit() - ac.getSellPricePerUnit()) / (- ac.getSellPricePerUnit()));
+                sheet.addCell(commission);
+                row++;
+            }
+            wb.write();
+            wb.close();
+        } catch (Exception ioe) {
+            ioe.printStackTrace();
+            log("Server> addBooking> " + ioe);
+        }
+        log("Server> Successfully Added Booking: " + booking.getClientName());
+        //notifyUpdatedStudent(s[0]);
+        return gsNumber;
+    }
+
+    void addPackage(TripPackage tripPackage) {
+        int packageID = 0;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO PACKAGES (PackageName, Category, GolfersSharing, NonGolfersSharing, GolfersSingle, NonGolfersSingle, TotalPackageAmount, ExpiryDate, Province) VALUES (?,?,?,?,?,?,?,?,?);");
+            preparedStatement.setString(1, tripPackage.getPackageName());
+            preparedStatement.setString(2, tripPackage.getCategory());
+            preparedStatement.setInt(3, tripPackage.getGolfersSharing());
+            preparedStatement.setInt(4, tripPackage.getNongolfersSharing());
+            preparedStatement.setInt(5, tripPackage.getGolfersSingle());
+            preparedStatement.setInt(6, tripPackage.getNongolfersSingle());
+            preparedStatement.setDouble(7, tripPackage.getTotalPackageAmount());
+            preparedStatement.setString(8, tripPackage.getExpiryDate());
+            preparedStatement.setString(9, tripPackage.getProvince());
+            preparedStatement.execute();
+            preparedStatement = con.prepareStatement("SELECT MAX(GSNumber) AS LastGSNumber FROM BOOKINGS;");
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                packageID = rs.getInt("LastGSNumber");
+            }
+            for (BookingAccommodation ac : tripPackage.getBookingAccommodation()) {
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, Province, ProductName, Category, Quantity, NightsRounds, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, Integer.toString(packageID));
+                preparedStatement.setString(2, ac.getSupplierName());
+                preparedStatement.setString(3, ac.getProvince());
+                preparedStatement.setString(4, ac.getProductName());
+                preparedStatement.setString(5, "Accommodation");
+                preparedStatement.setInt(6, ac.getQuantity());
+                preparedStatement.setInt(7, ac.getNights());
+                preparedStatement.setString(8, ac.getAddTo());
+                preparedStatement.setDouble(9, ac.getCostPricePerUnit());
+                preparedStatement.setDouble(10, ac.getSellPricePerUnit());
+                preparedStatement.setInt(11, 0);
+                preparedStatement.execute();
+            }
+            for (BookingGolf gf : tripPackage.getBookingGolf()) {
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, Province, ProductName, Category, Quantity, NightsRounds, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, Integer.toString(packageID));
+                preparedStatement.setString(2, gf.getSupplierName());
+                preparedStatement.setString(3, gf.getProvince());
+                preparedStatement.setString(4, gf.getProductName());
+                preparedStatement.setString(5, "Golf");
+                preparedStatement.setInt(6, gf.getQuantity());
+                preparedStatement.setInt(7, gf.getRounds());
+                preparedStatement.setString(8, gf.getAddTo());
+                preparedStatement.setDouble(9, gf.getCostPricePerUnit());
+                preparedStatement.setDouble(10, gf.getSellPricePerUnit());
+                preparedStatement.setInt(11, 0);
+                preparedStatement.execute();
+            }
+            for (BookingActivity at : tripPackage.getBookingActivities()) {
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, Province, ProductName, Category, Quantity, NightsRounds, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, Integer.toString(packageID));
+                preparedStatement.setString(2, at.getSupplierName());
+                preparedStatement.setString(3, at.getProvince());
+                preparedStatement.setString(4, at.getProductName());
+                preparedStatement.setString(5, "Activity");
+                preparedStatement.setInt(6, at.getQuantity());
+                preparedStatement.setInt(7, 1);
+                preparedStatement.setString(8, at.getAddTo());
+                preparedStatement.setDouble(9, at.getCostPricePerUnit());
+                preparedStatement.setDouble(10, at.getSellPricePerUnit());
+                preparedStatement.setInt(11, 0);
+                preparedStatement.execute();
+            }
+            for (BookingTransport at : tripPackage.getBookingTransport()) {
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, Province, ProductName, Category, Quantity, NightsRounds, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, Integer.toString(packageID));
+                preparedStatement.setString(2, at.getSupplierName());
+                preparedStatement.setString(3, at.getProvince());
+                preparedStatement.setString(4, at.getProductName());
+                preparedStatement.setString(5, "Transport");
+                preparedStatement.setInt(6, at.getQuantity());
+                preparedStatement.setInt(7, 1);
+                preparedStatement.setString(8, at.getAddTo());
+                preparedStatement.setDouble(9, at.getCostPricePerUnit());
+                preparedStatement.setDouble(10, at.getSellPricePerUnit());
+                preparedStatement.setInt(11, 0);
+                preparedStatement.execute();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -911,14 +1105,14 @@ public class DatabaseHandler {
     void addContactDetails(ContactDetails cd) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO CONTACTDETAILS (SupplierNumber, PersonName, PersonPosition, ContactNumber, Email, DateAdded) VALUES (?,?,?,?,?,?);");
-            preparedStatement.setInt(1, cd.getContactDetailsID() - 100000);
+            preparedStatement.setInt(1, cd.getContactDetailsID() - 1000000);
             preparedStatement.setString(2, cd.getPersonName());
             preparedStatement.setString(3, cd.getPosition());
             preparedStatement.setString(4, cd.getNumber());
             preparedStatement.setString(5, cd.getEmail());
             preparedStatement.setString(6, cd.getDateAdded());
             preparedStatement.execute();
-            log("Server> Successfully Added Contact Details for Supplier: " + (cd.getContactDetailsID() - 100000));
+            log("Server> Successfully Added Contact Details for Supplier: " + (cd.getContactDetailsID() - 1000000));
             //notifyUpdatedStudent(s[0]);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -950,46 +1144,91 @@ public class DatabaseHandler {
     //<editor-fold desc="Updaters">
     void updateBooking(Booking booking) {//TODO Update File
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("UPDATE BOOKINGS SET ClientName = ?, ContactNumber = ?, Email = ?, People = ?, Arrival = ?, Departure = ?, Process = ?, BookingAount = ?, Consultant = ?, DepositDate = ?, DepositPaid = ?, FullPaid = ?, BookingMadeDate = ? WHERE GSNumber = ?");
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE BOOKINGS SET ClientName = ?, ContactNumber = ?, Email = ?, GolfersSharing = ?, NonGolfersSharing = ?, GolfersSingle = ?, NonGolfersSsingle = ?, Arrival = ?, Departure = ?, Process = ?, BookingAmount = ?, Consultant = ?, DepositDate = ?, DepositPaid = ?, FullPaid = ?, PackageName = ?, BookingMadeDate = ? WHERE GSNumber = ?");
             preparedStatement.setString(1, booking.getClientName());
             preparedStatement.setString(2, booking.getContactNumber());
             preparedStatement.setString(3, booking.getEmail());
-            preparedStatement.setString(4, booking.getPeople());
-            preparedStatement.setString(5, booking.getArrival());
-            preparedStatement.setString(6, booking.getDeparture());
-            preparedStatement.setString(7, booking.getProcess());
-            preparedStatement.setString(8, booking.getBookingAmount());
-            preparedStatement.setString(9, booking.getConsultant());
-            preparedStatement.setString(10, booking.getDepositDate());
-            preparedStatement.setInt(11, booking.getDepositPaid());
-            preparedStatement.setInt(12, booking.getFullPaid());
-            preparedStatement.setString(13, booking.getBookingMadeDate());
-            preparedStatement.setInt(14, Integer.parseInt(booking.getGsNumber().substring(2)));
+            preparedStatement.setInt(4, booking.getGolfersSharing());
+            preparedStatement.setInt(5, booking.getNongolfersSharing());
+            preparedStatement.setInt(6, booking.getGolfersSingle());
+            preparedStatement.setInt(7, booking.getGolfersSingle());
+            preparedStatement.setString(8, booking.getArrival());
+            preparedStatement.setString(9, booking.getDeparture());
+            preparedStatement.setString(10, booking.getProcess());
+            preparedStatement.setDouble(11, booking.getBookingAmount());
+            preparedStatement.setString(12, booking.getConsultant());
+            preparedStatement.setString(13, booking.getDepositDate());
+            preparedStatement.setInt(14, booking.getDepositPaid());
+            preparedStatement.setInt(15, booking.getFullPaid());
+            preparedStatement.setString(16, booking.getPackageName());
+            preparedStatement.setString(17, booking.getBookingMadeDate());
+            preparedStatement.setInt(18, Integer.parseInt(booking.getGsNumber().substring(2)));
+            preparedStatement.execute();
+            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGSACCOMMODATION WHERE GSNumber = ?");
+            preparedStatement.setString(1, booking.getGsNumber());
             preparedStatement.execute();
             for (BookingAccommodation ac: booking.getBookingAccommodation()) {
-                preparedStatement = con.prepareStatement("UPDATE BOOKINGSACCOMMODATION SET SupplierNumber = ?, AccommodationID = ?, Nights = ?, People = ? WHERE BAID = ?;");
-                preparedStatement.setInt(1, ac.getSupplierNumber());
-                preparedStatement.setInt(2, ac.getAccommodationId());
-                preparedStatement.setInt(3, ac.getNights());
-                preparedStatement.setInt(4, ac.getPeople());
-                preparedStatement.setInt(5, ac.getBAID());
+                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSACCOMMODATION (GSNumber, SupplierName, Province, ProductName, MaxSleep, Nights, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, SupplierBooked) VALUES (?,?,?,?,?,?,?,?,?,??);");
+                preparedStatement.setString(1, booking.getGsNumber());
+                preparedStatement.setString(2, ac.getSupplierName());
+                preparedStatement.setString(3, ac.getProvince());
+                preparedStatement.setString(4, ac.getProductName());
+                preparedStatement.setString(5, ac.getMaxSleep());
+                preparedStatement.setInt(6, ac.getNights());
+                preparedStatement.setInt(7, ac.getQuantity());
+                preparedStatement.setString(8, ac.getAddTo());
+                preparedStatement.setDouble(9, ac.getCostPricePerUnit());
+                preparedStatement.setDouble(10, ac.getSellPricePerUnit());
+                preparedStatement.setInt(11, ac.getSupplierBooked());
                 preparedStatement.execute();
             }
+            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGSGOLF WHERE GSNumber = ?");
+            preparedStatement.setString(1, booking.getGsNumber());
+            preparedStatement.execute();
             for (BookingGolf gf: booking.getBookingGolf()) {
-                preparedStatement = con.prepareStatement("UPDATE BOOKINGSGOLF SET SupplierNumber = ?, GolfID = ?, Rounds = ?, People = ? WHERE BGID = ?;");
-                preparedStatement.setInt(1, gf.getSupplierNumber());
-                preparedStatement.setInt(2, gf.getGolfID());
-                preparedStatement.setInt(3, gf.getRounds());
-                preparedStatement.setInt(4, gf.getPeople());
-                preparedStatement.setInt(5, gf.getBGID());
+                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSGOLF (GSNumber, SupplierName, Province, ProductName, Quantity, Rounds, AddTo, CostPricePerUnit, SellPricePerUnit, SupplierBooked) VALUES (?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, booking.getGsNumber());
+                preparedStatement.setString(2, gf.getSupplierName());
+                preparedStatement.setString(3, gf.getProvince());
+                preparedStatement.setString(4, gf.getProductName());
+                preparedStatement.setInt(5, gf.getQuantity());
+                preparedStatement.setInt(6, gf.getRounds());
+                preparedStatement.setString(7, gf.getAddTo());
+                preparedStatement.setDouble(8, gf.getCostPricePerUnit());
+                preparedStatement.setDouble(9, gf.getSellPricePerUnit());
+                preparedStatement.setInt(10, gf.getSupplierBooked());
                 preparedStatement.execute();
             }
-            for (BookingActivity at: booking.getActivities()) {
-                preparedStatement = con.prepareStatement("UPDATE BOOKINGSACTIVITIES SET GSNumber = ?, SupplierNumber = ?, ActivityID = ?, People = ? WHERE BTID = ?;");
-                preparedStatement.setInt(1, at.getSupplierNumber());
-                preparedStatement.setInt(2, at.getActivityId());
-                preparedStatement.setInt(3, at.getPeople());
-                preparedStatement.setInt(4, at.getPeople());
+            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGSACTIVITIES WHERE GSNumber = ?");
+            preparedStatement.setString(1, booking.getGsNumber());
+            preparedStatement.execute();
+            for (BookingActivity at: booking.getBookingActivities()) {
+                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSACTIVITIES (GSNumber, SupplierName, Province, ProductName, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, SupplierBooked) VALUES (?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, booking.getGsNumber());
+                preparedStatement.setString(2, at.getSupplierName());
+                preparedStatement.setString(3, at.getProvince());
+                preparedStatement.setString(4, at.getProductName());
+                preparedStatement.setInt(5, at.getQuantity());
+                preparedStatement.setString(6, at.getAddTo());
+                preparedStatement.setDouble(7, at.getCostPricePerUnit());
+                preparedStatement.setDouble(8, at.getSellPricePerUnit());
+                preparedStatement.setInt(9, at.getSupplierBooked());
+                preparedStatement.execute();
+            }
+            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGSTRANSPORT WHERE GSNumber = ?");
+            preparedStatement.setString(1, booking.getGsNumber());
+            preparedStatement.execute();
+            for (BookingTransport at: booking.getBookingTransport()) {
+                preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSTRANSPORT (GSNumber, SupplierName, Province, ProductName, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, SupplierBooked) VALUES (?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setString(1, booking.getGsNumber());
+                preparedStatement.setString(2, at.getSupplierName());
+                preparedStatement.setString(3, at.getProvince());
+                preparedStatement.setString(4, at.getProductName());
+                preparedStatement.setInt(5, at.getQuantity());
+                preparedStatement.setString(6, at.getAddTo());
+                preparedStatement.setDouble(7, at.getCostPricePerUnit());
+                preparedStatement.setDouble(8, at.getSellPricePerUnit());
+                preparedStatement.setInt(9, at.getSupplierBooked());
                 preparedStatement.execute();
             }
             log("Server> Successfully Updated Booking: " + booking.getClientName());
@@ -1001,9 +1240,92 @@ public class DatabaseHandler {
         }
     }
 
+    void updatePackage(TripPackage tripPackage) {//TODO Update File
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE PACKAGES SET PackageName = ?, Category = ?, GolfersSharing = ?, NonGolfersSharing = ?, GolfersSingle = ?, NonGolfersSsingle = ?, TotalPackageAmount = ?, ExpiryDate = ?, Province = ? WHERE PackageID = ?");
+            preparedStatement.setString(1, tripPackage.getPackageName());
+            preparedStatement.setString(2, tripPackage.getCategory());
+            preparedStatement.setInt(4, tripPackage.getGolfersSharing());
+            preparedStatement.setInt(5, tripPackage.getNongolfersSharing());
+            preparedStatement.setInt(6, tripPackage.getGolfersSingle());
+            preparedStatement.setInt(7, tripPackage.getGolfersSingle());
+            preparedStatement.setDouble(8, tripPackage.getTotalPackageAmount());
+            preparedStatement.setString(9, tripPackage.getExpiryDate());
+            preparedStatement.setString(10, tripPackage.getProvince());
+            preparedStatement.execute();
+            preparedStatement = con.prepareStatement("DELETE FROM PACKAGESINCLUDES WHERE PackageID = ?");
+            preparedStatement.setInt(1, tripPackage.getPackageID());
+            preparedStatement.execute();
+            for (BookingAccommodation ac : tripPackage.getBookingAccommodation()) {
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, ProductName, Category, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setInt(1, tripPackage.getPackageID());
+                preparedStatement.setString(2, ac.getProvince());
+                preparedStatement.setString(3, ac.getSupplierName());
+                preparedStatement.setString(4, ac.getProductName());
+                preparedStatement.setString(5, ac.getMaxSleep());
+                preparedStatement.setInt(6, ac.getNights());
+                preparedStatement.setInt(7, ac.getQuantity());
+                preparedStatement.setString(8, ac.getAddTo());
+                preparedStatement.setDouble(9, ac.getCostPricePerUnit());
+                preparedStatement.setDouble(10, ac.getSellPricePerUnit());
+                preparedStatement.setInt(11, 0);
+                preparedStatement.execute();
+            }
+            for (BookingGolf gf : tripPackage.getBookingGolf()) {
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, ProductName, Category, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setInt(1, tripPackage.getPackageID());
+                preparedStatement.setString(2, gf.getSupplierName());
+                preparedStatement.setString(3, gf.getProvince());
+                preparedStatement.setString(4, gf.getProductName());
+                preparedStatement.setInt(5, gf.getQuantity());
+                preparedStatement.setInt(6, gf.getRounds());
+                preparedStatement.setString(7, gf.getAddTo());
+                preparedStatement.setDouble(8, gf.getCostPricePerUnit());
+                preparedStatement.setDouble(9, gf.getSellPricePerUnit());
+                if (gf.getCarts() == 1) {
+                    preparedStatement.setInt(10, 1);
+                } else {
+                    preparedStatement.setInt(10, 0);
+                }
+                preparedStatement.execute();
+            }
+            for (BookingActivity at : tripPackage.getBookingActivities()) {
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, ProductName, Category, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setInt(1, tripPackage.getPackageID());
+                preparedStatement.setString(2, at.getSupplierName());
+                preparedStatement.setString(3, at.getProvince());
+                preparedStatement.setString(4, at.getProductName());
+                preparedStatement.setInt(5, at.getQuantity());
+                preparedStatement.setString(6, at.getAddTo());
+                preparedStatement.setDouble(7, at.getCostPricePerUnit());
+                preparedStatement.setDouble(8, at.getSellPricePerUnit());
+                preparedStatement.setInt(9, 0);
+                preparedStatement.execute();
+            }
+            for (BookingTransport at : tripPackage.getBookingTransport()) {
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, ProductName, Category, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setInt(1, tripPackage.getPackageID());
+                preparedStatement.setString(2, at.getSupplierName());
+                preparedStatement.setString(3, at.getProductName());
+                preparedStatement.setString(4, at.getProvince());
+                preparedStatement.setInt(5, at.getQuantity());
+                preparedStatement.setString(6, at.getAddTo());
+                preparedStatement.setDouble(7, at.getCostPricePerUnit());
+                preparedStatement.setDouble(8, at.getSellPricePerUnit());
+                preparedStatement.setInt(9, 0);
+                preparedStatement.execute();
+            }
+            log("Server> Successfully Updated Package: " + tripPackage.getPackageName());
+            //notifyUpdatedStudent(s[0]);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> updatePackage> " + ex);
+        }
+    }
+
     void updateSupplier(Supplier supplier) {
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("UPDATE SUPPLIER SET SupplierName = ?, Category = ?, Province = ?, Address = ?, CoOrdinates = ? WHERE SupplierNumber = ?");
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE SUPPLIERS SET SupplierName = ?, Category = ?, Province = ?, Address = ?, CoOrdinates = ? WHERE SupplierNumber = ?");
             preparedStatement.setString(1, supplier.getSupplierName());
             preparedStatement.setString(2, supplier.getCategory());
             preparedStatement.setString(3, supplier.getProvince());
@@ -1038,10 +1360,11 @@ public class DatabaseHandler {
 
     void updateLogin(Login login) {
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("UPDATE BOOKINGS SET ClientName = ?, ContactNumber = ?, Email = ?, People = ?, Arrival = ?, Departure = ?, Process = ?, BookingAount = ?, Consultant = ?, DepositDate = ?, DepositPaid = ?, FullPaid = ?, BookingMadeDate = ? WHERE GSNumber = ?");
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE LOGINS SET LoginName = ?, Username = ?, Password = ? WHERE LoginID = ?");
             preparedStatement.setString(1, login.getLoginName());
             preparedStatement.setString(2, login.getUsername());
             preparedStatement.setString(3, login.getPassword());
+            preparedStatement.setInt(4, login.getLoginID());
             preparedStatement.execute();
             log("Server> Successfully Updated Login: " + login.getLoginName());
             //notifyUpdatedStudent(s[0]);
@@ -1111,18 +1434,27 @@ public class DatabaseHandler {
     //<editor-fold desc="Remove">
     void removeBooking(int gsNumber) {//TODO Delete File
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM BOOKING WHERE GSNumber = ?;");
+            PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM BOOKINGS WHERE GSNumber = ?;");
             preparedStatement.setInt(1, gsNumber);
             preparedStatement.executeUpdate();
-            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGACCOMMODATION WHERE GSNumber = ?;");
+            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGSACCOMMODATION WHERE GSNumber = ?;");
             preparedStatement.setInt(1, gsNumber);
             preparedStatement.executeUpdate();
-            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGGOLF WHERE GSNumber = ?;");
+            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGSGOLF WHERE GSNumber = ?;");
             preparedStatement.setInt(1, gsNumber);
             preparedStatement.executeUpdate();
-            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGACTIVITIES WHERE GSNumber = ?;");
+            preparedStatement = con.prepareStatement("DELETE FROM BOOKINGSACTIVITIES WHERE GSNumber = ?;");
             preparedStatement.setInt(1, gsNumber);
             preparedStatement.executeUpdate();
+            File file = new File(Server.BOOKINGS_FOLDER + "/a. Quotes");
+            File [] files = file.listFiles();
+            for(File f:files) {
+                if(f.getAbsolutePath().contains("GS" + gsNumber)){
+                    file = new File(f.getAbsolutePath());
+                    break;
+                }
+            }
+            file.delete();
             log("Server> Successfully Removed Booking: " + gsNumber);
             //notifyUpdatedStudent(studentNumber);
         } catch (SQLException ex) {
@@ -1209,7 +1541,7 @@ public class DatabaseHandler {
 
     public void convertExceltoPDF(File excelFile){//TODO
         /*try {
-            FileInputStream input_document = new FileInputStream(new File("C:\\excel_to_pdf.xlsx"));
+            FileInputStream input_document = new FileInputStream(new File("C:\\excel_to_pdf.xls"));
             // Read workbook into XSSFWorkbook
             XSSFWorkbook my_xls_workbook = new XSSFWorkbook(input_document);
             // Read worksheet into XSSFSheet
