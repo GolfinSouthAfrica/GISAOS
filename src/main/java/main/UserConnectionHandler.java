@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.*;
+import org.apache.poi.hssf.record.PageBreakRecord;
 
 import java.io.File;
 import java.io.ObjectInputStream;
@@ -27,10 +28,6 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
     private ObservableList<DataFile> documents = FXCollections.observableArrayList();
     private ObservableList<TripPackage> packages = FXCollections.observableArrayList();
     public ObservableList<Integer> unreadMails = FXCollections.observableArrayList();
-    private ObservableList<ProductAccomodation> accommodation = FXCollections.observableArrayList();
-    private ObservableList<ProductGolf> golf = FXCollections.observableArrayList();
-    private ObservableList<ProductTransport> transport = FXCollections.observableArrayList();
-    private ObservableList<ProductActivity> activities = FXCollections.observableArrayList();
     private volatile ObservableList<Object> outputQueue = FXCollections.observableArrayList();
     volatile BooleanProperty updateUser = new SimpleBooleanProperty(false);
     volatile BooleanProperty updateSuppliers = new SimpleBooleanProperty(false);
@@ -130,17 +127,17 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         unreadMails.addListener((InvalidationListener) e -> {
             outputQueue.add(0, Arrays.asList(unreadMails.toArray()));
         });
-        accommodation.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(accommodation.toArray()));
+        Server.accommodation.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(Server.accommodation.toArray()));
         });
-        golf.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(golf.toArray()));
+        Server.golf.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(Server.golf.toArray()));
         });
-        transport.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(transport.toArray()));
+        Server.transport.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(Server.transport.toArray()));
         });
-        activities.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(activities.toArray()));
+        Server.activities.addListener((InvalidationListener) e -> {
+            outputQueue.add(0, Arrays.asList(Server.activities.toArray()));
         });
         unreadMails.addListener((InvalidationListener) e -> {
             outputQueue.add(0, Arrays.asList(unreadMails.toArray()));
@@ -151,10 +148,10 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         updateLogins();
         updateDocuments();
         updatePackages();
-        updateAccommodation();
-        updateGolf();
-        updateTransport();
-        updateActivities();
+        outputQueue.add(0, Arrays.asList(Server.accommodation.toArray()));
+        outputQueue.add(0, Arrays.asList(Server.golf.toArray()));
+        outputQueue.add(0, Arrays.asList(Server.transport.toArray()));
+        outputQueue.add(0, Arrays.asList(Server.activities.toArray()));
         unreadMails.clear();
         unreadMails.addAll(Server.unreadMails);
         new InputProcessor().start();
@@ -166,6 +163,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
             while (running.get()) {
                 Object input;
                 if ((input = getReply()) != null) {
+                    System.out.println(input);
                     if (input instanceof String) {
                         String text = input.toString();
                         if (text.startsWith("cp:")) {//ChangePassword
@@ -174,6 +172,9 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         }  else if (text.startsWith("gf:")) {//GetFile
                             dh.log("User " + username + "> Requested File: " + text.substring(3).split(":")[0]);
                             getFile(text.substring(3).split(":")[0]);
+                        }  else if (text.startsWith("gq:")) {//GetFile
+                            dh.log("User " + username + "> Requested Costing: " + text.substring(3).split(":")[0]);
+                            getCosting(text.substring(3).split(":")[0]);
                         } else if (text.startsWith("rb:")) {//RemoveBooking
                             dh.log("User " + username + "> Removed Booking: " + text.substring(3));
                             dh.removeBooking(Integer.parseInt(text.substring(3)));
@@ -191,9 +192,14 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.removeLogin(Integer.parseInt(text.substring(3)));
                             updateLogins.setValue(true);
                         } else if (text.startsWith("rcd:")) {//RemoveContactDetails
-                            dh.log("User " + username + "> Removed Login: " + text.substring(3));
+                            dh.log("User " + username + "> Removed Contact Details: " + text.substring(3));
                             dh.removeContactDetails(Integer.parseInt(text.substring(4)));
                             updateSuppliers.setValue(true);
+                        } else if(text.startsWith("snd:")){
+                            if(text.substring(4).startsWith("Costing")){
+                                dh.log("User " + username + "> Send Costing for: GS" + text.substring(12));
+                                new Thread(() -> Email.sendCosting("GS" + text.substring(12).split(":")[0], text.substring(12).split(":")[1], text.substring(12).split(":")[2], text.substring(12).split(":")[3], user.get().getFirstName())).start();
+                            }
                         } else if (text.startsWith("se:")) {//TODO
                             /*if((!text.substring(3).split(":")[3].matches(""))) {
                                 dh.log("User " + username + "> Emailed " + text.substring(3).split(":")[4] + "(" + text.substring(3).split(":")[3] + " to: " + text.substring(3).split(":")[0]);
@@ -232,7 +238,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             } else if (text.substring(3).split(":")[0].matches("Other") && text.substring(3).split(":")[1].matches("all")){
                                 outputQueue.addAll(Server.readOtherMails);
                             }
-                        }else if (text.startsWith("usba:")) {//UpdateSupplierBookedAccommodation
+                        }else if (text.startsWith("usba:")) {//UpdateSupplierBookedAccommodation TODO
                             dh.updateSuppliersBookedAccommodation();
                         } else if (text.startsWith("usbg:")) {//UpdateSupplierBookedGolf
                             dh.updateSuppliersBookedGolf();
@@ -246,9 +252,11 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         }
                     } else if (input instanceof Booking) {//AddUpdateBookings
                         if (((Booking) input).getGsNumber().matches("New")) {
-                            dh.addBooking((Booking)input);
+                            int gs = dh.addBooking((Booking)input);
+                            outputQueue.add("nbgs:" + gs + ":" + getCostingFileLength(gs));
                         } else {
                             dh.updateBooking((Booking)input);
+                            outputQueue.add("nbqs:-1:" + getCostingFileLength(Integer.parseInt(((Booking)input).getGsNumber())));
                         }
                         updateBookings.setValue(true);
                     } else if (input instanceof Supplier) {//AddUpdateSuppliers
@@ -285,10 +293,14 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         }
                         updateLogins.setValue(true);
                     } else if (input instanceof TripPackage) {//TODO
-
+                        if (((TripPackage) input).getPackageID() == -1) {
+                            dh.addPackage((TripPackage)input);
+                        } else {
+                            dh.updatePackage((TripPackage)input);
+                        }
+                        updatePackages.set(true);
                     } else if (input instanceof ContactDetails){//AddUpdateContactDetails
-                        System.out.println(((ContactDetails)input).getContactDetailsID());
-                        if (((ContactDetails) input).getContactDetailsID() > 100000) {
+                        if (((ContactDetails) input).getContactDetailsID() > 1000000) {
                             dh.addContactDetails((ContactDetails) input);
                         } else {
                             dh.updateContactDetails((ContactDetails) input);
@@ -338,6 +350,18 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         }
     }
 
+    private int getCostingFileLength(int GSNumber) {
+        File file = new File(Server.BOOKINGS_FOLDER + "/a. Quotes");
+        File [] files = file.listFiles();
+        for(File f:files) {
+            if(f.getAbsolutePath().contains("GS" + GSNumber)){
+                f = new File(f.getAbsolutePath() + "/Costing.xls");
+                return (int) f.length();
+            }
+        }
+        return -1;
+    }
+
     private void changePassword(String prevPassword, String newPassword) {
         String sPassword = dh.getUserPassword(username);
         if (prevPassword.matches(sPassword) && dh.changeUserPassword(username, newPassword)) {
@@ -364,6 +388,32 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         }
     }
 
+    private void getCosting(String GSNumber) {
+        File file = new File(Server.BOOKINGS_FOLDER + "/a. Quotes");
+        File [] files = file.listFiles();
+        for(File f:files) {
+            System.out.println(GSNumber);
+            System.out.println(f.getAbsolutePath());
+            if(f.getAbsolutePath().contains(GSNumber)){
+                file = new File(f.getAbsolutePath() + "/Costing.xls");
+                break;
+            }
+        }
+        try {
+            byte[] fileBytes = Files.readAllBytes(file.toPath());
+            int size = 0;
+            while (size < fileBytes.length) {
+                System.out.println(Math.min(Server.BUFFER_SIZE, fileBytes.length - size));
+                outputQueue.add(new FilePart(Arrays.copyOfRange(fileBytes, size, size + Math.min(Server.BUFFER_SIZE, fileBytes.length - size)), GSNumber));
+                size += Math.min(Server.BUFFER_SIZE, fileBytes.length - size);
+                dh.log("User " + username + "> Successfully Downloaded Costing: " + GSNumber);
+            }
+        } catch (Exception ex) {
+            dh.log("Server> getFile> " + ex);
+            ex.printStackTrace();
+        }
+    }
+
     public User getUser() {
         return user.getValue();
     }
@@ -375,46 +425,57 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
     private void updateSuppliers() {
         suppliers.clear();
         suppliers.addAll(dh.getSuppliers());
+        if(suppliers.isEmpty()){
+            suppliers.addAll(new Supplier(-10, "NoSuppliers", "NoSuppliers", "NoSuppliers", "NoSuppliers", "NoSuppliers", null));
+        }
     }
 
     private void updateBookings() {
         bookings.clear();
         bookings.addAll(dh.getBookings());
+        if(bookings.isEmpty()){
+            bookings.addAll(new Booking("NoBookings", "NoBookings", "NoBookings", "NoBookings", 0, 0, 0, 0, "NoBookings", "NoBookings", "NoBookings", 0, "NoBookings", "NoBookings", 0, 0, "NoBookings", "NoBookings", "NoBookings", null, null, null, null));
+        }
     }
 
     private void updateLogins() {
         logins.clear();
         logins.addAll(dh.getLogins());
+        if(logins.isEmpty()){
+            logins.addAll(new Login(-10, "NoLogins", "NoLogins", "NoLogins"));
+        }
     }
 
     private void updateDocuments() {
         documents.clear();
         documents.addAll(dh.getDocuments());
+        if(documents.isEmpty()){
+            documents.addAll(new DataFile("Documents", "NoDocuments", "NoDocuments", 0));
+        }
     }
 
     private void updatePackages() {
         packages.clear();
         packages.addAll(dh.getPackages());
+        if(packages.isEmpty()){
+            packages.addAll(new TripPackage(-10, "NoPackages", 0, "NoPackages", 0, 0, 0, 0, "NoPackages", "NoPackages", null, null, null, null));
+        }
     }
 
     private void updateAccommodation() {
-        accommodation.clear();
-        accommodation.addAll(dh.getProductAccommodation());
+        outputQueue.addAll(Server.accommodation);
     }
 
     private void updateGolf() {
-        golf.clear();
-        golf.addAll(dh.getProductGolf());
+        outputQueue.addAll(Server.golf);
     }
 
     private void updateTransport() {
-        transport.clear();
-        transport.addAll(dh.getProductTransport());
+        outputQueue.addAll(Server.transport);
     }
 
     private void updateActivities() {
-        activities.clear();
-        activities.addAll(dh.getProductActivities());
+        outputQueue.addAll(Server.activities);
     }
 
     public String getUsername() {

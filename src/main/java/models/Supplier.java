@@ -11,17 +11,15 @@ public class Supplier implements Serializable {
     private String province;
     private String address;
     private String coOrdinates;
-    private List<Product> products;
     private List<ContactDetails> contactDetails;
 
-    public Supplier(int supplierNumber, String supplierName, String category, String province, String address, String coOrdinates, List<Product> products, List<ContactDetails> contactDetails) {
+    public Supplier(int supplierNumber, String supplierName, String category, String province, String address, String coOrdinates, List<ContactDetails> contactDetails) {
         this.supplierNumber = supplierNumber;
         this.supplierName = supplierName;
         this.category = category;
         this.province = province;
         this.address = address;
         this.coOrdinates = coOrdinates;
-        this.products = products;
         this.contactDetails = contactDetails;
     }
 
@@ -49,12 +47,16 @@ public class Supplier implements Serializable {
         return coOrdinates;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
     public List<ContactDetails> getContactDetails() {
         return contactDetails;
+    }
+
+    public void addContactDetails (ContactDetails cd){
+        contactDetails.add(cd);
+    }
+
+    public void setSupplierNumber(int supplierNumber) {
+        this.supplierNumber = supplierNumber;
     }
 
     @Override

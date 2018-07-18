@@ -7,17 +7,17 @@ public class ProductTransport extends Product {
     private String province;
     private String productName;
     private String expiryDate;
-    private int totalAmountPeople;
     private String price;
+    private String commission;
 
-    public ProductTransport(String supplierName, String category, String province, String productName, String expiryDate, int totalAmountPeople, String price) {
+    public ProductTransport(String supplierName, String category, String province, String productName, String expiryDate, String price, String commission) {
         this.supplierName = supplierName;
         this.category = category;
         this.province = province;
         this.productName = productName;
         this.expiryDate = expiryDate;
-        this.totalAmountPeople = totalAmountPeople;
         this.price = price;
+        this.commission = commission;
     }
 
     public String getSupplierName() {
@@ -40,11 +40,16 @@ public class ProductTransport extends Product {
         return expiryDate;
     }
 
-    public int getTotalAmountPeople() {
-        return totalAmountPeople;
-    }
-
     public String getPrice() {
         return price;
+    }
+
+    public String getCommission() {
+        return commission;
+    }
+
+    @Override
+    public String toString(){
+        return productName + " - STO R" + price + " - Com: " + commission + "% - Expire: " + expiryDate;
     }
 }

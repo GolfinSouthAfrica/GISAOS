@@ -1,12 +1,9 @@
 package main;
 
 import com.sun.mail.imap.IMAPFolder;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import models.Mail;
-import models.ProductAccomodation;
+import models.*;
 
 import javax.mail.*;
 import javax.mail.search.FlagTerm;
@@ -40,6 +37,10 @@ public class Server {
     public static List<Mail> readFinanceMails = FXCollections.observableArrayList();
     public static List<Mail> unreadOtherMails = FXCollections.observableArrayList();
     public static List<Mail> readOtherMails = FXCollections.observableArrayList();
+    public static ObservableList<ProductAccommodation> accommodation = FXCollections.observableArrayList();
+    public static ObservableList<ProductGolf> golf = FXCollections.observableArrayList();
+    public static ObservableList<ProductTransport> transport = FXCollections.observableArrayList();
+    public static ObservableList<ProductActivity> activities = FXCollections.observableArrayList();
     static final int BUFFER_SIZE = 4194304;
     public static ObservableList<ConnectionHandler> connectionsList = FXCollections.observableArrayList();
     public static final int PORT = 1521;
@@ -83,7 +84,7 @@ public class Server {
             store.connect("info@golfinsouthafrica.com", "GISADefault1234@");
             System.out.println(store);
             timer = new Timer();
-            timer.schedule(new UpdateChecker(), 3000);
+            timer.schedule(new UpdateChecker(), 10);
         } catch (NoSuchProviderException e) {
             e.printStackTrace();
         } catch (MessagingException e) {
@@ -241,9 +242,89 @@ public class Server {
         });
     }
 
+    private void updateAccommodation() {
+        List<ProductAccommodation> temp = dh.getProductAccommodation();
+        if (accommodation != temp) {
+            if(temp.size()==0){
+                accommodation.clear();
+                accommodation.add(new ProductAccommodation("NoAccommodation", "NoAccommodation", "NoAccommodation", "NoAccommodation", "NoAccommodation", 0, "NoAccommodation", "NoAccommodation"));
+            } else {
+                accommodation.clear();
+                accommodation.addAll(temp);
+            }
+            notifyAll("Accommodation");
+        }
+    }
+
+    private void updateGolf() {
+        List<ProductGolf> temp = dh.getProductGolf();
+        if (golf != temp) {
+            if(temp.size()==0){
+                golf.clear();
+                golf.add(new ProductGolf("NoGolf", "NoGolf", "NoGolf", "NoGolf", "NoGolf", "NoGolf", "NoGolf", -1));
+            } else {
+                golf.clear();
+                golf.addAll(temp);
+            }
+            notifyAll("Golf");
+        }
+    }
+
+    private void updateTransport() {
+        List<ProductTransport> temp = dh.getProductTransport();
+        if (transport != temp) {
+            if(temp.size()==0){
+                transport.clear();
+                transport.add(new ProductTransport("NoTransport", "NoTransport", "NoTransport", "NoTransport", "NoTransport", "NoTransport", "NoTransport"));
+            } else {
+                transport.clear();
+                transport.addAll(temp);
+            }
+            notifyAll("Transport");
+        }
+
+    }
+
+    private void updateActivities() {
+        List<ProductActivity> temp = dh.getProductActivities();
+        if (activities != temp) {
+            if (temp.size() == 0) {
+                activities.clear();
+                activities.add(new ProductActivity("NoActivities", "NoActivities", "NoActivities", "NoActivities", "NoActivities", "NoActivities", "NoActivities"));
+            } else {
+                activities.clear();
+                activities.addAll(temp);
+            }
+            notifyAll("Activities");
+        }
+    }
+
+    public void notifyAll(String cat){
+        for (ConnectionHandler ch: connectionsList) {
+            if(ch instanceof UserConnectionHandler) {
+                if(cat.matches("Activities")) {
+                    ((UserConnectionHandler) ch).updateActivities.setValue(true);
+                }
+                if(cat.matches("Transport")) {
+                    ((UserConnectionHandler) ch).updateTransport.setValue(true);
+                }
+                if(cat.matches("Golf")) {
+                    ((UserConnectionHandler) ch).updateGolf.setValue(true);
+                }
+                if(cat.matches("Accommodation")) {
+                    ((UserConnectionHandler) ch).updateAccommodation.setValue(true);
+                }
+            }
+        }
+    }
+
     private class UpdateChecker extends TimerTask {
         @Override
         public void run() {
+            updateAccommodation();
+            updateGolf();
+            updateTransport();
+            updateActivities();
             unreadNewQuotesMails.clear();
             unreadContactMails.clear();
             unreadFinanceMails.clear();
@@ -263,7 +344,7 @@ public class Server {
                     /*Object obj = messages[i].getContent();
                     Multipart mp = (Multipart) messages[i].getContent();
                     BodyPart bp = ((Multipart) messages[i].getContent()).getBodyPart(0);
-                    String msg = (String) bp.getContent();//TODO*/
+                    String msg = (String) bp.getContent();//TODO
                     List<String> toAddresses = new ArrayList<String>();
                     Address[] recipients = messages[i].getRecipients(Message.RecipientType.TO);
                     for (Address address : recipients) {
@@ -275,7 +356,7 @@ public class Server {
                         fromAddresses.add(address.toString());
                     }
                     Mail mail = new Mail(toAddresses, fromAddresses, messages[i].getSubject(), messages[i].getReceivedDate().toString(), null, null, false);
-                    System.out.println("------------------------------");
+                    System.out.println(mail.getSubject() + " - " + mail.getDate());
                     //System.out.println("Attachments: " + mail.getAttachments().size());//TODO
                     if(messages[i].getFrom()[0].equals("info@golfinsouthafrica.com")){
                         if(messages[i].getSubject().contains("GISA Enquiry About:")){
@@ -300,7 +381,7 @@ public class Server {
                         unreadOtherMails.add(mail);
                         readOtherMails.add(mail);
                     }
-                    unread++;
+                    unread++;*/
                 }
                 System.out.println("Unread" + unread);
 
@@ -322,7 +403,7 @@ public class Server {
                     /*Object obj = messages[i].getContent();
                     Multipart mp = (Multipart) messages[i].getContent();
                     BodyPart bp = ((Multipart) messages[i].getContent()).getBodyPart(0);
-                    String msg = (String) bp.getContent();*/
+                    String msg = (String) bp.getContent();
                     List<String> toAddresses = new ArrayList<String>();
                     Address[] recipients = messages[i].getRecipients(Message.RecipientType.TO);
                     for (Address address : recipients) {
@@ -334,7 +415,7 @@ public class Server {
                         fromAddresses.add(address.toString());
                     }
                     Mail mail = new Mail(toAddresses, fromAddresses, messages[i].getSubject(), messages[i].getReceivedDate().toString(), null, null, false);
-                    System.out.println("------------------------------");
+                    //System.out.println(mail.getSubject() + " - " + mail.getDate());
                     //System.out.println("Attachments: " + mail.getAttachments().size());
                     if(messages[i].getFrom()[0].equals("info@golfinsouthafrica.com")){
                         if(messages[i].getSubject().contains("GISA Enquiry About:")){
@@ -354,7 +435,7 @@ public class Server {
                         //other
                         readOtherMails.add(mail);
                     }
-                    read++;
+                    read++;*/
                 }
                 System.out.println("Read: " + read);
 

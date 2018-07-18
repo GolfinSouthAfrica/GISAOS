@@ -1,40 +1,85 @@
 package models;
 
-import java.io.Serializable;
+public class BookingTransport extends Product {
 
-public class BookingTransport implements Serializable {
-
-    private int BRID;
-    private int supplierNumber;
-    private int transportId;
+    private String supplierName;
+    private String province;
+    private String productName;
+    private String date;
     private int quantity;
-    private Double cost;
+    private String from;
+    private String to;
+    private Double costPricePerUnit;
+    private Double sellPricePerUnit;
+    private String addTo;
+    private int supplierBooked;
+    private Double amountPaidSup;
 
-    public BookingTransport(int BRID, int supplierNumber, int transportId, int quantity, Double cost) {
-        this.BRID = BRID;
-        this.supplierNumber = supplierNumber;
-        this.transportId = transportId;
+    public BookingTransport(String supplierName, String province, String productName, String date, int quantity, String from, String to, Double costPricePerUnit, Double sellPricePerUnit, String addTo, int supplierBooked, Double amountPaidSup) {
+        this.supplierName = supplierName;
+        this.province = province;
+        this.productName = productName;
+        this.date = date;
         this.quantity = quantity;
-        this.cost = cost;
+        this.from = from;
+        this.to = to;
+        this.costPricePerUnit = costPricePerUnit;
+        this.sellPricePerUnit = sellPricePerUnit;
+        this.addTo = addTo;
+        this.supplierBooked = supplierBooked;
+        this.amountPaidSup = amountPaidSup;
     }
 
-    public int getBRID() {
-        return BRID;
+    public String getSupplierName() {
+        return supplierName;
     }
 
-    public int getSupplierNumber() {
-        return supplierNumber;
+    public String getProvince() {
+        return province;
     }
 
-    public int getTransportId() {
-        return transportId;
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public Double getCost() {
-        return cost;
+    public String getFrom() {
+        return from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public Double getCostPricePerUnit() {
+        return costPricePerUnit;
+    }
+
+    public Double getSellPricePerUnit() {
+        return sellPricePerUnit;
+    }
+
+    public String getAddTo() {
+        return addTo;
+    }
+
+    public int getSupplierBooked() {
+        return supplierBooked;
+    }
+
+    public Double getAmountPaidSup() {
+        return amountPaidSup;
+    }
+
+    @Override
+    public String toString(){
+        return supplierName + " - " + productName + " Add To: " + addTo + " - Quantity: " + quantity + " - Price per product:: " + sellPricePerUnit;
     }
 }

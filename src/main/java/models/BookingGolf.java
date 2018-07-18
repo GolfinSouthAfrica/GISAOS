@@ -1,41 +1,55 @@
 package models;
 
-import java.io.Serializable;
+import java.util.List;
 
-public class BookingGolf implements Serializable {
+public class BookingGolf extends Product {
 
-    private int BGID;
-    private int supplierNumber;
-    private int golfID;
-    private int people;
+    private String supplierName;
+    private String province;
+    private String productName;
+    private List<String> dates;
+    private int quantity;
     private int rounds;
     private int carts;
-    private Double cost;
+    private Double costPricePerUnit;
+    private Double sellPricePerUnit;
+    private String addTo;
+    private int supplierBooked;
+    private Double amountPaidSup;
 
-    public BookingGolf(int BGID, int supplierNumber, int golfID, int people, int rounds, int carts, Double cost) {
-        this.BGID = BGID;
-        this.supplierNumber = supplierNumber;
-        this.golfID = golfID;
-        this.people = people;
+    public BookingGolf(String supplierName, String province, String productName, List<String> dates, int quantity, int rounds, int carts, Double costPricePerUnit, Double sellPricePerUnit, String addTo, int supplierBooked, Double amountPaidSup) {
+        this.supplierName = supplierName;
+        this.province = province;
+        this.productName = productName;
+        this.dates = dates;
+        this.quantity = quantity;
         this.rounds = rounds;
         this.carts = carts;
-        this.cost = cost;
+        this.costPricePerUnit = costPricePerUnit;
+        this.sellPricePerUnit = sellPricePerUnit;
+        this.addTo = addTo;
+        this.supplierBooked = supplierBooked;
+        this.amountPaidSup = amountPaidSup;
     }
 
-    public int getBGID() {
-        return BGID;
+    public String getSupplierName() {
+        return supplierName;
     }
 
-    public int getSupplierNumber() {
-        return supplierNumber;
+    public String getProvince() {
+        return province;
     }
 
-    public int getGolfID() {
-        return golfID;
+    public String getProductName() {
+        return productName;
     }
 
-    public int getPeople() {
-        return people;
+    public List<String> getDates() {
+        return dates;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     public int getRounds() {
@@ -46,7 +60,32 @@ public class BookingGolf implements Serializable {
         return carts;
     }
 
-    public Double getCost() {
-        return cost;
+    public Double getCostPricePerUnit() {
+        return costPricePerUnit;
+    }
+
+    public Double getSellPricePerUnit() {
+        return sellPricePerUnit;
+    }
+
+    public String getAddTo() {
+        return addTo;
+    }
+
+    public int getSupplierBooked() {
+        return supplierBooked;
+    }
+
+    public Double getAmountPaidSup() {
+        return amountPaidSup;
+    }
+
+    @Override
+    public String toString(){
+        if(carts == 1) {
+            return supplierName + " - " + productName + " incl carts - Add To: " + addTo + " - Quantity:" + quantity + " - Rounds: " + rounds + " - Price per product: R" + sellPricePerUnit;
+        } else {
+            return supplierName + " - " + productName + " carts not included - Add To: " + addTo + " - Quantity:" + quantity + " - Rounds: " + rounds + " - Price per product: R" + sellPricePerUnit;
+        }
     }
 }

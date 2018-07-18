@@ -1,46 +1,85 @@
 package models;
 
-import java.io.Serializable;
+public class BookingAccommodation extends Product {
 
-public class BookingAccommodation implements Serializable {
-
-    private int BAID;
-    private int supplierNumber;
-    private int accommodationId;
+    private String supplierName;
+    private String province;
+    private String productName;
+    private String maxSleep;
+    private String arrival;
     private int nights;
-    private int people; //TODO get and auto cal if house or per person
-    private Double cost;
+    private int quantity;
+    private Double costPricePerUnit;
+    private Double sellPricePerUnit;
+    private String addTo;
+    private int supplierBooked;
+    private Double amountPaidSup;
 
-    public BookingAccommodation(int BAID, int supplierNumber, int accommodationId, int nights, int people, Double cost) {
-        this.BAID = BAID;
-        this.supplierNumber = supplierNumber;
-        this.accommodationId = accommodationId;
+    public BookingAccommodation(String supplierName, String province, String productName, String maxSleep, String arrival, int nights, int quantity, Double costPricePerUnit, Double sellPricePerUnit, String addTo, int supplierBooked, Double amountPaidSup) {
+        this.supplierName = supplierName;
+        this.province = province;
+        this.productName = productName;
+        this.maxSleep = maxSleep;
+        this.arrival = arrival;
         this.nights = nights;
-        this.people = people;
-        this.cost = cost;
+        this.quantity = quantity;
+        this.costPricePerUnit = costPricePerUnit;
+        this.sellPricePerUnit = sellPricePerUnit;
+        this.addTo = addTo;
+        this.supplierBooked = supplierBooked;
+        this.amountPaidSup = amountPaidSup;
     }
 
-    public int getBAID() {
-        return BAID;
+    public String getSupplierName() {
+        return supplierName;
     }
 
-    public int getSupplierNumber() {
-        return supplierNumber;
+    public String getProvince() {
+        return province;
     }
 
-    public int getAccommodationId() {
-        return accommodationId;
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getMaxSleep() {
+        return maxSleep;
+    }
+
+    public String getArrival() {
+        return arrival;
     }
 
     public int getNights() {
         return nights;
     }
 
-    public int getPeople() {
-        return people;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public Double getCost() {
-        return cost;
+    public Double getCostPricePerUnit() {
+        return costPricePerUnit;
+    }
+
+    public Double getSellPricePerUnit() {
+        return sellPricePerUnit;
+    }
+
+    public String getAddTo() {
+        return addTo;
+    }
+
+    public int getSupplierBooked() {
+        return supplierBooked;
+    }
+
+    public Double getAmountPaidSup() {
+        return amountPaidSup;
+    }
+
+    @Override
+    public String toString(){
+        return supplierName + " - " + productName + " - Add to: " + addTo + " - Quantity: " + quantity + " - Nights: " + nights + " - Price per product: " + sellPricePerUnit;
     }
 }

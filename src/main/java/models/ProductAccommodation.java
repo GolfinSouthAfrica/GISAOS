@@ -1,6 +1,6 @@
 package models;
 
-public class ProductAccomodation extends Product {
+public class ProductAccommodation extends Product {
 
     private String supplierName;
     private String category;
@@ -9,8 +9,9 @@ public class ProductAccomodation extends Product {
     private String expiryDate;
     private int sleeps;
     private String price;
+    private String commission;
 
-    public ProductAccomodation(String supplierName, String category, String province, String productName, String expiryDate, int sleeps, String price) {
+    public ProductAccommodation(String supplierName, String category, String province, String productName, String expiryDate, int sleeps, String price, String commission) {
         this.supplierName = supplierName;
         this.category = category;
         this.province = province;
@@ -18,6 +19,7 @@ public class ProductAccomodation extends Product {
         this.expiryDate = expiryDate;
         this.sleeps = sleeps;
         this.price = price;
+        this.commission = commission;
     }
 
     public String getSupplierName() {
@@ -46,5 +48,14 @@ public class ProductAccomodation extends Product {
 
     public String getPrice() {
         return price;
+    }
+
+    public String getCommission() {
+        return commission;
+    }
+
+    @Override
+    public String toString(){
+        return productName + " - Sleeps: " + sleeps + " - R" + price + " - Com: " + commission + "% - Expire: " + expiryDate;
     }
 }

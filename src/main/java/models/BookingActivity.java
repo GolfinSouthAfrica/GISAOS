@@ -1,40 +1,73 @@
 package models;
 
-import java.io.Serializable;
+public class BookingActivity extends Product {
 
-public class BookingActivity implements Serializable {
+    private String supplierName;
+    private String province;
+    private String productName;
+    private String date;
+    private int quantity;
+    private Double costPricePerUnit;
+    private Double sellPricePerUnit;
+    private String addTo;
+    private int supplierBooked;
+    private Double amountPaidSup;
 
-    private int BTID;
-    private int supplierNumber;
-    private int activityId;
-    private int people;
-    private Double cost;
-
-    public BookingActivity(int BTID, int supplierNumber, int activityId, int people, Double cost) {
-        this.BTID = BTID;
-        this.supplierNumber = supplierNumber;
-        this.activityId = activityId;
-        this.people = people;
-        this.cost = cost;
+    public BookingActivity(String supplierName, String province, String productName, String date, int quantity, Double costPricePerUnit, Double sellPricePerUnit, String addTo, int supplierBooked, Double amountPaidSup) {
+        this.supplierName = supplierName;
+        this.province = province;
+        this.productName = productName;
+        this.date = date;
+        this.quantity = quantity;
+        this.costPricePerUnit = costPricePerUnit;
+        this.sellPricePerUnit = sellPricePerUnit;
+        this.addTo = addTo;
+        this.supplierBooked = supplierBooked;
+        this.amountPaidSup = amountPaidSup;
     }
 
-    public int getBTID() {
-        return BTID;
+    public String getSupplierName() {
+        return supplierName;
     }
 
-    public int getSupplierNumber() {
-        return supplierNumber;
+    public String getProvince() {
+        return province;
     }
 
-    public int getActivityId() {
-        return activityId;
+    public String getProductName() {
+        return productName;
     }
 
-    public int getPeople() {
-        return people;
+    public String getDate() {
+        return date;
     }
 
-    public Double getCost() {
-        return cost;
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public Double getCostPricePerUnit() {
+        return costPricePerUnit;
+    }
+
+    public Double getSellPricePerUnit() {
+        return sellPricePerUnit;
+    }
+
+    public String getAddTo() {
+        return addTo;
+    }
+
+    public int getSupplierBooked() {
+        return supplierBooked;
+    }
+
+    public Double getAmountPaidSup() {
+        return amountPaidSup;
+    }
+
+    @Override
+    public String toString(){
+        return supplierName + " - " + productName + " Add To: " + addTo + " - Quantity: " + quantity + " - Price per person: " + sellPricePerUnit;
     }
 }
