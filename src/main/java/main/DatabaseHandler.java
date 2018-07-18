@@ -157,6 +157,7 @@ public class DatabaseHandler {
                         "SupplierName TEXT," +
                         "Province TEXT," +
                         "ProductName TEXT," +
+                        "MaxCapacity TEXT," +
                         "Category TEXT," +
                         "Quantity INTEGER," +
                         "NightsRounds INTEGER," +
@@ -605,8 +606,10 @@ public class DatabaseHandler {
             preparedStatement.setInt(1, packageID);
             preparedStatement.setString(2, "Accommodation");
             ResultSet rs = preparedStatement.executeQuery();
+            System.out.println("nnk nkjnnamcn dnd d    ldmnmelewcjlwe");
             while (rs.next()) {//-2 if package
-                bookingAccommodation.add(new BookingAccommodation(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductName"), rs.getString("MaxSleep"), rs.getString("Arrival"), rs.getInt("Nights"), rs.getInt("Quantity"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"),0, 0.0));
+                System.out.println("avavavavavavavavavavavava");
+                bookingAccommodation.add(new BookingAccommodation(rs.getString("SupplierName"), rs.getString("Province"), rs.getString("ProductName"), rs.getString("MaxCapacity"), "", rs.getInt("NightsRounds"), rs.getInt("Quantity"), rs.getDouble("CostPricePerUnit"), rs.getDouble("SellPricePerUnit"), rs.getString("AddTo"),0, 0.0));
             }
             log("Server> Successfully Got all Accommodation for Package: " + packageID);
             return bookingAccommodation;
@@ -768,10 +771,27 @@ public class DatabaseHandler {
             preparedStatement.setString(16, booking.getPackageName());
             preparedStatement.setString(17, booking.getBookingMadeDate());
             preparedStatement.execute();
-            preparedStatement = con.prepareStatement("SELECT MAX(GSNumber) AS LastGSNumber FROM BOOKINGS;");
+            preparedStatement = con.prepareStatement("SELECT GSNumber FROM BOOKINGS WHERE ClientName = ? AND ContactNumber = ? AND Email = ? AND GolfersSharing = ? AND NonGolfersSharing = ? AND GolfersSingle = ? AND NonGolfersSingle = ? AND Arrival = ? AND Departure = ? AND Process = ? AND BookingAmount = ? AND Consultant = ? AND DepositDate = ? AND DepositPaid = ? AND FullPaid = ? AND PackageName = ? AND BookingMadeDate = ?;");
+            preparedStatement.setString(1, booking.getClientName());
+            preparedStatement.setString(2, booking.getContactNumber());
+            preparedStatement.setString(3, booking.getEmail());
+            preparedStatement.setInt(4, booking.getGolfersSharing());
+            preparedStatement.setInt(5, booking.getNongolfersSharing());
+            preparedStatement.setInt(6, booking.getGolfersSingle());
+            preparedStatement.setInt(7, booking.getNongolfersSingle());
+            preparedStatement.setString(8, booking.getArrival());
+            preparedStatement.setString(9, booking.getDeparture());
+            preparedStatement.setString(10, booking.getProcess());
+            preparedStatement.setDouble(11, booking.getBookingAmount());
+            preparedStatement.setString(12, booking.getConsultant());
+            preparedStatement.setString(13, booking.getDepositDate());
+            preparedStatement.setInt(14, booking.getDepositPaid());
+            preparedStatement.setInt(15, booking.getFullPaid());
+            preparedStatement.setString(16, booking.getPackageName());
+            preparedStatement.setString(17, booking.getBookingMadeDate());
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                gsNumber = rs.getInt("LastGSNumber");
+                gsNumber = rs.getInt("GSNumber");
             }
             for (BookingAccommodation ac: booking.getBookingAccommodation()) {
                 preparedStatement = con.prepareStatement("INSERT INTO BOOKINGSACCOMMODATION (GSNumber, SupplierName, Province, ProductName, MaxSleep, Nights, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, SupplierBooked) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
@@ -1015,69 +1035,82 @@ public class DatabaseHandler {
             preparedStatement.setString(8, tripPackage.getExpiryDate());
             preparedStatement.setString(9, tripPackage.getProvince());
             preparedStatement.execute();
-            preparedStatement = con.prepareStatement("SELECT MAX(GSNumber) AS LastGSNumber FROM BOOKINGS;");
+            preparedStatement = con.prepareStatement("SELECT PackageID FROM PACKAGES WHERE PackageName = ? AND Category = ? AND GolfersSharing = ? AND NonGolfersSharing = ? AND GolfersSingle = ? AND NonGolfersSingle = ? AND TotalPackageAmount = ? AND ExpiryDate = ? AND Province = ?;");
+            preparedStatement.setString(1, tripPackage.getPackageName());
+            preparedStatement.setString(2, tripPackage.getCategory());
+            preparedStatement.setInt(3, tripPackage.getGolfersSharing());
+            preparedStatement.setInt(4, tripPackage.getNongolfersSharing());
+            preparedStatement.setInt(5, tripPackage.getGolfersSingle());
+            preparedStatement.setInt(6, tripPackage.getNongolfersSingle());
+            preparedStatement.setDouble(7, tripPackage.getTotalPackageAmount());
+            preparedStatement.setString(8, tripPackage.getExpiryDate());
+            preparedStatement.setString(9, tripPackage.getProvince());
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                packageID = rs.getInt("LastGSNumber");
+                packageID = rs.getInt("PackageID");
             }
             for (BookingAccommodation ac : tripPackage.getBookingAccommodation()) {
-                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, Province, ProductName, Category, Quantity, NightsRounds, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
-                preparedStatement.setString(1, Integer.toString(packageID));
-                preparedStatement.setString(2, ac.getSupplierName());
-                preparedStatement.setString(3, ac.getProvince());
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, Province, SupplierName, ProductName, MaxCapacity, Category, NightsRounds, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setInt(1, packageID);
+                preparedStatement.setString(2, ac.getProvince());
+                preparedStatement.setString(3, ac.getSupplierName());
                 preparedStatement.setString(4, ac.getProductName());
-                preparedStatement.setString(5, "Accommodation");
-                preparedStatement.setInt(6, ac.getQuantity());
+                preparedStatement.setString(5, ac.getMaxSleep());
+                preparedStatement.setString(6, "Accommodation");
                 preparedStatement.setInt(7, ac.getNights());
-                preparedStatement.setString(8, ac.getAddTo());
-                preparedStatement.setDouble(9, ac.getCostPricePerUnit());
-                preparedStatement.setDouble(10, ac.getSellPricePerUnit());
-                preparedStatement.setInt(11, 0);
+                preparedStatement.setInt(8, ac.getQuantity());
+                preparedStatement.setString(9, ac.getAddTo());
+                preparedStatement.setDouble(10, ac.getCostPricePerUnit());
+                preparedStatement.setDouble(11, ac.getSellPricePerUnit());
+                preparedStatement.setInt(12, 0);
                 preparedStatement.execute();
             }
             for (BookingGolf gf : tripPackage.getBookingGolf()) {
-                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, Province, ProductName, Category, Quantity, NightsRounds, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
-                preparedStatement.setString(1, Integer.toString(packageID));
-                preparedStatement.setString(2, gf.getSupplierName());
-                preparedStatement.setString(3, gf.getProvince());
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, Province, SupplierName, ProductName, MaxCapacity, Category, NightsRounds, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setInt(1, packageID);
+                preparedStatement.setString(2, gf.getProvince());
+                preparedStatement.setString(3, gf.getSupplierName());
                 preparedStatement.setString(4, gf.getProductName());
-                preparedStatement.setString(5, "Golf");
-                preparedStatement.setInt(6, gf.getQuantity());
+                preparedStatement.setString(5, "1");
+                preparedStatement.setString(6, "Golf");
                 preparedStatement.setInt(7, gf.getRounds());
-                preparedStatement.setString(8, gf.getAddTo());
-                preparedStatement.setDouble(9, gf.getCostPricePerUnit());
-                preparedStatement.setDouble(10, gf.getSellPricePerUnit());
-                preparedStatement.setInt(11, 0);
+                preparedStatement.setInt(8, gf.getQuantity());
+                preparedStatement.setString(9, gf.getAddTo());
+                preparedStatement.setDouble(10, gf.getCostPricePerUnit());
+                preparedStatement.setDouble(11, gf.getSellPricePerUnit());
+                preparedStatement.setInt(12, 0);
                 preparedStatement.execute();
             }
             for (BookingActivity at : tripPackage.getBookingActivities()) {
-                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, Province, ProductName, Category, Quantity, NightsRounds, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
-                preparedStatement.setString(1, Integer.toString(packageID));
-                preparedStatement.setString(2, at.getSupplierName());
-                preparedStatement.setString(3, at.getProvince());
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, Province, SupplierName, ProductName, MaxCapacity, Category, NightsRounds, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setInt(1, packageID);
+                preparedStatement.setString(2, at.getProvince());
+                preparedStatement.setString(3, at.getSupplierName());
                 preparedStatement.setString(4, at.getProductName());
-                preparedStatement.setString(5, "Activity");
-                preparedStatement.setInt(6, at.getQuantity());
+                preparedStatement.setString(5, "1");
+                preparedStatement.setString(6, "Activity");
                 preparedStatement.setInt(7, 1);
-                preparedStatement.setString(8, at.getAddTo());
-                preparedStatement.setDouble(9, at.getCostPricePerUnit());
-                preparedStatement.setDouble(10, at.getSellPricePerUnit());
-                preparedStatement.setInt(11, 0);
+                preparedStatement.setInt(8, at.getQuantity());
+                preparedStatement.setString(9, at.getAddTo());
+                preparedStatement.setDouble(10, at.getCostPricePerUnit());
+                preparedStatement.setDouble(11, at.getSellPricePerUnit());
+                preparedStatement.setInt(12, 0);
                 preparedStatement.execute();
             }
             for (BookingTransport at : tripPackage.getBookingTransport()) {
-                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, Province, ProductName, Category, Quantity, NightsRounds, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
-                preparedStatement.setString(1, Integer.toString(packageID));
-                preparedStatement.setString(2, at.getSupplierName());
-                preparedStatement.setString(3, at.getProvince());
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, Province, SupplierName, ProductName, MaxCapacity, Category, NightsRounds, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement.setInt(1, packageID);
+                preparedStatement.setString(2, at.getProvince());
+                preparedStatement.setString(3, at.getSupplierName());
                 preparedStatement.setString(4, at.getProductName());
-                preparedStatement.setString(5, "Transport");
-                preparedStatement.setInt(6, at.getQuantity());
+                preparedStatement.setString(5, "1");
+                preparedStatement.setString(6, "Transport");
                 preparedStatement.setInt(7, 1);
-                preparedStatement.setString(8, at.getAddTo());
-                preparedStatement.setDouble(9, at.getCostPricePerUnit());
-                preparedStatement.setDouble(10, at.getSellPricePerUnit());
-                preparedStatement.setInt(11, 0);
+                preparedStatement.setInt(8, at.getQuantity());
+                preparedStatement.setString(9, at.getAddTo());
+                preparedStatement.setDouble(10, at.getCostPricePerUnit());
+                preparedStatement.setDouble(11, at.getSellPricePerUnit());
+                preparedStatement.setInt(12, 0);
                 preparedStatement.execute();
             }
         } catch (Exception e) {
@@ -1257,62 +1290,67 @@ public class DatabaseHandler {
             preparedStatement.setInt(1, tripPackage.getPackageID());
             preparedStatement.execute();
             for (BookingAccommodation ac : tripPackage.getBookingAccommodation()) {
-                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, ProductName, Category, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, Province, SupplierName, ProductName, MaxCapacity, Category, NightsRounds, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
                 preparedStatement.setInt(1, tripPackage.getPackageID());
                 preparedStatement.setString(2, ac.getProvince());
                 preparedStatement.setString(3, ac.getSupplierName());
                 preparedStatement.setString(4, ac.getProductName());
                 preparedStatement.setString(5, ac.getMaxSleep());
-                preparedStatement.setInt(6, ac.getNights());
-                preparedStatement.setInt(7, ac.getQuantity());
-                preparedStatement.setString(8, ac.getAddTo());
-                preparedStatement.setDouble(9, ac.getCostPricePerUnit());
-                preparedStatement.setDouble(10, ac.getSellPricePerUnit());
-                preparedStatement.setInt(11, 0);
+                preparedStatement.setString(6, "Accommodation");
+                preparedStatement.setInt(7, ac.getNights());
+                preparedStatement.setInt(8, ac.getQuantity());
+                preparedStatement.setString(9, ac.getAddTo());
+                preparedStatement.setDouble(10, ac.getCostPricePerUnit());
+                preparedStatement.setDouble(11, ac.getSellPricePerUnit());
+                preparedStatement.setInt(12, 0);
                 preparedStatement.execute();
             }
             for (BookingGolf gf : tripPackage.getBookingGolf()) {
-                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, ProductName, Category, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, Province, SupplierName, ProductName, MaxCapacity, Category, NightsRounds, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
                 preparedStatement.setInt(1, tripPackage.getPackageID());
-                preparedStatement.setString(2, gf.getSupplierName());
-                preparedStatement.setString(3, gf.getProvince());
+                preparedStatement.setString(2, gf.getProvince());
+                preparedStatement.setString(3, gf.getSupplierName());
                 preparedStatement.setString(4, gf.getProductName());
-                preparedStatement.setInt(5, gf.getQuantity());
-                preparedStatement.setInt(6, gf.getRounds());
-                preparedStatement.setString(7, gf.getAddTo());
-                preparedStatement.setDouble(8, gf.getCostPricePerUnit());
-                preparedStatement.setDouble(9, gf.getSellPricePerUnit());
-                if (gf.getCarts() == 1) {
-                    preparedStatement.setInt(10, 1);
-                } else {
-                    preparedStatement.setInt(10, 0);
-                }
+                preparedStatement.setString(5, "1");
+                preparedStatement.setString(6, "Golf");
+                preparedStatement.setInt(7, gf.getRounds());
+                preparedStatement.setInt(8, gf.getQuantity());
+                preparedStatement.setString(9, gf.getAddTo());
+                preparedStatement.setDouble(10, gf.getCostPricePerUnit());
+                preparedStatement.setDouble(11, gf.getSellPricePerUnit());
+                preparedStatement.setInt(12, 0);
                 preparedStatement.execute();
             }
             for (BookingActivity at : tripPackage.getBookingActivities()) {
-                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, ProductName, Category, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, Province, SupplierName, ProductName, MaxCapacity, Category, NightsRounds, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
                 preparedStatement.setInt(1, tripPackage.getPackageID());
-                preparedStatement.setString(2, at.getSupplierName());
-                preparedStatement.setString(3, at.getProvince());
+                preparedStatement.setString(2, at.getProvince());
+                preparedStatement.setString(3, at.getSupplierName());
                 preparedStatement.setString(4, at.getProductName());
-                preparedStatement.setInt(5, at.getQuantity());
-                preparedStatement.setString(6, at.getAddTo());
-                preparedStatement.setDouble(7, at.getCostPricePerUnit());
-                preparedStatement.setDouble(8, at.getSellPricePerUnit());
-                preparedStatement.setInt(9, 0);
+                preparedStatement.setString(5, "1");
+                preparedStatement.setString(6, "Activity");
+                preparedStatement.setInt(7, 1);
+                preparedStatement.setInt(8, at.getQuantity());
+                preparedStatement.setString(9, at.getAddTo());
+                preparedStatement.setDouble(10, at.getCostPricePerUnit());
+                preparedStatement.setDouble(11, at.getSellPricePerUnit());
+                preparedStatement.setInt(12, 0);
                 preparedStatement.execute();
             }
             for (BookingTransport at : tripPackage.getBookingTransport()) {
-                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, SupplierName, ProductName, Category, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                preparedStatement = con.prepareStatement("INSERT INTO PACKAGESINCLUDE (PackageID, Province, SupplierName, ProductName, MaxCapacity, Category, NightsRounds, Quantity, AddTo, CostPricePerUnit, SellPricePerUnit, Extra) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
                 preparedStatement.setInt(1, tripPackage.getPackageID());
-                preparedStatement.setString(2, at.getSupplierName());
-                preparedStatement.setString(3, at.getProductName());
-                preparedStatement.setString(4, at.getProvince());
-                preparedStatement.setInt(5, at.getQuantity());
-                preparedStatement.setString(6, at.getAddTo());
-                preparedStatement.setDouble(7, at.getCostPricePerUnit());
-                preparedStatement.setDouble(8, at.getSellPricePerUnit());
-                preparedStatement.setInt(9, 0);
+                preparedStatement.setString(2, at.getProvince());
+                preparedStatement.setString(3, at.getSupplierName());
+                preparedStatement.setString(4, at.getProductName());
+                preparedStatement.setString(5, "1");
+                preparedStatement.setString(6, "Transport");
+                preparedStatement.setInt(7, 1);
+                preparedStatement.setInt(8, at.getQuantity());
+                preparedStatement.setString(9, at.getAddTo());
+                preparedStatement.setDouble(10, at.getCostPricePerUnit());
+                preparedStatement.setDouble(11, at.getSellPricePerUnit());
+                preparedStatement.setInt(12, 0);
                 preparedStatement.execute();
             }
             log("Server> Successfully Updated Package: " + tripPackage.getPackageName());

@@ -7,13 +7,8 @@ import models.*;
 
 import javax.mail.*;
 import javax.mail.search.FlagTerm;
-import java.io.EOFException;
-import java.io.File;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
+import java.io.*;
+import java.net.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -101,6 +96,18 @@ public class Server {
                 System.setProperty("javax.net.ssl.keyStorePassword", "campuslivepassword1");*/
                 dh.log("Server> Set up client on port " + PORT);
                 //ServerSocket ss = SSLServerSocketFactory.getDefault().createServerSocket(PORT);
+                File logFile = new File("G:/My Drive/e. Office/OfficeAppServerData/GolfInSouthAfricaOfficeServerIP.txt");
+                if(logFile.exists()){
+                    logFile.delete();
+                }
+                logFile.createNewFile();
+                FileWriter fw = new FileWriter(logFile.getAbsoluteFile(), true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write("Local IP Address:" + InetAddress.getLocalHost().getHostAddress());
+                bw.newLine();
+                bw.write("Internet IP Address:" + new BufferedReader(new InputStreamReader(new URL("http://checkip.amazonaws.com").openStream())).readLine());
+                bw.close();
+                fw.close();
                 ServerSocket ss = new ServerSocket(PORT);
                 while (true) {
                     while (connectionsList.size() <= MAX_CONNECTIONS) {
