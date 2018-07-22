@@ -4,32 +4,36 @@ import java.util.List;
 
 public class BookingGolf extends Product {
 
+    private int ID;
     private String supplierName;
     private String province;
     private String productName;
     private List<String> dates;
     private int quantity;
     private int rounds;
-    private int carts;
     private Double costPricePerUnit;
     private Double sellPricePerUnit;
     private String addTo;
     private int supplierBooked;
     private Double amountPaidSup;
 
-    public BookingGolf(String supplierName, String province, String productName, List<String> dates, int quantity, int rounds, int carts, Double costPricePerUnit, Double sellPricePerUnit, String addTo, int supplierBooked, Double amountPaidSup) {
+    public BookingGolf(int ID, String supplierName, String province, String productName, List<String> dates, int quantity, int rounds, Double costPricePerUnit, Double sellPricePerUnit, String addTo, int supplierBooked, Double amountPaidSup) {
+        this.ID = ID;
         this.supplierName = supplierName;
         this.province = province;
         this.productName = productName;
         this.dates = dates;
         this.quantity = quantity;
         this.rounds = rounds;
-        this.carts = carts;
         this.costPricePerUnit = costPricePerUnit;
         this.sellPricePerUnit = sellPricePerUnit;
         this.addTo = addTo;
         this.supplierBooked = supplierBooked;
         this.amountPaidSup = amountPaidSup;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public String getSupplierName() {
@@ -56,10 +60,6 @@ public class BookingGolf extends Product {
         return rounds;
     }
 
-    public int getCarts() {
-        return carts;
-    }
-
     public Double getCostPricePerUnit() {
         return costPricePerUnit;
     }
@@ -80,12 +80,12 @@ public class BookingGolf extends Product {
         return amountPaidSup;
     }
 
+    public void setSupplierBooked(int supplierBooked) {
+        this.supplierBooked = supplierBooked;
+    }
+
     @Override
     public String toString(){
-        if(carts == 1) {
-            return supplierName + " - " + productName + " incl carts - Add To: " + addTo + " - Quantity:" + quantity + " - Rounds: " + rounds + " - Price per product: R" + sellPricePerUnit;
-        } else {
-            return supplierName + " - " + productName + " carts not included - Add To: " + addTo + " - Quantity:" + quantity + " - Rounds: " + rounds + " - Price per product: R" + sellPricePerUnit;
-        }
+        return supplierName + " - " + productName + " - Add To: " + addTo + " - Quantity:" + quantity + " - Rounds: " + rounds + " - Price per product: R" + sellPricePerUnit;
     }
 }

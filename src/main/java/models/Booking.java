@@ -150,5 +150,9 @@ public class Booking implements Serializable {
     public void setGsNumber(String gsNumber) {
         this.gsNumber = gsNumber;
     }
+
+    public void setProcess(String process) {
+        this.process = process;
+    }
 }
 

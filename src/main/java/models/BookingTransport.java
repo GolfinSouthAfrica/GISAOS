@@ -2,6 +2,7 @@ package models;
 
 public class BookingTransport extends Product {
 
+    private int ID;
     private String supplierName;
     private String province;
     private String productName;
@@ -15,7 +16,8 @@ public class BookingTransport extends Product {
     private int supplierBooked;
     private Double amountPaidSup;
 
-    public BookingTransport(String supplierName, String province, String productName, String date, int quantity, String from, String to, Double costPricePerUnit, Double sellPricePerUnit, String addTo, int supplierBooked, Double amountPaidSup) {
+    public BookingTransport(int ID, String supplierName, String province, String productName, String date, int quantity, String from, String to, Double costPricePerUnit, Double sellPricePerUnit, String addTo, int supplierBooked, Double amountPaidSup) {
+        this.ID = ID;
         this.supplierName = supplierName;
         this.province = province;
         this.productName = productName;
@@ -28,6 +30,10 @@ public class BookingTransport extends Product {
         this.addTo = addTo;
         this.supplierBooked = supplierBooked;
         this.amountPaidSup = amountPaidSup;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public String getSupplierName() {
@@ -76,6 +82,10 @@ public class BookingTransport extends Product {
 
     public Double getAmountPaidSup() {
         return amountPaidSup;
+    }
+
+    public void setSupplierBooked(int supplierBooked) {
+        this.supplierBooked = supplierBooked;
     }
 
     @Override

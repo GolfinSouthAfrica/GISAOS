@@ -22,11 +22,6 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
 
     private String username;
     private ObjectProperty<User> user = new SimpleObjectProperty<>();
-    private ObservableList<Supplier> suppliers = FXCollections.observableArrayList();
-    private ObservableList<Booking> bookings = FXCollections.observableArrayList();
-    private ObservableList<Login> logins = FXCollections.observableArrayList();
-    private ObservableList<DataFile> documents = FXCollections.observableArrayList();
-    private ObservableList<TripPackage> packages = FXCollections.observableArrayList();
     public ObservableList<Integer> unreadMails = FXCollections.observableArrayList();
     private volatile ObservableList<Object> outputQueue = FXCollections.observableArrayList();
     volatile BooleanProperty updateUser = new SimpleBooleanProperty(false);
@@ -39,6 +34,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
     volatile BooleanProperty updateGolf = new SimpleBooleanProperty(false);
     volatile BooleanProperty updateTransport = new SimpleBooleanProperty(false);
     volatile BooleanProperty updateActivities = new SimpleBooleanProperty(false);
+    volatile BooleanProperty updateTransactions = new SimpleBooleanProperty(false);
 
     public UserConnectionHandler(Socket socket, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream, String username, ObservableList<ConnectionHandler> connectionsList, DatabaseHandler dh) {
         super(socket, objectInputStream, objectOutputStream, connectionsList, dh);
@@ -82,6 +78,12 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                 updatePackages.set(false);
             }
         });
+        updateTransactions.addListener((obs, oldV, newV) -> {
+            if (newV) {
+                updateTransactions();
+                updateTransactions.set(false);
+            }
+        });
         updateAccommodation.addListener((obs, oldV, newV) -> {
             if (newV) {
                 updateAccommodation();
@@ -109,36 +111,6 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         user.addListener(e -> {
             outputQueue.add(0, user.get());
         });
-        suppliers.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(suppliers.toArray()));
-        });
-        bookings.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(bookings.toArray()));
-        });
-        logins.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(logins.toArray()));
-        });
-        documents.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(documents.toArray()));
-        });
-        packages.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(packages.toArray()));
-        });
-        unreadMails.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(unreadMails.toArray()));
-        });
-        Server.accommodation.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(Server.accommodation.toArray()));
-        });
-        Server.golf.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(Server.golf.toArray()));
-        });
-        Server.transport.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(Server.transport.toArray()));
-        });
-        Server.activities.addListener((InvalidationListener) e -> {
-            outputQueue.add(0, Arrays.asList(Server.activities.toArray()));
-        });
         unreadMails.addListener((InvalidationListener) e -> {
             outputQueue.add(0, Arrays.asList(unreadMails.toArray()));
         });
@@ -148,6 +120,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         updateLogins();
         updateDocuments();
         updatePackages();
+        updateTransactions();
         outputQueue.add(0, Arrays.asList(Server.accommodation.toArray()));
         outputQueue.add(0, Arrays.asList(Server.golf.toArray()));
         outputQueue.add(0, Arrays.asList(Server.transport.toArray()));
@@ -178,23 +151,27 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         } else if (text.startsWith("rb:")) {//RemoveBooking
                             dh.log("User " + username + "> Removed Booking: " + text.substring(3));
                             dh.removeBooking(Integer.parseInt(text.substring(3)));
-                            updateBookings.setValue(true);
+                            Server.updateBookings();
                         } else if (text.startsWith("rs:")) {//RemoveSupplier
                             dh.log("User " + username + "> Removed Supplier: " + text.substring(3));
                             dh.removeSupplier(Integer.parseInt(text.substring(3)));
-                            updateSuppliers.setValue(true);
+                            Server.updateSuppliers();
                         } else if (text.startsWith("rd:")) {//RemoveDocument
                             dh.log("User " + username + "> Removed Document: " + text.substring(3));
                             dh.deleteFile(Server.DOCUMENTS_FOLDER.getAbsolutePath(), text.substring(3).split(":")[0]);
-                            updateDocuments.setValue(true);
+                            Server.updateDocuments();
                         } else if (text.startsWith("rl:")) {//RemoveLogin
                             dh.log("User " + username + "> Removed Login: " + text.substring(3));
                             dh.removeLogin(Integer.parseInt(text.substring(3)));
-                            updateLogins.setValue(true);
+                            Server.updateLogins();
                         } else if (text.startsWith("rcd:")) {//RemoveContactDetails
                             dh.log("User " + username + "> Removed Contact Details: " + text.substring(3));
                             dh.removeContactDetails(Integer.parseInt(text.substring(4)));
-                            updateSuppliers.setValue(true);
+                            Server.updateSuppliers();
+                        }  else if (text.startsWith("rtr:")) {//RemoveTransaction
+                            dh.log("User " + username + "> Removed Transaction: " + text.substring(3));
+                            dh.removeTransaction(Integer.parseInt(text.substring(4)));
+                            Server.updateTransactions();
                         } else if(text.startsWith("snd:")){
                             if(text.substring(4).startsWith("Costing")){
                                 dh.log("User " + username + "> Send Costing for: GS" + text.substring(12));
@@ -239,13 +216,20 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                                 outputQueue.addAll(Server.readOtherMails);
                             }
                         }else if (text.startsWith("usba:")) {//UpdateSupplierBookedAccommodation TODO
-                            dh.updateSuppliersBookedAccommodation();
+                            dh.updateSuppliersBookedAccommodation(Integer.parseInt(text.substring(5).split(":")[0]), Integer.parseInt(text.substring(5).split(":")[1]));
+                            Server.updateBookings();
                         } else if (text.startsWith("usbg:")) {//UpdateSupplierBookedGolf
-                            dh.updateSuppliersBookedGolf();
+                            dh.updateSuppliersBookedGolf(Integer.parseInt(text.substring(5).split(":")[0]), Integer.parseInt(text.substring(5).split(":")[1]));
+                            Server.updateBookings();
                         } else if (text.startsWith("usbr:")) {//UpdateSupplierBookedTransport
-                            dh.updateSuppliersBookedTransport();
+                            dh.updateSuppliersBookedTransport(Integer.parseInt(text.substring(5).split(":")[0]), Integer.parseInt(text.substring(5).split(":")[1]));
+                            Server.updateBookings();
                         } else if (text.startsWith("usbt:")) {//UpdateSupplierBookedActivities
-                            dh.updateSuppliersBookedActivities();
+                            dh.updateSuppliersBookedActivities(Integer.parseInt(text.substring(5).split(":")[0]), Integer.parseInt(text.substring(5).split(":")[1]));
+                            Server.updateBookings();
+                        } else if (text.startsWith("bpn:")) {//UpdateSupplierBookedActivities
+                            dh.updateBookingProcess(text.substring(4).split(":")[0], text.substring(4).split(":")[1]);
+                            Server.updateBookings();
                         } else {
                             dh.log("User " + username + "> Requested Unknown Command: " + input);
                             System.out.println("Server> Unknown command: " + input);
@@ -258,14 +242,14 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.updateBooking((Booking)input);
                             outputQueue.add("nbqs:-1:" + getCostingFileLength(Integer.parseInt(((Booking)input).getGsNumber())));
                         }
-                        updateBookings.setValue(true);
+                        Server.updateBookings();
                     } else if (input instanceof Supplier) {//AddUpdateSuppliers
                         if (((Supplier) input).getSupplierNumber() == -1) {
                             dh.addSupplier((Supplier)input);
                         } else {
                             dh.updateSupplier((Supplier)input);
                         }
-                        updateSuppliers.set(true);
+                        Server.updateSuppliers();
                     } else if (input instanceof UploadFile){//UploadFile
                         try {
                             UploadFile uploadFile = (UploadFile) input;
@@ -273,7 +257,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             newFile.getParentFile().mkdirs();
                             Files.write(newFile.toPath(), uploadFile.getFileData());
                             if (uploadFile.getFileType().matches("Documents")) {
-                                updateDocuments.setValue(true);
+                                Server.updateDocuments();
                             } //other
                         } catch (Exception ex) {
                             ex.printStackTrace();
@@ -291,21 +275,28 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         } else {
                             dh.updateLogin((Login) input);
                         }
-                        updateLogins.setValue(true);
+                        Server.updateLogins();
                     } else if (input instanceof TripPackage) {//TODO
                         if (((TripPackage) input).getPackageID() == -1) {
                             dh.addPackage((TripPackage)input);
                         } else {
                             dh.updatePackage((TripPackage)input);
                         }
-                        updatePackages.set(true);
+                        Server.updatePackages();
                     } else if (input instanceof ContactDetails){//AddUpdateContactDetails
                         if (((ContactDetails) input).getContactDetailsID() > 1000000) {
                             dh.addContactDetails((ContactDetails) input);
                         } else {
                             dh.updateContactDetails((ContactDetails) input);
                         }
-                        updateSuppliers.setValue(true);
+                        Server.updateSuppliers();
+                    } else if (input instanceof Transaction){//AddUpdateTransaction
+                        if (((Transaction) input).getID() == -1) {
+                            dh.addTransaction((Transaction) input);
+                        } else {
+                            dh.updateTransaction((Transaction) input);
+                        }
+                        Server.updateTransactions();
                     }
                 }
             }
@@ -423,59 +414,43 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
     }
 
     private void updateSuppliers() {
-        suppliers.clear();
-        suppliers.addAll(dh.getSuppliers());
-        if(suppliers.isEmpty()){
-            suppliers.addAll(new Supplier(-10, "NoSuppliers", "NoSuppliers", "NoSuppliers", "NoSuppliers", "NoSuppliers", null));
-        }
+        outputQueue.add(Server.suppliers);
     }
 
     private void updateBookings() {
-        bookings.clear();
-        bookings.addAll(dh.getBookings());
-        if(bookings.isEmpty()){
-            bookings.addAll(new Booking("NoBookings", "NoBookings", "NoBookings", "NoBookings", 0, 0, 0, 0, "NoBookings", "NoBookings", "NoBookings", 0, "NoBookings", "NoBookings", 0, 0, "NoBookings", "NoBookings", "NoBookings", null, null, null, null));
-        }
+        outputQueue.add(Server.bookings);
     }
 
     private void updateLogins() {
-        logins.clear();
-        logins.addAll(dh.getLogins());
-        if(logins.isEmpty()){
-            logins.addAll(new Login(-10, "NoLogins", "NoLogins", "NoLogins"));
-        }
+        outputQueue.add(Server.logins);
     }
 
     private void updateDocuments() {
-        documents.clear();
-        documents.addAll(dh.getDocuments());
-        if(documents.isEmpty()){
-            documents.addAll(new DataFile("Documents", "NoDocuments", "NoDocuments", 0));
-        }
+        outputQueue.add(Server.documents);
     }
 
     private void updatePackages() {
-        packages.clear();
-        packages.addAll(dh.getPackages());
-        if(packages.isEmpty()){
-            packages.addAll(new TripPackage(-10, "NoPackages", 0, "NoPackages", 0, 0, 0, 0, "NoPackages", "NoPackages", null, null, null, null));
-        }
+        outputQueue.add(Server.packages);
     }
 
     private void updateAccommodation() {
-        outputQueue.addAll(Server.accommodation);
+        outputQueue.add(Server.accommodation);
     }
 
     private void updateGolf() {
-        outputQueue.addAll(Server.golf);
+        outputQueue.add(Server.golf);
     }
 
     private void updateTransport() {
-        outputQueue.addAll(Server.transport);
+        outputQueue.add(Server.transport);
     }
 
     private void updateActivities() {
-        outputQueue.addAll(Server.activities);
+        outputQueue.add(Server.activities);
+    }
+
+    private void updateTransactions() {
+        outputQueue.add(Server.transactions);
     }
 
     public String getUsername() {

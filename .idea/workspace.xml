@@ -6,11 +6,28 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb814cff-9819-417d-aa56-702cc3d20ffa" name="Default" comment="">
+    <list default="true" id="cb814cff-9819-417d-aa56-702cc3d20ffa" name="Default" comment="test">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/models/Transaction.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/main/DatabaseHandler.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/main/Server$ClientListener.class" afterPath="$PROJECT_DIR$/target/classes/main/Server$ClientListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/main/Server$LoginManager.class" afterPath="$PROJECT_DIR$/target/classes/main/Server$LoginManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/main/Server.class" afterPath="$PROJECT_DIR$/target/classes/main/Server.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/main/UserConnectionHandler$InputProcessor.class" afterPath="$PROJECT_DIR$/target/classes/main/UserConnectionHandler$InputProcessor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/main/UserConnectionHandler$OutputProcessor.class" afterPath="$PROJECT_DIR$/target/classes/main/UserConnectionHandler$OutputProcessor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/main/UserConnectionHandler.class" afterPath="$PROJECT_DIR$/target/classes/main/UserConnectionHandler.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/main/DatabaseHandler.java" afterPath="$PROJECT_DIR$/src/main/java/main/DatabaseHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/main/Server.java" afterPath="$PROJECT_DIR$/src/main/java/main/Server.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/main/UserConnectionHandler.java" afterPath="$PROJECT_DIR$/src/main/java/main/UserConnectionHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/models/Booking.java" afterPath="$PROJECT_DIR$/src/main/java/models/Booking.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/models/BookingAccommodation.java" afterPath="$PROJECT_DIR$/src/main/java/models/BookingAccommodation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/models/BookingActivity.java" afterPath="$PROJECT_DIR$/src/main/java/models/BookingActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/models/BookingGolf.java" afterPath="$PROJECT_DIR$/src/main/java/models/BookingGolf.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/models/BookingTransport.java" afterPath="$PROJECT_DIR$/src/main/java/models/BookingTransport.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/models/ProductAccommodation.java" afterPath="$PROJECT_DIR$/src/main/java/models/ProductAccommodation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/models/ProductActivity.java" afterPath="$PROJECT_DIR$/src/main/java/models/ProductActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/models/ProductGolf.java" afterPath="$PROJECT_DIR$/src/main/java/models/ProductGolf.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/models/ProductTransport.java" afterPath="$PROJECT_DIR$/src/main/java/models/ProductTransport.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -28,35 +45,100 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/main/Server.java">
+      <file leaf-file-name="DatabaseHandler.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/main/DatabaseHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1049">
-              <caret line="111" column="30" lean-forward="false" selection-start-line="111" selection-start-column="30" selection-end-line="111" selection-end-column="30" />
+            <state relative-caret-position="314">
+              <caret line="579" column="146" lean-forward="true" selection-start-line="579" selection-start-column="146" selection-end-line="579" selection-end-column="146" />
               <folding>
-                <marker date="1531939018492" expanded="false" signature="16303:16311" ph="&lt;~&gt;" />
-                <marker date="1531939018492" expanded="false" signature="19597:19605" ph="&lt;~&gt;" />
+                <element signature="imports" expanded="true" />
+                <marker date="1532299517044" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
+                <marker date="1532299517044" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
+                <marker date="1532299517044" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
+                <marker date="1532299517044" expanded="true" signature="3175:3832" ph="CREATE TABLE... BOOKINGSGOLF" />
+                <marker date="1532299517044" expanded="true" signature="3867:4489" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
+                <marker date="1532299517044" expanded="true" signature="4524:5232" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
+                <marker date="1532299517044" expanded="true" signature="5267:5595" ph="CREATE TABLE... SUPPLIERS" />
+                <marker date="1532299517044" expanded="true" signature="5630:6017" ph="CREATE TABLE... CONTACTDETAILS" />
+                <marker date="1532299517044" expanded="true" signature="6052:6625" ph="CREATE TABLE... PACKAGES" />
+                <marker date="1532299517044" expanded="true" signature="6660:7325" ph="CREATE TABLE... PACKAGESINCLUDE" />
+                <marker date="1532299517044" expanded="true" signature="7378:7602" ph="CREATE TABLE... LOGINS" />
+                <marker date="1532299517044" expanded="true" signature="7637:8011" ph="CREATE TABLE... TRANSACTIONS" />
+                <marker date="1532299517044" expanded="true" signature="8499:8553" ph="SELECT * FRO... USER" />
+                <marker date="1532299517044" expanded="true" signature="9083:9120" ph="SELECT * FRO... USER" />
+                <marker date="1532299517044" expanded="true" signature="9827:9871" ph="SELECT Passw... USER" />
+                <marker date="1532299517044" expanded="true" signature="10632:10655" ph="SELECT * FRO... SUPPLIERS" />
+                <marker date="1532299517044" expanded="true" signature="11508:11561" ph="SELECT * FRO... CONTACTDETAILS" />
+                <marker date="1532299517044" expanded="true" signature="12439:12461" ph="SELECT * FRO... BOOKINGS" />
+                <marker date="1532299517044" expanded="true" signature="13821:13875" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
+                <marker date="1532299517044" expanded="true" signature="14946:14991" ph="SELECT * FRO... BOOKINGSGOLF" />
+                <marker date="1532299517044" expanded="true" signature="16078:16129" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
+                <marker date="1532299517044" expanded="true" signature="17143:17193" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
+                <marker date="1532299517044" expanded="true" signature="29679:29699" ph="SELECT * FRO... LOGINS" />
+                <marker date="1532299517044" expanded="true" signature="30378:30404" ph="SELECT * FRO... TRANSACTIONS" />
+                <marker date="1532299517044" expanded="true" signature="31324:31346" ph="SELECT * FRO... PACKAGES" />
+                <marker date="1532299517044" expanded="true" signature="32448:32514" ph="SELECT * FRO... PACKAGESINCLUDE" />
+                <marker date="1532299517044" expanded="true" signature="33594:33660" ph="SELECT * FRO... PACKAGESINCLUDE" />
+                <marker date="1532299517044" expanded="true" signature="34651:34717" ph="SELECT * FRO... PACKAGESINCLUDE" />
+                <marker date="1532299517044" expanded="true" signature="35739:35805" ph="SELECT * FRO... PACKAGESINCLUDE" />
+                <marker date="1532299517044" expanded="true" signature="38353:38400" ph="UPDATE USER " />
+                <marker date="1532299517044" expanded="true" signature="39033:39084" ph="SELECT Passw... USER" />
+                <marker date="1532299517044" expanded="true" signature="40026:40314" ph="INSERT INTO BOOKINGS... " />
+                <marker date="1532299517044" expanded="true" signature="41597:41626" ph="SELECT MAX(G... BOOKINGS" />
+                <marker date="1532299517044" expanded="true" signature="41597:41971" ph="SELECT GSNum... BOOKINGS" />
+                <marker date="1532299517044" expanded="true" signature="43450:43649" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+                <marker date="1532299517044" expanded="true" signature="44585:44763" ph="INSERT INTO BOOKINGSGOLF... " />
+                <marker date="1532299517044" expanded="true" signature="45642:45816" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+                <marker date="1532299517044" expanded="true" signature="46633:46806" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+                <marker date="1532299517044" expanded="true" signature="57120:57301" ph="INSERT INTO PACKAGES... " />
+                <marker date="1532299517044" expanded="true" signature="58071:58093" ph="SELECT MAX(G... BOOKINGS" />
+                <marker date="1532299517044" expanded="true" signature="58071:58101" ph="SELECT MAX(G... PACKAGES" />
+                <marker date="1532299517044" expanded="true" signature="58071:58299" ph="SELECT Packa... PACKAGES" />
+                <marker date="1532299517044" expanded="true" signature="59272:59339" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="59272:59478" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="60444:60484" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="60444:60650" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="61604:61644" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="61604:61810" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="62755:62961" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="63983:64080" ph="INSERT INTO SUPPLIERS... " />
+                <marker date="1532299517044" expanded="true" signature="64869:64994" ph="INSERT INTO CONTACTDETAILS... " />
+                <marker date="1532299517044" expanded="true" signature="65842:65907" ph="INSERT INTO Logins... " />
+                <marker date="1532299517044" expanded="true" signature="66537:66653" ph="INSERT INTO Transactions... " />
+                <marker date="1532299517044" expanded="true" signature="67670:68000" ph="UPDATE BOOKI... " />
+                <marker date="1532299517044" expanded="true" signature="69381:69433" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="69682:69880" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+                <marker date="1532299517044" expanded="true" signature="70746:70789" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="71020:71198" ph="INSERT INTO BOOKINGSGOLF... " />
+                <marker date="1532299517044" expanded="true" signature="71997:72046" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="72287:72461" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+                <marker date="1532299517044" expanded="true" signature="73198:73246" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="73487:73660" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+                <marker date="1532299517044" expanded="true" signature="74761:74969" ph="UPDATE PACKA... " />
+                <marker date="1532299517044" expanded="true" signature="75742:75790" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="76046:76086" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="76046:76252" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="77235:77441" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="78412:78618" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="79580:79786" ph="INSERT INTO PACKAGESINCLUDE... " />
+                <marker date="1532299517044" expanded="true" signature="81014:81134" ph="UPDATE SUPPL... " />
+                <marker date="1532299517044" expanded="true" signature="82007:82124" ph="UPDATE CONTA... " />
+                <marker date="1532299517044" expanded="true" signature="82888:82965" ph="UPDATE BOOKI... " />
+                <marker date="1532299517044" expanded="true" signature="83669:83809" ph="UPDATE TRANS... " />
+                <marker date="1532299517044" expanded="true" signature="84775:84825" ph="UPDATE BOOKI... " />
+                <marker date="1532299517044" expanded="true" signature="85386:85452" ph="UPDATE SUPPL... " />
+                <marker date="1532299517044" expanded="true" signature="86000:86057" ph="UPDATE SUPPL... " />
+                <marker date="1532299517044" expanded="true" signature="86601:86663" ph="UPDATE SUPPL... " />
+                <marker date="1532299517044" expanded="true" signature="87213:87276" ph="UPDATE SUPPL... " />
+                <marker date="1532299517044" expanded="true" signature="87876:87915" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="88072:88124" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="88281:88324" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="88481:88530" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="89384:89430" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="90008:90061" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="90574:90610" ph="DELETE FROM " />
+                <marker date="1532299517044" expanded="true" signature="91098:91146" ph="DELETE FROM " />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Email.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/main/Email.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="113" column="88" lean-forward="false" selection-start-line="113" selection-start-column="88" selection-end-line="113" selection-end-column="88" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BookingAccommodation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingAccommodation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -64,8 +146,8 @@
       <file leaf-file-name="UserConnectionHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/main/UserConnectionHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="428" column="45" lean-forward="false" selection-start-line="428" selection-start-column="45" selection-end-line="428" selection-end-column="45" />
+            <state relative-caret-position="187">
+              <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -74,135 +156,174 @@
       <file leaf-file-name="ProductAccommodation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductAccommodation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TripPackage.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/models/TripPackage.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="733">
-              <caret line="124" column="0" lean-forward="false" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
-              <folding>
-                <element signature="e#3403#3404#0" expanded="true" />
-                <element signature="e#3463#3464#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DatabaseHandler.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/main/DatabaseHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="611" column="207" lean-forward="false" selection-start-line="611" selection-start-column="207" selection-end-line="611" selection-end-column="207" />
+            <state relative-caret-position="529">
+              <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#606#607#0" expanded="true" />
-                <element signature="e#633#634#0" expanded="true" />
-                <marker date="1531948544830" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
-                <marker date="1531948544830" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
-                <marker date="1531948544830" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
-                <marker date="1531948544830" expanded="true" signature="3175:3876" ph="CREATE TABLE... BOOKINGSGOLF" />
-                <marker date="1531948544830" expanded="true" signature="3911:4533" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
-                <marker date="1531948544830" expanded="true" signature="4568:5276" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
-                <marker date="1531948544830" expanded="true" signature="5311:5639" ph="CREATE TABLE... SUPPLIERS" />
-                <marker date="1531948544830" expanded="true" signature="5674:6061" ph="CREATE TABLE... CONTACTDETAILS" />
-                <marker date="1531948544830" expanded="true" signature="6096:6669" ph="CREATE TABLE... PACKAGES" />
-                <marker date="1531948544830" expanded="true" signature="6704:7369" ph="CREATE TABLE... PACKAGESINCLUDE" />
-                <marker date="1531948544830" expanded="true" signature="7422:7646" ph="CREATE TABLE... LOGINS" />
-                <marker date="1531948544830" expanded="true" signature="8134:8188" ph="SELECT * FRO... USER" />
-                <marker date="1531948544830" expanded="true" signature="8718:8755" ph="SELECT * FRO... USER" />
-                <marker date="1531948544830" expanded="true" signature="9462:9506" ph="SELECT Passw... USER" />
-                <marker date="1531948544830" expanded="true" signature="10267:10290" ph="SELECT * FRO... SUPPLIERS" />
-                <marker date="1531948544830" expanded="true" signature="11143:11196" ph="SELECT * FRO... CONTACTDETAILS" />
-                <marker date="1531948544830" expanded="true" signature="12074:12096" ph="SELECT * FRO... BOOKINGS" />
-                <marker date="1531948544830" expanded="true" signature="13456:13510" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
-                <marker date="1531948544830" expanded="true" signature="14562:14607" ph="SELECT * FRO... BOOKINGSGOLF" />
-                <marker date="1531948544830" expanded="true" signature="15695:15746" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
-                <marker date="1531948544830" expanded="true" signature="16741:16791" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
-                <marker date="1531948544830" expanded="true" signature="28852:28872" ph="SELECT * FRO... LOGINS" />
-                <marker date="1531948544830" expanded="true" signature="29669:29691" ph="SELECT * FRO... PACKAGES" />
-                <marker date="1531948544830" expanded="true" signature="30793:30859" ph="SELECT * FRO... PACKAGESINCLUDE" />
-                <marker date="1531948544830" expanded="true" signature="32074:32140" ph="SELECT * FRO... PACKAGESINCLUDE" />
-                <marker date="1531948544830" expanded="true" signature="33148:33214" ph="SELECT * FRO... PACKAGESINCLUDE" />
-                <marker date="1531948544830" expanded="true" signature="34233:34299" ph="SELECT * FRO... PACKAGESINCLUDE" />
-                <marker date="1531948544830" expanded="true" signature="36844:36891" ph="UPDATE USER " />
-                <marker date="1531948544830" expanded="true" signature="37524:37575" ph="SELECT Passw... USER" />
-                <marker date="1531948544830" expanded="true" signature="38517:38805" ph="INSERT INTO BOOKINGS... " />
-                <marker date="1531948544830" expanded="true" signature="40088:40117" ph="SELECT MAX(G... BOOKINGS" />
-                <marker date="1531948544830" expanded="true" signature="40088:40462" ph="SELECT GSNum... BOOKINGS" />
-                <marker date="1531948544830" expanded="true" signature="41941:42140" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-                <marker date="1531948544830" expanded="true" signature="43076:43254" ph="INSERT INTO BOOKINGSGOLF... " />
-                <marker date="1531948544830" expanded="true" signature="44133:44307" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-                <marker date="1531948544830" expanded="true" signature="45124:45297" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-                <marker date="1531948544830" expanded="true" signature="55611:55792" ph="INSERT INTO PACKAGES... " />
-                <marker date="1531948544830" expanded="true" signature="56562:56584" ph="SELECT MAX(G... BOOKINGS" />
-                <marker date="1531948544830" expanded="true" signature="56562:56592" ph="SELECT MAX(G... PACKAGES" />
-                <marker date="1531948544830" expanded="true" signature="56562:56790" ph="SELECT Packa... PACKAGES" />
-                <marker date="1531948544830" expanded="true" signature="57763:57830" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="57763:57969" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="58935:58975" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="58935:59141" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="60095:60135" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="60095:60301" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="61246:61452" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="62474:62571" ph="INSERT INTO SUPPLIERS... " />
-                <marker date="1531948544830" expanded="true" signature="63360:63485" ph="INSERT INTO CONTACTDETAILS... " />
-                <marker date="1531948544830" expanded="true" signature="64333:64398" ph="INSERT INTO Logins... " />
-                <marker date="1531948544830" expanded="true" signature="65152:65482" ph="UPDATE BOOKI... " />
-                <marker date="1531948544830" expanded="true" signature="66857:66909" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="67158:67356" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-                <marker date="1531948544830" expanded="true" signature="68222:68265" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="68496:68674" ph="INSERT INTO BOOKINGSGOLF... " />
-                <marker date="1531948544830" expanded="true" signature="69473:69522" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="69763:69937" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-                <marker date="1531948544830" expanded="true" signature="70674:70722" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="70963:71136" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-                <marker date="1531948544830" expanded="true" signature="72237:72445" ph="UPDATE PACKA... " />
-                <marker date="1531948544830" expanded="true" signature="73212:73260" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="73516:73556" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="73516:73722" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="74705:74911" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="75882:76088" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="77050:77256" ph="INSERT INTO PACKAGESINCLUDE... " />
-                <marker date="1531948544830" expanded="true" signature="78484:78604" ph="UPDATE SUPPL... " />
-                <marker date="1531948544830" expanded="true" signature="79471:79588" ph="UPDATE CONTA... " />
-                <marker date="1531948544830" expanded="true" signature="80346:80423" ph="UPDATE BOOKI... " />
-                <marker date="1531948544830" expanded="true" signature="81114:81197" ph="UPDATE SUPPL... " />
-                <marker date="1531948544830" expanded="true" signature="81763:81837" ph="UPDATE SUPPL... " />
-                <marker date="1531948544830" expanded="true" signature="82408:82487" ph="UPDATE SUPPL... " />
-                <marker date="1531948544830" expanded="true" signature="83059:83139" ph="UPDATE SUPPL... " />
-                <marker date="1531948544830" expanded="true" signature="83779:83818" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="83975:84027" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="84184:84227" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="84384:84433" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="85287:85333" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="85911:85964" ph="DELETE FROM " />
-                <marker date="1531948544830" expanded="true" signature="86477:86513" ph="DELETE FROM " />
+                <element signature="e#923#924#0" expanded="true" />
+                <element signature="e#958#959#0" expanded="true" />
+                <element signature="e#993#994#0" expanded="true" />
+                <element signature="e#1024#1025#0" expanded="true" />
+                <element signature="e#1059#1060#0" expanded="true" />
+                <element signature="e#1090#1091#0" expanded="true" />
+                <element signature="e#1128#1129#0" expanded="true" />
+                <element signature="e#1162#1163#0" expanded="true" />
+                <element signature="e#1192#1193#0" expanded="true" />
+                <element signature="e#1221#1222#0" expanded="true" />
+                <element signature="e#1258#1259#0" expanded="true" />
+                <element signature="e#1291#1292#0" expanded="true" />
+                <element signature="e#1332#1333#0" expanded="true" />
+                <element signature="e#1361#1362#0" expanded="true" />
+                <element signature="e#2050#2051#0" expanded="true" />
+                <element signature="e#2098#2099#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MANIFEST.MF" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF">
+      <file leaf-file-name="ProductActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+            <state relative-caret-position="529">
+              <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#848#849#0" expanded="true" />
+                <element signature="e#883#884#0" expanded="true" />
+                <element signature="e#918#919#0" expanded="true" />
+                <element signature="e#949#950#0" expanded="true" />
+                <element signature="e#984#985#0" expanded="true" />
+                <element signature="e#1015#1016#0" expanded="true" />
+                <element signature="e#1053#1054#0" expanded="true" />
+                <element signature="e#1087#1088#0" expanded="true" />
+                <element signature="e#1124#1125#0" expanded="true" />
+                <element signature="e#1157#1158#0" expanded="true" />
+                <element signature="e#1198#1199#0" expanded="true" />
+                <element signature="e#1227#1228#0" expanded="true" />
+                <element signature="e#1916#1917#0" expanded="true" />
+                <element signature="e#1964#1965#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProductGolf.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductGolf.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="529">
+              <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#840#841#0" expanded="true" />
+                <element signature="e#875#876#0" expanded="true" />
+                <element signature="e#910#911#0" expanded="true" />
+                <element signature="e#941#942#0" expanded="true" />
+                <element signature="e#976#977#0" expanded="true" />
+                <element signature="e#1007#1008#0" expanded="true" />
+                <element signature="e#1045#1046#0" expanded="true" />
+                <element signature="e#1079#1080#0" expanded="true" />
+                <element signature="e#1116#1117#0" expanded="true" />
+                <element signature="e#1149#1150#0" expanded="true" />
+                <element signature="e#1190#1191#0" expanded="true" />
+                <element signature="e#1219#1220#0" expanded="true" />
+                <element signature="e#1908#1909#0" expanded="true" />
+                <element signature="e#1956#1957#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Product.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/models/Product.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Booking.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/models/Booking.java">
+      <file leaf-file-name="ProductTransport.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductTransport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="26" column="34" lean-forward="false" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
+            <state relative-caret-position="529">
+              <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#850#851#0" expanded="true" />
+                <element signature="e#885#886#0" expanded="true" />
+                <element signature="e#920#921#0" expanded="true" />
+                <element signature="e#951#952#0" expanded="true" />
+                <element signature="e#986#987#0" expanded="true" />
+                <element signature="e#1017#1018#0" expanded="true" />
+                <element signature="e#1055#1056#0" expanded="true" />
+                <element signature="e#1089#1090#0" expanded="true" />
+                <element signature="e#1126#1127#0" expanded="true" />
+                <element signature="e#1159#1160#0" expanded="true" />
+                <element signature="e#1200#1201#0" expanded="true" />
+                <element signature="e#1229#1230#0" expanded="true" />
+                <element signature="e#1918#1919#0" expanded="true" />
+                <element signature="e#1966#1967#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookingTransport.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingTransport.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="317">
+              <caret line="82" column="34" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+              <folding>
+                <element signature="e#2002#2003#0" expanded="true" />
+                <element signature="e#2038#2039#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookingGolf.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingGolf.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="447">
+              <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
+              <folding>
+                <element signature="e#1169#1170#0" expanded="true" />
+                <element signature="e#1194#1195#0" expanded="true" />
+                <element signature="e#1233#1234#0" expanded="true" />
+                <element signature="e#1268#1269#0" expanded="true" />
+                <element signature="e#1303#1304#0" expanded="true" />
+                <element signature="e#1334#1335#0" expanded="true" />
+                <element signature="e#1372#1373#0" expanded="true" />
+                <element signature="e#1406#1407#0" expanded="true" />
+                <element signature="e#1444#1445#0" expanded="true" />
+                <element signature="e#1472#1473#0" expanded="true" />
+                <element signature="e#1504#1505#0" expanded="true" />
+                <element signature="e#1535#1536#0" expanded="true" />
+                <element signature="e#1565#1566#0" expanded="true" />
+                <element signature="e#1594#1595#0" expanded="true" />
+                <element signature="e#1637#1638#0" expanded="true" />
+                <element signature="e#1676#1677#0" expanded="true" />
+                <element signature="e#1719#1720#0" expanded="true" />
+                <element signature="e#1758#1759#0" expanded="true" />
+                <element signature="e#1790#1791#0" expanded="true" />
+                <element signature="e#1818#1819#0" expanded="true" />
+                <element signature="e#1856#1857#0" expanded="true" />
+                <element signature="e#1893#1894#0" expanded="true" />
+                <element signature="e#1933#1934#0" expanded="true" />
+                <element signature="e#1969#1970#0" expanded="true" />
+                <element signature="e#2026#2027#0" expanded="true" />
+                <element signature="e#2078#2079#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConnectionHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/main/ConnectionHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="274">
+              <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -219,13 +340,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>xls</find>
-      <find>BookingAou</find>
-      <find>Rem</find>
-      <find>DELETE FROM BOOKING</find>
-      <find>G:/</find>
-      <find>BOOKINGACCOMMODATION</find>
-      <find>getDoc</find>
       <find>remove</find>
       <find>inputP</find>
       <find>getProduc</find>
@@ -249,6 +363,13 @@
       <find>avavavavavavavavavavavava</find>
       <find>user</find>
       <find>nnk nkjnnamcn dnd d    ldmnmelewcjlwe</find>
+      <find>Comparator</find>
+      <find>getSup</find>
+      <find>getBooki</find>
+      <find>addBok</find>
+      <find>getLog</find>
+      <find>Transaction</find>
+      <find>update</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -273,22 +394,23 @@
         <option value="$PROJECT_DIR$/src/main/java/models/Accommodation.java" />
         <option value="$PROJECT_DIR$/src/main/java/models/ContactDetails.java" />
         <option value="$PROJECT_DIR$/src/main/java/models/ProductAccomodation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/ProductActivity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/ProductGolf.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/ProductTransport.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/models/Booking.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/BookingAccommodation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/BookingActivity.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/BookingGolf.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/BookingTransport.java" />
         <option value="$PROJECT_DIR$/src/main/java/models/Supplier.java" />
         <option value="$PROJECT_DIR$/src/main/java/main/Email.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/ProductAccommodation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/main/UserConnectionHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/models/TripPackage.java" />
         <option value="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
+        <option value="$PROJECT_DIR$/src/main/java/models/Booking.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/BookingAccommodation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/BookingTransport.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/BookingActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/Transaction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/main/UserConnectionHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/main/Server.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/BookingGolf.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/ProductTransport.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/ProductGolf.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/ProductActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/ProductAccommodation.java" />
         <option value="$PROJECT_DIR$/src/main/java/main/DatabaseHandler.java" />
       </list>
     </option>
@@ -322,25 +444,13 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="GISAOfficeServer" type="b2602c69:ProjectViewProjectNode" />
               <item name="GISAOfficeServer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GISAOfficeServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GISAOfficeServer" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GISAOfficeServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GISAOfficeServer" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GISAOfficeServer" type="b2602c69:ProjectViewProjectNode" />
@@ -395,15 +505,16 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MediaPlayer" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DynamicConAdminApp" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -413,6 +524,7 @@
       <recent name="models" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Code\1Projects\GISAOfficeServer\src\main\resources" />
       <recent name="D:\Code\1Projects\GISAOfficeServer\src\main\java\models" />
       <recent name="D:\Code\1Projects\GISAOfficeServer\src\main\java" />
     </key>
@@ -571,7 +683,8 @@
       <workItem from="1530610046345" duration="13258000" />
       <workItem from="1530802713393" duration="1363000" />
       <workItem from="1530805473128" duration="8847000" />
-      <workItem from="1531257304884" duration="94825000" />
+      <workItem from="1531257304884" duration="97894000" />
+      <workItem from="1532172816101" duration="22702000" />
     </task>
     <task id="LOCAL-00001" summary="Updated 27/06/18 80%">
       <created>1530133972670</created>
@@ -608,11 +721,18 @@
       <option name="project" value="LOCAL" />
       <updated>1531937054347</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="test">
+      <created>1531948659537</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1531948659537</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="210293000" />
+    <option name="totallyTimeSpent" value="236064000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -639,12 +759,12 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33586955" sideWeight="0.49573562" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.49573562" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19349681" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.195629" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -656,7 +776,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -678,13 +798,163 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingAccommodation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/UserConnectionHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6936">
+          <caret line="428" column="45" lean-forward="false" selection-start-line="428" selection-start-column="45" selection-end-line="428" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductAccommodation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/TripPackage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1547">
+          <caret line="124" column="0" lean-forward="false" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
+          <folding>
+            <element signature="e#3403#3404#0" expanded="false" />
+            <element signature="e#3463#3464#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/Booking.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="26" column="34" lean-forward="false" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/DatabaseHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9945">
+          <caret line="607" column="60" lean-forward="false" selection-start-line="607" selection-start-column="60" selection-end-line="607" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1532299517044" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
+            <marker date="1532299517044" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="3175:3832" ph="CREATE TABLE... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="3867:4489" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="4524:5232" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="5267:5595" ph="CREATE TABLE... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="5630:6017" ph="CREATE TABLE... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="6052:6625" ph="CREATE TABLE... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="6660:7325" ph="CREATE TABLE... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="7378:7602" ph="CREATE TABLE... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="7637:8011" ph="CREATE TABLE... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="8499:8553" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9083:9120" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9827:9871" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="10632:10655" ph="SELECT * FRO... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="11508:11561" ph="SELECT * FRO... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="12439:12461" ph="SELECT * FRO... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="13821:13875" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="14946:14991" ph="SELECT * FRO... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="16078:16129" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="17143:17193" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="29679:29699" ph="SELECT * FRO... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="30378:30404" ph="SELECT * FRO... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="31324:31346" ph="SELECT * FRO... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="32448:32514" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="33594:33660" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="34651:34717" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="35739:35805" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="38353:38400" ph="UPDATE USER " />
+            <marker date="1532299517044" expanded="true" signature="39033:39084" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="40026:40314" ph="INSERT INTO BOOKINGS... " />
+            <marker date="1532299517044" expanded="true" signature="41597:41626" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="41597:41971" ph="SELECT GSNum... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="43450:43649" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="44585:44763" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="45642:45816" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="46633:46806" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="57120:57301" ph="INSERT INTO PACKAGES... " />
+            <marker date="1532299517044" expanded="true" signature="58071:58093" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="58071:58101" ph="SELECT MAX(G... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="58071:58299" ph="SELECT Packa... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="59272:59339" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="59272:59478" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60484" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60650" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61644" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61810" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="62755:62961" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="63983:64080" ph="INSERT INTO SUPPLIERS... " />
+            <marker date="1532299517044" expanded="true" signature="64869:64994" ph="INSERT INTO CONTACTDETAILS... " />
+            <marker date="1532299517044" expanded="true" signature="65842:65907" ph="INSERT INTO Logins... " />
+            <marker date="1532299517044" expanded="true" signature="66537:66653" ph="INSERT INTO Transactions... " />
+            <marker date="1532299517044" expanded="true" signature="67670:68000" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="69381:69433" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="69682:69880" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="70746:70789" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="71020:71198" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="71997:72046" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="72287:72461" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="73198:73246" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="73487:73660" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="74761:74969" ph="UPDATE PACKA... " />
+            <marker date="1532299517044" expanded="true" signature="75742:75790" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="76046:76086" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="76046:76252" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="77235:77441" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="78412:78618" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="79580:79786" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="81014:81134" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="82007:82124" ph="UPDATE CONTA... " />
+            <marker date="1532299517044" expanded="true" signature="82888:82965" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="83669:83809" ph="UPDATE TRANS... " />
+            <marker date="1532299517044" expanded="true" signature="84775:84825" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="85386:85452" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86000:86057" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86601:86663" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87213:87276" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87876:87915" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88072:88124" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88281:88324" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88481:88530" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="89384:89430" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90008:90061" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90574:90610" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="91098:91146" ph="DELETE FROM " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main/Server.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4420">
           <caret line="283" column="121" lean-forward="false" selection-start-line="283" selection-start-column="121" selection-end-line="283" selection-end-column="121" />
           <folding>
-            <marker date="1531939018492" expanded="false" signature="16303:16311" ph="&lt;~&gt;" />
-            <marker date="1531939018492" expanded="false" signature="19597:19605" ph="&lt;~&gt;" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3563#3564#0" expanded="true" />
+            <element signature="e#3609#3610#0" expanded="true" />
+            <marker date="1532295421768" expanded="false" signature="21715:21723" ph="&lt;~&gt;" />
+            <marker date="1532295421768" expanded="false" signature="25009:25017" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -711,88 +981,92 @@
           <caret line="69" column="33" lean-forward="false" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#606#607#0" expanded="true" />
-            <element signature="e#633#634#0" expanded="true" />
-            <marker date="1531948544830" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
-            <marker date="1531948544830" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
-            <marker date="1531948544830" expanded="true" signature="3175:3876" ph="CREATE TABLE... BOOKINGSGOLF" />
-            <marker date="1531948544830" expanded="true" signature="3911:4533" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
-            <marker date="1531948544830" expanded="true" signature="4568:5276" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
-            <marker date="1531948544830" expanded="true" signature="5311:5639" ph="CREATE TABLE... SUPPLIERS" />
-            <marker date="1531948544830" expanded="true" signature="5674:6061" ph="CREATE TABLE... CONTACTDETAILS" />
-            <marker date="1531948544830" expanded="true" signature="6096:6669" ph="CREATE TABLE... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="6704:7369" ph="CREATE TABLE... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="7422:7646" ph="CREATE TABLE... LOGINS" />
-            <marker date="1531948544830" expanded="true" signature="8134:8188" ph="SELECT * FRO... USER" />
-            <marker date="1531948544830" expanded="true" signature="8718:8755" ph="SELECT * FRO... USER" />
-            <marker date="1531948544830" expanded="true" signature="9462:9506" ph="SELECT Passw... USER" />
-            <marker date="1531948544830" expanded="true" signature="10267:10290" ph="SELECT * FRO... SUPPLIERS" />
-            <marker date="1531948544830" expanded="true" signature="11143:11196" ph="SELECT * FRO... CONTACTDETAILS" />
-            <marker date="1531948544830" expanded="true" signature="12074:12096" ph="SELECT * FRO... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="13456:13510" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
-            <marker date="1531948544830" expanded="true" signature="14562:14607" ph="SELECT * FRO... BOOKINGSGOLF" />
-            <marker date="1531948544830" expanded="true" signature="15695:15746" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
-            <marker date="1531948544830" expanded="true" signature="16741:16791" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
-            <marker date="1531948544830" expanded="true" signature="28852:28872" ph="SELECT * FRO... LOGINS" />
-            <marker date="1531948544830" expanded="true" signature="29669:29691" ph="SELECT * FRO... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="30793:30859" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="32074:32140" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="33148:33214" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="34233:34299" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="36844:36891" ph="UPDATE USER " />
-            <marker date="1531948544830" expanded="true" signature="37524:37575" ph="SELECT Passw... USER" />
-            <marker date="1531948544830" expanded="true" signature="38517:38805" ph="INSERT INTO BOOKINGS... " />
-            <marker date="1531948544830" expanded="true" signature="40088:40117" ph="SELECT MAX(G... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="40088:40462" ph="SELECT GSNum... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="41941:42140" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-            <marker date="1531948544830" expanded="true" signature="43076:43254" ph="INSERT INTO BOOKINGSGOLF... " />
-            <marker date="1531948544830" expanded="true" signature="44133:44307" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-            <marker date="1531948544830" expanded="true" signature="45124:45297" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-            <marker date="1531948544830" expanded="true" signature="55611:55792" ph="INSERT INTO PACKAGES... " />
-            <marker date="1531948544830" expanded="true" signature="56562:56584" ph="SELECT MAX(G... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="56562:56592" ph="SELECT MAX(G... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="56562:56790" ph="SELECT Packa... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="57763:57830" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="57763:57969" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="58935:58975" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="58935:59141" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="60095:60135" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="60095:60301" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="61246:61452" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="62474:62571" ph="INSERT INTO SUPPLIERS... " />
-            <marker date="1531948544830" expanded="true" signature="63360:63485" ph="INSERT INTO CONTACTDETAILS... " />
-            <marker date="1531948544830" expanded="true" signature="64333:64398" ph="INSERT INTO Logins... " />
-            <marker date="1531948544830" expanded="true" signature="65152:65482" ph="UPDATE BOOKI... " />
-            <marker date="1531948544830" expanded="true" signature="66857:66909" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="67158:67356" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-            <marker date="1531948544830" expanded="true" signature="68222:68265" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="68496:68674" ph="INSERT INTO BOOKINGSGOLF... " />
-            <marker date="1531948544830" expanded="true" signature="69473:69522" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="69763:69937" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-            <marker date="1531948544830" expanded="true" signature="70674:70722" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="70963:71136" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-            <marker date="1531948544830" expanded="true" signature="72237:72445" ph="UPDATE PACKA... " />
-            <marker date="1531948544830" expanded="true" signature="73212:73260" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="73516:73556" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="73516:73722" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="74705:74911" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="75882:76088" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="77050:77256" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="78484:78604" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="79471:79588" ph="UPDATE CONTA... " />
-            <marker date="1531948544830" expanded="true" signature="80346:80423" ph="UPDATE BOOKI... " />
-            <marker date="1531948544830" expanded="true" signature="81114:81197" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="81763:81837" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="82408:82487" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="83059:83139" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="83779:83818" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="83975:84027" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="84184:84227" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="84384:84433" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="85287:85333" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="85911:85964" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="86477:86513" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
+            <marker date="1532299517044" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="3175:3832" ph="CREATE TABLE... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="3867:4489" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="4524:5232" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="5267:5595" ph="CREATE TABLE... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="5630:6017" ph="CREATE TABLE... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="6052:6625" ph="CREATE TABLE... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="6660:7325" ph="CREATE TABLE... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="7378:7602" ph="CREATE TABLE... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="7637:8011" ph="CREATE TABLE... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="8499:8553" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9083:9120" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9827:9871" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="10632:10655" ph="SELECT * FRO... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="11508:11561" ph="SELECT * FRO... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="12439:12461" ph="SELECT * FRO... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="13821:13875" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="14946:14991" ph="SELECT * FRO... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="16078:16129" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="17143:17193" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="29679:29699" ph="SELECT * FRO... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="30378:30404" ph="SELECT * FRO... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="31324:31346" ph="SELECT * FRO... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="32448:32514" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="33594:33660" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="34651:34717" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="35739:35805" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="38353:38400" ph="UPDATE USER " />
+            <marker date="1532299517044" expanded="true" signature="39033:39084" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="40026:40314" ph="INSERT INTO BOOKINGS... " />
+            <marker date="1532299517044" expanded="true" signature="41597:41626" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="41597:41971" ph="SELECT GSNum... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="43450:43649" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="44585:44763" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="45642:45816" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="46633:46806" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="57120:57301" ph="INSERT INTO PACKAGES... " />
+            <marker date="1532299517044" expanded="true" signature="58071:58093" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="58071:58101" ph="SELECT MAX(G... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="58071:58299" ph="SELECT Packa... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="59272:59339" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="59272:59478" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60484" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60650" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61644" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61810" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="62755:62961" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="63983:64080" ph="INSERT INTO SUPPLIERS... " />
+            <marker date="1532299517044" expanded="true" signature="64869:64994" ph="INSERT INTO CONTACTDETAILS... " />
+            <marker date="1532299517044" expanded="true" signature="65842:65907" ph="INSERT INTO Logins... " />
+            <marker date="1532299517044" expanded="true" signature="66537:66653" ph="INSERT INTO Transactions... " />
+            <marker date="1532299517044" expanded="true" signature="67670:68000" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="69381:69433" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="69682:69880" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="70746:70789" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="71020:71198" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="71997:72046" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="72287:72461" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="73198:73246" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="73487:73660" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="74761:74969" ph="UPDATE PACKA... " />
+            <marker date="1532299517044" expanded="true" signature="75742:75790" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="76046:76086" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="76046:76252" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="77235:77441" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="78412:78618" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="79580:79786" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="81014:81134" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="82007:82124" ph="UPDATE CONTA... " />
+            <marker date="1532299517044" expanded="true" signature="82888:82965" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="83669:83809" ph="UPDATE TRANS... " />
+            <marker date="1532299517044" expanded="true" signature="84775:84825" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="85386:85452" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86000:86057" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86601:86663" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87213:87276" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87876:87915" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88072:88124" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88281:88324" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88481:88530" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="89384:89430" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90008:90061" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90574:90610" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="91098:91146" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -802,8 +1076,11 @@
         <state relative-caret-position="1088">
           <caret line="84" column="38" lean-forward="false" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
           <folding>
-            <marker date="1531939018492" expanded="false" signature="16303:16311" ph="&lt;~&gt;" />
-            <marker date="1531939018492" expanded="false" signature="19597:19605" ph="&lt;~&gt;" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3563#3564#0" expanded="true" />
+            <element signature="e#3609#3610#0" expanded="true" />
+            <marker date="1532295421768" expanded="false" signature="21715:21723" ph="&lt;~&gt;" />
+            <marker date="1532295421768" expanded="false" signature="25009:25017" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -821,8 +1098,11 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1531939018492" expanded="false" signature="16303:16311" ph="&lt;~&gt;" />
-            <marker date="1531939018492" expanded="false" signature="19597:19605" ph="&lt;~&gt;" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3563#3564#0" expanded="true" />
+            <element signature="e#3609#3610#0" expanded="true" />
+            <marker date="1532295421768" expanded="false" signature="21715:21723" ph="&lt;~&gt;" />
+            <marker date="1532295421768" expanded="false" signature="25009:25017" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -833,88 +1113,92 @@
           <caret line="1209" column="52" lean-forward="false" selection-start-line="1209" selection-start-column="52" selection-end-line="1209" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#606#607#0" expanded="true" />
-            <element signature="e#633#634#0" expanded="true" />
-            <marker date="1531948544830" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
-            <marker date="1531948544830" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
-            <marker date="1531948544830" expanded="true" signature="3175:3876" ph="CREATE TABLE... BOOKINGSGOLF" />
-            <marker date="1531948544830" expanded="true" signature="3911:4533" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
-            <marker date="1531948544830" expanded="true" signature="4568:5276" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
-            <marker date="1531948544830" expanded="true" signature="5311:5639" ph="CREATE TABLE... SUPPLIERS" />
-            <marker date="1531948544830" expanded="true" signature="5674:6061" ph="CREATE TABLE... CONTACTDETAILS" />
-            <marker date="1531948544830" expanded="true" signature="6096:6669" ph="CREATE TABLE... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="6704:7369" ph="CREATE TABLE... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="7422:7646" ph="CREATE TABLE... LOGINS" />
-            <marker date="1531948544830" expanded="true" signature="8134:8188" ph="SELECT * FRO... USER" />
-            <marker date="1531948544830" expanded="true" signature="8718:8755" ph="SELECT * FRO... USER" />
-            <marker date="1531948544830" expanded="true" signature="9462:9506" ph="SELECT Passw... USER" />
-            <marker date="1531948544830" expanded="true" signature="10267:10290" ph="SELECT * FRO... SUPPLIERS" />
-            <marker date="1531948544830" expanded="true" signature="11143:11196" ph="SELECT * FRO... CONTACTDETAILS" />
-            <marker date="1531948544830" expanded="true" signature="12074:12096" ph="SELECT * FRO... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="13456:13510" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
-            <marker date="1531948544830" expanded="true" signature="14562:14607" ph="SELECT * FRO... BOOKINGSGOLF" />
-            <marker date="1531948544830" expanded="true" signature="15695:15746" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
-            <marker date="1531948544830" expanded="true" signature="16741:16791" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
-            <marker date="1531948544830" expanded="true" signature="28852:28872" ph="SELECT * FRO... LOGINS" />
-            <marker date="1531948544830" expanded="true" signature="29669:29691" ph="SELECT * FRO... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="30793:30859" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="32074:32140" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="33148:33214" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="34233:34299" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="36844:36891" ph="UPDATE USER " />
-            <marker date="1531948544830" expanded="true" signature="37524:37575" ph="SELECT Passw... USER" />
-            <marker date="1531948544830" expanded="true" signature="38517:38805" ph="INSERT INTO BOOKINGS... " />
-            <marker date="1531948544830" expanded="true" signature="40088:40117" ph="SELECT MAX(G... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="40088:40462" ph="SELECT GSNum... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="41941:42140" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-            <marker date="1531948544830" expanded="true" signature="43076:43254" ph="INSERT INTO BOOKINGSGOLF... " />
-            <marker date="1531948544830" expanded="true" signature="44133:44307" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-            <marker date="1531948544830" expanded="true" signature="45124:45297" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-            <marker date="1531948544830" expanded="true" signature="55611:55792" ph="INSERT INTO PACKAGES... " />
-            <marker date="1531948544830" expanded="true" signature="56562:56584" ph="SELECT MAX(G... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="56562:56592" ph="SELECT MAX(G... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="56562:56790" ph="SELECT Packa... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="57763:57830" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="57763:57969" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="58935:58975" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="58935:59141" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="60095:60135" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="60095:60301" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="61246:61452" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="62474:62571" ph="INSERT INTO SUPPLIERS... " />
-            <marker date="1531948544830" expanded="true" signature="63360:63485" ph="INSERT INTO CONTACTDETAILS... " />
-            <marker date="1531948544830" expanded="true" signature="64333:64398" ph="INSERT INTO Logins... " />
-            <marker date="1531948544830" expanded="true" signature="65152:65482" ph="UPDATE BOOKI... " />
-            <marker date="1531948544830" expanded="true" signature="66857:66909" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="67158:67356" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-            <marker date="1531948544830" expanded="true" signature="68222:68265" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="68496:68674" ph="INSERT INTO BOOKINGSGOLF... " />
-            <marker date="1531948544830" expanded="true" signature="69473:69522" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="69763:69937" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-            <marker date="1531948544830" expanded="true" signature="70674:70722" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="70963:71136" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-            <marker date="1531948544830" expanded="true" signature="72237:72445" ph="UPDATE PACKA... " />
-            <marker date="1531948544830" expanded="true" signature="73212:73260" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="73516:73556" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="73516:73722" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="74705:74911" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="75882:76088" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="77050:77256" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="78484:78604" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="79471:79588" ph="UPDATE CONTA... " />
-            <marker date="1531948544830" expanded="true" signature="80346:80423" ph="UPDATE BOOKI... " />
-            <marker date="1531948544830" expanded="true" signature="81114:81197" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="81763:81837" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="82408:82487" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="83059:83139" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="83779:83818" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="83975:84027" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="84184:84227" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="84384:84433" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="85287:85333" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="85911:85964" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="86477:86513" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
+            <marker date="1532299517044" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="3175:3832" ph="CREATE TABLE... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="3867:4489" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="4524:5232" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="5267:5595" ph="CREATE TABLE... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="5630:6017" ph="CREATE TABLE... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="6052:6625" ph="CREATE TABLE... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="6660:7325" ph="CREATE TABLE... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="7378:7602" ph="CREATE TABLE... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="7637:8011" ph="CREATE TABLE... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="8499:8553" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9083:9120" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9827:9871" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="10632:10655" ph="SELECT * FRO... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="11508:11561" ph="SELECT * FRO... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="12439:12461" ph="SELECT * FRO... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="13821:13875" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="14946:14991" ph="SELECT * FRO... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="16078:16129" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="17143:17193" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="29679:29699" ph="SELECT * FRO... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="30378:30404" ph="SELECT * FRO... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="31324:31346" ph="SELECT * FRO... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="32448:32514" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="33594:33660" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="34651:34717" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="35739:35805" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="38353:38400" ph="UPDATE USER " />
+            <marker date="1532299517044" expanded="true" signature="39033:39084" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="40026:40314" ph="INSERT INTO BOOKINGS... " />
+            <marker date="1532299517044" expanded="true" signature="41597:41626" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="41597:41971" ph="SELECT GSNum... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="43450:43649" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="44585:44763" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="45642:45816" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="46633:46806" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="57120:57301" ph="INSERT INTO PACKAGES... " />
+            <marker date="1532299517044" expanded="true" signature="58071:58093" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="58071:58101" ph="SELECT MAX(G... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="58071:58299" ph="SELECT Packa... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="59272:59339" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="59272:59478" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60484" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60650" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61644" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61810" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="62755:62961" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="63983:64080" ph="INSERT INTO SUPPLIERS... " />
+            <marker date="1532299517044" expanded="true" signature="64869:64994" ph="INSERT INTO CONTACTDETAILS... " />
+            <marker date="1532299517044" expanded="true" signature="65842:65907" ph="INSERT INTO Logins... " />
+            <marker date="1532299517044" expanded="true" signature="66537:66653" ph="INSERT INTO Transactions... " />
+            <marker date="1532299517044" expanded="true" signature="67670:68000" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="69381:69433" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="69682:69880" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="70746:70789" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="71020:71198" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="71997:72046" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="72287:72461" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="73198:73246" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="73487:73660" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="74761:74969" ph="UPDATE PACKA... " />
+            <marker date="1532299517044" expanded="true" signature="75742:75790" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="76046:76086" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="76046:76252" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="77235:77441" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="78412:78618" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="79580:79786" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="81014:81134" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="82007:82124" ph="UPDATE CONTA... " />
+            <marker date="1532299517044" expanded="true" signature="82888:82965" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="83669:83809" ph="UPDATE TRANS... " />
+            <marker date="1532299517044" expanded="true" signature="84775:84825" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="85386:85452" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86000:86057" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86601:86663" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87213:87276" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87876:87915" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88072:88124" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88281:88324" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88481:88530" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="89384:89430" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90008:90061" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90574:90610" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="91098:91146" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -924,8 +1208,11 @@
         <state relative-caret-position="5559">
           <caret line="327" column="0" lean-forward="false" selection-start-line="327" selection-start-column="0" selection-end-line="327" selection-end-column="0" />
           <folding>
-            <marker date="1531939018492" expanded="false" signature="16303:16311" ph="&lt;~&gt;" />
-            <marker date="1531939018492" expanded="false" signature="19597:19605" ph="&lt;~&gt;" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3563#3564#0" expanded="true" />
+            <element signature="e#3609#3610#0" expanded="true" />
+            <marker date="1532295421768" expanded="false" signature="21715:21723" ph="&lt;~&gt;" />
+            <marker date="1532295421768" expanded="false" signature="25009:25017" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -951,8 +1238,11 @@
         <state relative-caret-position="4012">
           <caret line="260" column="0" lean-forward="false" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
           <folding>
-            <marker date="1531939018492" expanded="false" signature="16303:16311" ph="&lt;~&gt;" />
-            <marker date="1531939018492" expanded="false" signature="19597:19605" ph="&lt;~&gt;" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3563#3564#0" expanded="true" />
+            <element signature="e#3609#3610#0" expanded="true" />
+            <marker date="1532295421768" expanded="false" signature="21715:21723" ph="&lt;~&gt;" />
+            <marker date="1532295421768" expanded="false" signature="25009:25017" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -971,88 +1261,92 @@
           <caret line="921" column="9" lean-forward="false" selection-start-line="921" selection-start-column="9" selection-end-line="921" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#606#607#0" expanded="true" />
-            <element signature="e#633#634#0" expanded="true" />
-            <marker date="1531948544830" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
-            <marker date="1531948544830" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
-            <marker date="1531948544830" expanded="true" signature="3175:3876" ph="CREATE TABLE... BOOKINGSGOLF" />
-            <marker date="1531948544830" expanded="true" signature="3911:4533" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
-            <marker date="1531948544830" expanded="true" signature="4568:5276" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
-            <marker date="1531948544830" expanded="true" signature="5311:5639" ph="CREATE TABLE... SUPPLIERS" />
-            <marker date="1531948544830" expanded="true" signature="5674:6061" ph="CREATE TABLE... CONTACTDETAILS" />
-            <marker date="1531948544830" expanded="true" signature="6096:6669" ph="CREATE TABLE... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="6704:7369" ph="CREATE TABLE... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="7422:7646" ph="CREATE TABLE... LOGINS" />
-            <marker date="1531948544830" expanded="true" signature="8134:8188" ph="SELECT * FRO... USER" />
-            <marker date="1531948544830" expanded="true" signature="8718:8755" ph="SELECT * FRO... USER" />
-            <marker date="1531948544830" expanded="true" signature="9462:9506" ph="SELECT Passw... USER" />
-            <marker date="1531948544830" expanded="true" signature="10267:10290" ph="SELECT * FRO... SUPPLIERS" />
-            <marker date="1531948544830" expanded="true" signature="11143:11196" ph="SELECT * FRO... CONTACTDETAILS" />
-            <marker date="1531948544830" expanded="true" signature="12074:12096" ph="SELECT * FRO... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="13456:13510" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
-            <marker date="1531948544830" expanded="true" signature="14562:14607" ph="SELECT * FRO... BOOKINGSGOLF" />
-            <marker date="1531948544830" expanded="true" signature="15695:15746" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
-            <marker date="1531948544830" expanded="true" signature="16741:16791" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
-            <marker date="1531948544830" expanded="true" signature="28852:28872" ph="SELECT * FRO... LOGINS" />
-            <marker date="1531948544830" expanded="true" signature="29669:29691" ph="SELECT * FRO... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="30793:30859" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="32074:32140" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="33148:33214" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="34233:34299" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="36844:36891" ph="UPDATE USER " />
-            <marker date="1531948544830" expanded="true" signature="37524:37575" ph="SELECT Passw... USER" />
-            <marker date="1531948544830" expanded="true" signature="38517:38805" ph="INSERT INTO BOOKINGS... " />
-            <marker date="1531948544830" expanded="true" signature="40088:40117" ph="SELECT MAX(G... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="40088:40462" ph="SELECT GSNum... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="41941:42140" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-            <marker date="1531948544830" expanded="true" signature="43076:43254" ph="INSERT INTO BOOKINGSGOLF... " />
-            <marker date="1531948544830" expanded="true" signature="44133:44307" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-            <marker date="1531948544830" expanded="true" signature="45124:45297" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-            <marker date="1531948544830" expanded="true" signature="55611:55792" ph="INSERT INTO PACKAGES... " />
-            <marker date="1531948544830" expanded="true" signature="56562:56584" ph="SELECT MAX(G... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="56562:56592" ph="SELECT MAX(G... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="56562:56790" ph="SELECT Packa... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="57763:57830" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="57763:57969" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="58935:58975" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="58935:59141" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="60095:60135" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="60095:60301" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="61246:61452" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="62474:62571" ph="INSERT INTO SUPPLIERS... " />
-            <marker date="1531948544830" expanded="true" signature="63360:63485" ph="INSERT INTO CONTACTDETAILS... " />
-            <marker date="1531948544830" expanded="true" signature="64333:64398" ph="INSERT INTO Logins... " />
-            <marker date="1531948544830" expanded="true" signature="65152:65482" ph="UPDATE BOOKI... " />
-            <marker date="1531948544830" expanded="true" signature="66857:66909" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="67158:67356" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-            <marker date="1531948544830" expanded="true" signature="68222:68265" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="68496:68674" ph="INSERT INTO BOOKINGSGOLF... " />
-            <marker date="1531948544830" expanded="true" signature="69473:69522" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="69763:69937" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-            <marker date="1531948544830" expanded="true" signature="70674:70722" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="70963:71136" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-            <marker date="1531948544830" expanded="true" signature="72237:72445" ph="UPDATE PACKA... " />
-            <marker date="1531948544830" expanded="true" signature="73212:73260" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="73516:73556" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="73516:73722" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="74705:74911" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="75882:76088" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="77050:77256" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="78484:78604" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="79471:79588" ph="UPDATE CONTA... " />
-            <marker date="1531948544830" expanded="true" signature="80346:80423" ph="UPDATE BOOKI... " />
-            <marker date="1531948544830" expanded="true" signature="81114:81197" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="81763:81837" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="82408:82487" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="83059:83139" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="83779:83818" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="83975:84027" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="84184:84227" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="84384:84433" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="85287:85333" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="85911:85964" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="86477:86513" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
+            <marker date="1532299517044" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="3175:3832" ph="CREATE TABLE... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="3867:4489" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="4524:5232" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="5267:5595" ph="CREATE TABLE... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="5630:6017" ph="CREATE TABLE... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="6052:6625" ph="CREATE TABLE... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="6660:7325" ph="CREATE TABLE... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="7378:7602" ph="CREATE TABLE... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="7637:8011" ph="CREATE TABLE... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="8499:8553" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9083:9120" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9827:9871" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="10632:10655" ph="SELECT * FRO... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="11508:11561" ph="SELECT * FRO... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="12439:12461" ph="SELECT * FRO... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="13821:13875" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="14946:14991" ph="SELECT * FRO... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="16078:16129" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="17143:17193" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="29679:29699" ph="SELECT * FRO... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="30378:30404" ph="SELECT * FRO... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="31324:31346" ph="SELECT * FRO... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="32448:32514" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="33594:33660" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="34651:34717" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="35739:35805" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="38353:38400" ph="UPDATE USER " />
+            <marker date="1532299517044" expanded="true" signature="39033:39084" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="40026:40314" ph="INSERT INTO BOOKINGS... " />
+            <marker date="1532299517044" expanded="true" signature="41597:41626" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="41597:41971" ph="SELECT GSNum... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="43450:43649" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="44585:44763" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="45642:45816" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="46633:46806" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="57120:57301" ph="INSERT INTO PACKAGES... " />
+            <marker date="1532299517044" expanded="true" signature="58071:58093" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="58071:58101" ph="SELECT MAX(G... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="58071:58299" ph="SELECT Packa... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="59272:59339" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="59272:59478" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60484" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60650" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61644" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61810" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="62755:62961" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="63983:64080" ph="INSERT INTO SUPPLIERS... " />
+            <marker date="1532299517044" expanded="true" signature="64869:64994" ph="INSERT INTO CONTACTDETAILS... " />
+            <marker date="1532299517044" expanded="true" signature="65842:65907" ph="INSERT INTO Logins... " />
+            <marker date="1532299517044" expanded="true" signature="66537:66653" ph="INSERT INTO Transactions... " />
+            <marker date="1532299517044" expanded="true" signature="67670:68000" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="69381:69433" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="69682:69880" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="70746:70789" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="71020:71198" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="71997:72046" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="72287:72461" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="73198:73246" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="73487:73660" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="74761:74969" ph="UPDATE PACKA... " />
+            <marker date="1532299517044" expanded="true" signature="75742:75790" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="76046:76086" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="76046:76252" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="77235:77441" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="78412:78618" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="79580:79786" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="81014:81134" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="82007:82124" ph="UPDATE CONTA... " />
+            <marker date="1532299517044" expanded="true" signature="82888:82965" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="83669:83809" ph="UPDATE TRANS... " />
+            <marker date="1532299517044" expanded="true" signature="84775:84825" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="85386:85452" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86000:86057" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86601:86663" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87213:87276" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87876:87915" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88072:88124" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88281:88324" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88481:88530" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="89384:89430" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90008:90061" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90574:90610" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="91098:91146" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -1072,26 +1366,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main/ConnectionHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/models/Package.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/models/Mail.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="923">
           <caret line="55" column="0" lean-forward="true" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/Product.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1112,14 +1391,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductTransport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="12" column="11" lean-forward="false" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="634">
@@ -1128,27 +1399,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductGolf.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/models/FilePart.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="11" lean-forward="false" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1156,157 +1410,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="9" column="19" lean-forward="false" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingTransport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding>
-            <element signature="e#1156#1157#0" expanded="true" />
-            <element signature="e#1191#1192#0" expanded="true" />
-            <element signature="e#1226#1227#0" expanded="true" />
-            <element signature="e#1257#1258#0" expanded="true" />
-            <element signature="e#1295#1296#0" expanded="true" />
-            <element signature="e#1329#1330#0" expanded="true" />
-            <element signature="e#1360#1361#0" expanded="true" />
-            <element signature="e#1387#1388#0" expanded="true" />
-            <element signature="e#1419#1420#0" expanded="true" />
-            <element signature="e#1450#1451#0" expanded="true" />
-            <element signature="e#1481#1482#0" expanded="true" />
-            <element signature="e#1508#1509#0" expanded="true" />
-            <element signature="e#1537#1538#0" expanded="true" />
-            <element signature="e#1562#1563#0" expanded="true" />
-            <element signature="e#1605#1606#0" expanded="true" />
-            <element signature="e#1644#1645#0" expanded="true" />
-            <element signature="e#1687#1688#0" expanded="true" />
-            <element signature="e#1726#1727#0" expanded="true" />
-            <element signature="e#1758#1759#0" expanded="true" />
-            <element signature="e#1786#1787#0" expanded="true" />
-            <element signature="e#1824#1825#0" expanded="true" />
-            <element signature="e#1861#1862#0" expanded="true" />
-            <element signature="e#1901#1902#0" expanded="true" />
-            <element signature="e#1937#1938#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingGolf.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-          <folding>
-            <element signature="e#1194#1195#0" expanded="true" />
-            <element signature="e#1229#1230#0" expanded="true" />
-            <element signature="e#1264#1265#0" expanded="true" />
-            <element signature="e#1295#1296#0" expanded="true" />
-            <element signature="e#1333#1334#0" expanded="true" />
-            <element signature="e#1367#1368#0" expanded="true" />
-            <element signature="e#1405#1406#0" expanded="true" />
-            <element signature="e#1433#1434#0" expanded="true" />
-            <element signature="e#1465#1466#0" expanded="true" />
-            <element signature="e#1496#1497#0" expanded="true" />
-            <element signature="e#1526#1527#0" expanded="true" />
-            <element signature="e#1555#1556#0" expanded="true" />
-            <element signature="e#1584#1585#0" expanded="true" />
-            <element signature="e#1612#1613#0" expanded="true" />
-            <element signature="e#1655#1656#0" expanded="true" />
-            <element signature="e#1694#1695#0" expanded="true" />
-            <element signature="e#1737#1738#0" expanded="true" />
-            <element signature="e#1776#1777#0" expanded="true" />
-            <element signature="e#1808#1809#0" expanded="true" />
-            <element signature="e#1836#1837#0" expanded="true" />
-            <element signature="e#1874#1875#0" expanded="true" />
-            <element signature="e#1911#1912#0" expanded="true" />
-            <element signature="e#1951#1952#0" expanded="true" />
-            <element signature="e#1987#1988#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding>
-            <element signature="e#1034#1035#0" expanded="true" />
-            <element signature="e#1069#1070#0" expanded="true" />
-            <element signature="e#1104#1105#0" expanded="true" />
-            <element signature="e#1135#1136#0" expanded="true" />
-            <element signature="e#1173#1174#0" expanded="true" />
-            <element signature="e#1207#1208#0" expanded="true" />
-            <element signature="e#1238#1239#0" expanded="true" />
-            <element signature="e#1265#1266#0" expanded="true" />
-            <element signature="e#1297#1298#0" expanded="true" />
-            <element signature="e#1328#1329#0" expanded="true" />
-            <element signature="e#1371#1372#0" expanded="true" />
-            <element signature="e#1410#1411#0" expanded="true" />
-            <element signature="e#1453#1454#0" expanded="true" />
-            <element signature="e#1492#1493#0" expanded="true" />
-            <element signature="e#1524#1525#0" expanded="true" />
-            <element signature="e#1552#1553#0" expanded="true" />
-            <element signature="e#1590#1591#0" expanded="true" />
-            <element signature="e#1627#1628#0" expanded="true" />
-            <element signature="e#1667#1668#0" expanded="true" />
-            <element signature="e#1703#1704#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/Supplier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding>
-            <element signature="e#1365#1366#0" expanded="true" />
-            <element signature="e#1403#1404#0" expanded="true" />
-            <element signature="e#1460#1461#0" expanded="true" />
-            <element signature="e#1512#1513#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/Booking.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="26" column="34" lean-forward="false" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main/Email.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="113" column="88" lean-forward="false" selection-start-line="113" selection-start-column="88" selection-end-line="113" selection-end-column="88" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductAccommodation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingAccommodation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/models/TripPackage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="733">
+        <state relative-caret-position="1547">
           <caret line="124" column="0" lean-forward="false" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
           <folding>
-            <element signature="e#3403#3404#0" expanded="true" />
-            <element signature="e#3463#3464#0" expanded="true" />
+            <element signature="e#3403#3404#0" expanded="false" />
+            <element signature="e#3463#3464#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1323,26 +1436,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1049">
-          <caret line="111" column="30" lean-forward="false" selection-start-line="111" selection-start-column="30" selection-end-line="111" selection-end-column="30" />
-          <folding>
-            <marker date="1531939018492" expanded="false" signature="16303:16311" ph="&lt;~&gt;" />
-            <marker date="1531939018492" expanded="false" signature="19597:19605" ph="&lt;~&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main/UserConnectionHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="428" column="45" lean-forward="false" selection-start-line="428" selection-start-column="45" selection-end-line="428" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1350,98 +1443,351 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="169">
           <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/Booking.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="158" column="0" lean-forward="true" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/Supplier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/Email.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="113" column="88" lean-forward="false" selection-start-line="113" selection-start-column="88" selection-end-line="113" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="227" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding>
+            <element signature="e#1071#1072#0" expanded="true" />
+            <element signature="e#1096#1097#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/Transaction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="52" column="0" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+          <folding>
+            <element signature="e#725#726#0" expanded="true" />
+            <element signature="e#750#751#0" expanded="true" />
+            <element signature="e#792#793#0" expanded="true" />
+            <element signature="e#830#831#0" expanded="true" />
+            <element signature="e#865#866#0" expanded="true" />
+            <element signature="e#896#897#0" expanded="true" />
+            <element signature="e#928#929#0" expanded="true" />
+            <element signature="e#956#957#0" expanded="true" />
+            <element signature="e#992#993#0" expanded="true" />
+            <element signature="e#1024#1025#0" expanded="true" />
+            <element signature="e#1057#1058#0" expanded="true" />
+            <element signature="e#1086#1087#0" expanded="true" />
+            <element signature="e#1128#1129#0" expanded="true" />
+            <element signature="e#1166#1167#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="339" column="135" lean-forward="false" selection-start-line="339" selection-start-column="135" selection-end-line="339" selection-end-column="135" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3563#3564#0" expanded="true" />
+            <element signature="e#3609#3610#0" expanded="true" />
+            <marker date="1532295421768" expanded="false" signature="21715:21723" ph="&lt;~&gt;" />
+            <marker date="1532295421768" expanded="false" signature="25009:25017" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingAccommodation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-148">
+          <caret line="34" column="24" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+          <folding>
+            <element signature="e#1264#1265#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingGolf.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
+          <folding>
+            <element signature="e#1169#1170#0" expanded="true" />
+            <element signature="e#1194#1195#0" expanded="true" />
+            <element signature="e#1233#1234#0" expanded="true" />
+            <element signature="e#1268#1269#0" expanded="true" />
+            <element signature="e#1303#1304#0" expanded="true" />
+            <element signature="e#1334#1335#0" expanded="true" />
+            <element signature="e#1372#1373#0" expanded="true" />
+            <element signature="e#1406#1407#0" expanded="true" />
+            <element signature="e#1444#1445#0" expanded="true" />
+            <element signature="e#1472#1473#0" expanded="true" />
+            <element signature="e#1504#1505#0" expanded="true" />
+            <element signature="e#1535#1536#0" expanded="true" />
+            <element signature="e#1565#1566#0" expanded="true" />
+            <element signature="e#1594#1595#0" expanded="true" />
+            <element signature="e#1637#1638#0" expanded="true" />
+            <element signature="e#1676#1677#0" expanded="true" />
+            <element signature="e#1719#1720#0" expanded="true" />
+            <element signature="e#1758#1759#0" expanded="true" />
+            <element signature="e#1790#1791#0" expanded="true" />
+            <element signature="e#1818#1819#0" expanded="true" />
+            <element signature="e#1856#1857#0" expanded="true" />
+            <element signature="e#1893#1894#0" expanded="true" />
+            <element signature="e#1933#1934#0" expanded="true" />
+            <element signature="e#1969#1970#0" expanded="true" />
+            <element signature="e#2026#2027#0" expanded="true" />
+            <element signature="e#2078#2079#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/BookingTransport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="82" column="34" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+          <folding>
+            <element signature="e#2002#2003#0" expanded="true" />
+            <element signature="e#2038#2039#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/ConnectionHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/UserConnectionHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="137" column="0" lean-forward="false" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/Product.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductTransport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#850#851#0" expanded="true" />
+            <element signature="e#885#886#0" expanded="true" />
+            <element signature="e#920#921#0" expanded="true" />
+            <element signature="e#951#952#0" expanded="true" />
+            <element signature="e#986#987#0" expanded="true" />
+            <element signature="e#1017#1018#0" expanded="true" />
+            <element signature="e#1055#1056#0" expanded="true" />
+            <element signature="e#1089#1090#0" expanded="true" />
+            <element signature="e#1126#1127#0" expanded="true" />
+            <element signature="e#1159#1160#0" expanded="true" />
+            <element signature="e#1200#1201#0" expanded="true" />
+            <element signature="e#1229#1230#0" expanded="true" />
+            <element signature="e#1918#1919#0" expanded="true" />
+            <element signature="e#1966#1967#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductGolf.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#840#841#0" expanded="true" />
+            <element signature="e#875#876#0" expanded="true" />
+            <element signature="e#910#911#0" expanded="true" />
+            <element signature="e#941#942#0" expanded="true" />
+            <element signature="e#976#977#0" expanded="true" />
+            <element signature="e#1007#1008#0" expanded="true" />
+            <element signature="e#1045#1046#0" expanded="true" />
+            <element signature="e#1079#1080#0" expanded="true" />
+            <element signature="e#1116#1117#0" expanded="true" />
+            <element signature="e#1149#1150#0" expanded="true" />
+            <element signature="e#1190#1191#0" expanded="true" />
+            <element signature="e#1219#1220#0" expanded="true" />
+            <element signature="e#1908#1909#0" expanded="true" />
+            <element signature="e#1956#1957#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#848#849#0" expanded="true" />
+            <element signature="e#883#884#0" expanded="true" />
+            <element signature="e#918#919#0" expanded="true" />
+            <element signature="e#949#950#0" expanded="true" />
+            <element signature="e#984#985#0" expanded="true" />
+            <element signature="e#1015#1016#0" expanded="true" />
+            <element signature="e#1053#1054#0" expanded="true" />
+            <element signature="e#1087#1088#0" expanded="true" />
+            <element signature="e#1124#1125#0" expanded="true" />
+            <element signature="e#1157#1158#0" expanded="true" />
+            <element signature="e#1198#1199#0" expanded="true" />
+            <element signature="e#1227#1228#0" expanded="true" />
+            <element signature="e#1916#1917#0" expanded="true" />
+            <element signature="e#1964#1965#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/ProductAccommodation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="91" column="0" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#923#924#0" expanded="true" />
+            <element signature="e#958#959#0" expanded="true" />
+            <element signature="e#993#994#0" expanded="true" />
+            <element signature="e#1024#1025#0" expanded="true" />
+            <element signature="e#1059#1060#0" expanded="true" />
+            <element signature="e#1090#1091#0" expanded="true" />
+            <element signature="e#1128#1129#0" expanded="true" />
+            <element signature="e#1162#1163#0" expanded="true" />
+            <element signature="e#1192#1193#0" expanded="true" />
+            <element signature="e#1221#1222#0" expanded="true" />
+            <element signature="e#1258#1259#0" expanded="true" />
+            <element signature="e#1291#1292#0" expanded="true" />
+            <element signature="e#1332#1333#0" expanded="true" />
+            <element signature="e#1361#1362#0" expanded="true" />
+            <element signature="e#2050#2051#0" expanded="true" />
+            <element signature="e#2098#2099#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main/DatabaseHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="611" column="207" lean-forward="false" selection-start-line="611" selection-start-column="207" selection-end-line="611" selection-end-column="207" />
+        <state relative-caret-position="314">
+          <caret line="579" column="146" lean-forward="true" selection-start-line="579" selection-start-column="146" selection-end-line="579" selection-end-column="146" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#606#607#0" expanded="true" />
-            <element signature="e#633#634#0" expanded="true" />
-            <marker date="1531948544830" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
-            <marker date="1531948544830" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
-            <marker date="1531948544830" expanded="true" signature="3175:3876" ph="CREATE TABLE... BOOKINGSGOLF" />
-            <marker date="1531948544830" expanded="true" signature="3911:4533" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
-            <marker date="1531948544830" expanded="true" signature="4568:5276" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
-            <marker date="1531948544830" expanded="true" signature="5311:5639" ph="CREATE TABLE... SUPPLIERS" />
-            <marker date="1531948544830" expanded="true" signature="5674:6061" ph="CREATE TABLE... CONTACTDETAILS" />
-            <marker date="1531948544830" expanded="true" signature="6096:6669" ph="CREATE TABLE... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="6704:7369" ph="CREATE TABLE... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="7422:7646" ph="CREATE TABLE... LOGINS" />
-            <marker date="1531948544830" expanded="true" signature="8134:8188" ph="SELECT * FRO... USER" />
-            <marker date="1531948544830" expanded="true" signature="8718:8755" ph="SELECT * FRO... USER" />
-            <marker date="1531948544830" expanded="true" signature="9462:9506" ph="SELECT Passw... USER" />
-            <marker date="1531948544830" expanded="true" signature="10267:10290" ph="SELECT * FRO... SUPPLIERS" />
-            <marker date="1531948544830" expanded="true" signature="11143:11196" ph="SELECT * FRO... CONTACTDETAILS" />
-            <marker date="1531948544830" expanded="true" signature="12074:12096" ph="SELECT * FRO... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="13456:13510" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
-            <marker date="1531948544830" expanded="true" signature="14562:14607" ph="SELECT * FRO... BOOKINGSGOLF" />
-            <marker date="1531948544830" expanded="true" signature="15695:15746" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
-            <marker date="1531948544830" expanded="true" signature="16741:16791" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
-            <marker date="1531948544830" expanded="true" signature="28852:28872" ph="SELECT * FRO... LOGINS" />
-            <marker date="1531948544830" expanded="true" signature="29669:29691" ph="SELECT * FRO... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="30793:30859" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="32074:32140" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="33148:33214" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="34233:34299" ph="SELECT * FRO... PACKAGESINCLUDE" />
-            <marker date="1531948544830" expanded="true" signature="36844:36891" ph="UPDATE USER " />
-            <marker date="1531948544830" expanded="true" signature="37524:37575" ph="SELECT Passw... USER" />
-            <marker date="1531948544830" expanded="true" signature="38517:38805" ph="INSERT INTO BOOKINGS... " />
-            <marker date="1531948544830" expanded="true" signature="40088:40117" ph="SELECT MAX(G... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="40088:40462" ph="SELECT GSNum... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="41941:42140" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-            <marker date="1531948544830" expanded="true" signature="43076:43254" ph="INSERT INTO BOOKINGSGOLF... " />
-            <marker date="1531948544830" expanded="true" signature="44133:44307" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-            <marker date="1531948544830" expanded="true" signature="45124:45297" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-            <marker date="1531948544830" expanded="true" signature="55611:55792" ph="INSERT INTO PACKAGES... " />
-            <marker date="1531948544830" expanded="true" signature="56562:56584" ph="SELECT MAX(G... BOOKINGS" />
-            <marker date="1531948544830" expanded="true" signature="56562:56592" ph="SELECT MAX(G... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="56562:56790" ph="SELECT Packa... PACKAGES" />
-            <marker date="1531948544830" expanded="true" signature="57763:57830" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="57763:57969" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="58935:58975" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="58935:59141" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="60095:60135" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="60095:60301" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="61246:61452" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="62474:62571" ph="INSERT INTO SUPPLIERS... " />
-            <marker date="1531948544830" expanded="true" signature="63360:63485" ph="INSERT INTO CONTACTDETAILS... " />
-            <marker date="1531948544830" expanded="true" signature="64333:64398" ph="INSERT INTO Logins... " />
-            <marker date="1531948544830" expanded="true" signature="65152:65482" ph="UPDATE BOOKI... " />
-            <marker date="1531948544830" expanded="true" signature="66857:66909" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="67158:67356" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
-            <marker date="1531948544830" expanded="true" signature="68222:68265" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="68496:68674" ph="INSERT INTO BOOKINGSGOLF... " />
-            <marker date="1531948544830" expanded="true" signature="69473:69522" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="69763:69937" ph="INSERT INTO BOOKINGSACTIVITIES... " />
-            <marker date="1531948544830" expanded="true" signature="70674:70722" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="70963:71136" ph="INSERT INTO BOOKINGSTRANSPORT... " />
-            <marker date="1531948544830" expanded="true" signature="72237:72445" ph="UPDATE PACKA... " />
-            <marker date="1531948544830" expanded="true" signature="73212:73260" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="73516:73556" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="73516:73722" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="74705:74911" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="75882:76088" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="77050:77256" ph="INSERT INTO PACKAGESINCLUDE... " />
-            <marker date="1531948544830" expanded="true" signature="78484:78604" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="79471:79588" ph="UPDATE CONTA... " />
-            <marker date="1531948544830" expanded="true" signature="80346:80423" ph="UPDATE BOOKI... " />
-            <marker date="1531948544830" expanded="true" signature="81114:81197" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="81763:81837" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="82408:82487" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="83059:83139" ph="UPDATE SUPPL... " />
-            <marker date="1531948544830" expanded="true" signature="83779:83818" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="83975:84027" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="84184:84227" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="84384:84433" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="85287:85333" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="85911:85964" ph="DELETE FROM " />
-            <marker date="1531948544830" expanded="true" signature="86477:86513" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="1099:1396" ph="CREATE TABLE... USER" />
+            <marker date="1532299517044" expanded="true" signature="1431:2393" ph="CREATE TABLE... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="2428:3140" ph="CREATE TABLE... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="3175:3832" ph="CREATE TABLE... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="3867:4489" ph="CREATE TABLE... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="4524:5232" ph="CREATE TABLE... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="5267:5595" ph="CREATE TABLE... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="5630:6017" ph="CREATE TABLE... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="6052:6625" ph="CREATE TABLE... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="6660:7325" ph="CREATE TABLE... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="7378:7602" ph="CREATE TABLE... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="7637:8011" ph="CREATE TABLE... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="8499:8553" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9083:9120" ph="SELECT * FRO... USER" />
+            <marker date="1532299517044" expanded="true" signature="9827:9871" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="10632:10655" ph="SELECT * FRO... SUPPLIERS" />
+            <marker date="1532299517044" expanded="true" signature="11508:11561" ph="SELECT * FRO... CONTACTDETAILS" />
+            <marker date="1532299517044" expanded="true" signature="12439:12461" ph="SELECT * FRO... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="13821:13875" ph="SELECT * FRO... BOOKINGSACCOMMODATION" />
+            <marker date="1532299517044" expanded="true" signature="14946:14991" ph="SELECT * FRO... BOOKINGSGOLF" />
+            <marker date="1532299517044" expanded="true" signature="16078:16129" ph="SELECT * FRO... BOOKINGSACTIVITIES" />
+            <marker date="1532299517044" expanded="true" signature="17143:17193" ph="SELECT * FRO... BOOKINGSTRANSPORT" />
+            <marker date="1532299517044" expanded="true" signature="29679:29699" ph="SELECT * FRO... LOGINS" />
+            <marker date="1532299517044" expanded="true" signature="30378:30404" ph="SELECT * FRO... TRANSACTIONS" />
+            <marker date="1532299517044" expanded="true" signature="31324:31346" ph="SELECT * FRO... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="32448:32514" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="33594:33660" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="34651:34717" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="35739:35805" ph="SELECT * FRO... PACKAGESINCLUDE" />
+            <marker date="1532299517044" expanded="true" signature="38353:38400" ph="UPDATE USER " />
+            <marker date="1532299517044" expanded="true" signature="39033:39084" ph="SELECT Passw... USER" />
+            <marker date="1532299517044" expanded="true" signature="40026:40314" ph="INSERT INTO BOOKINGS... " />
+            <marker date="1532299517044" expanded="true" signature="41597:41626" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="41597:41971" ph="SELECT GSNum... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="43450:43649" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="44585:44763" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="45642:45816" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="46633:46806" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="57120:57301" ph="INSERT INTO PACKAGES... " />
+            <marker date="1532299517044" expanded="true" signature="58071:58093" ph="SELECT MAX(G... BOOKINGS" />
+            <marker date="1532299517044" expanded="true" signature="58071:58101" ph="SELECT MAX(G... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="58071:58299" ph="SELECT Packa... PACKAGES" />
+            <marker date="1532299517044" expanded="true" signature="59272:59339" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="59272:59478" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60484" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="60444:60650" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61644" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="61604:61810" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="62755:62961" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="63983:64080" ph="INSERT INTO SUPPLIERS... " />
+            <marker date="1532299517044" expanded="true" signature="64869:64994" ph="INSERT INTO CONTACTDETAILS... " />
+            <marker date="1532299517044" expanded="true" signature="65842:65907" ph="INSERT INTO Logins... " />
+            <marker date="1532299517044" expanded="true" signature="66537:66653" ph="INSERT INTO Transactions... " />
+            <marker date="1532299517044" expanded="true" signature="67670:68000" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="69381:69433" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="69682:69880" ph="INSERT INTO BOOKINGSACCOMMODATION... " />
+            <marker date="1532299517044" expanded="true" signature="70746:70789" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="71020:71198" ph="INSERT INTO BOOKINGSGOLF... " />
+            <marker date="1532299517044" expanded="true" signature="71997:72046" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="72287:72461" ph="INSERT INTO BOOKINGSACTIVITIES... " />
+            <marker date="1532299517044" expanded="true" signature="73198:73246" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="73487:73660" ph="INSERT INTO BOOKINGSTRANSPORT... " />
+            <marker date="1532299517044" expanded="true" signature="74761:74969" ph="UPDATE PACKA... " />
+            <marker date="1532299517044" expanded="true" signature="75742:75790" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="76046:76086" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="76046:76252" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="77235:77441" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="78412:78618" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="79580:79786" ph="INSERT INTO PACKAGESINCLUDE... " />
+            <marker date="1532299517044" expanded="true" signature="81014:81134" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="82007:82124" ph="UPDATE CONTA... " />
+            <marker date="1532299517044" expanded="true" signature="82888:82965" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="83669:83809" ph="UPDATE TRANS... " />
+            <marker date="1532299517044" expanded="true" signature="84775:84825" ph="UPDATE BOOKI... " />
+            <marker date="1532299517044" expanded="true" signature="85386:85452" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86000:86057" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="86601:86663" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87213:87276" ph="UPDATE SUPPL... " />
+            <marker date="1532299517044" expanded="true" signature="87876:87915" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88072:88124" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88281:88324" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="88481:88530" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="89384:89430" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90008:90061" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="90574:90610" ph="DELETE FROM " />
+            <marker date="1532299517044" expanded="true" signature="91098:91146" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>

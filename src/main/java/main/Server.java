@@ -7,12 +7,18 @@ import models.*;
 
 import javax.mail.*;
 import javax.mail.search.FlagTerm;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
+import java.util.Timer;
 
 public class Server {
 
@@ -24,23 +30,29 @@ public class Server {
     static final File OFFICE_FOLDER = new File("G:/My Drive/e. Office");
     static final File DATABASE_FILE = new File(APPLICATION_FOLDER.getAbsolutePath() + "/GolfInSouthAfricaDB.db");
     static final File LOG_FILE = new File(APPLICATION_FOLDER.getAbsolutePath() + "/GolfInSouthAfricaLogFile.txt");
-    public static List<Mail> unreadNewQuotesMails = FXCollections.observableArrayList();
-    public static List<Mail> readNewQuotesMails = FXCollections.observableArrayList();
-    public static List<Mail> unreadContactMails = FXCollections.observableArrayList();
-    public static List<Mail> readContactMails = FXCollections.observableArrayList();
-    public static List<Mail> unreadFinanceMails = FXCollections.observableArrayList();
-    public static List<Mail> readFinanceMails = FXCollections.observableArrayList();
-    public static List<Mail> unreadOtherMails = FXCollections.observableArrayList();
-    public static List<Mail> readOtherMails = FXCollections.observableArrayList();
-    public static ObservableList<ProductAccommodation> accommodation = FXCollections.observableArrayList();
-    public static ObservableList<ProductGolf> golf = FXCollections.observableArrayList();
-    public static ObservableList<ProductTransport> transport = FXCollections.observableArrayList();
-    public static ObservableList<ProductActivity> activities = FXCollections.observableArrayList();
+    public static List<Mail> unreadNewQuotesMails = new ArrayList<>();
+    public static List<Mail> readNewQuotesMails = new ArrayList<>();
+    public static List<Mail> unreadContactMails = new ArrayList<>();
+    public static List<Mail> readContactMails = new ArrayList<>();
+    public static List<Mail> unreadFinanceMails = new ArrayList<>();
+    public static List<Mail> readFinanceMails = new ArrayList<>();
+    public static List<Mail> unreadOtherMails = new ArrayList<>();
+    public static List<Mail> readOtherMails = new ArrayList<>();
+    public static List<ProductAccommodation> accommodation = new ArrayList<>();
+    public static List<ProductGolf> golf = new ArrayList<>();
+    public static List<ProductTransport> transport = new ArrayList<>();
+    public static List<ProductActivity> activities = new ArrayList<>();
+    public static List<Supplier> suppliers = new ArrayList<>();
+    public static List<Booking> bookings = new ArrayList<>();
+    public static List<Login> logins = new ArrayList<>();
+    public static List<DataFile> documents = new ArrayList<>();
+    public static List<TripPackage> packages = new ArrayList<>();
+    public static List<Transaction> transactions = new ArrayList<>();
     static final int BUFFER_SIZE = 4194304;
     public static ObservableList<ConnectionHandler> connectionsList = FXCollections.observableArrayList();
     public static final int PORT = 1521;
     public static final int MAX_CONNECTIONS = 5;
-    public DatabaseHandler dh = new DatabaseHandler();
+    public static DatabaseHandler dh = new DatabaseHandler();
     private Timer timer;
     private Store store;
     private int unread = 0;
@@ -48,6 +60,34 @@ public class Server {
     public static List<Integer> unreadMails = FXCollections.observableArrayList();
 
     public Server() {
+        final PopupMenu popup = new PopupMenu();
+        final TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage("G:/My Drive/e. Office/OfficeAppServerData/GISALogo.png"));
+        trayIcon.setImageAutoSize(true);
+        final SystemTray tray = SystemTray.getSystemTray();
+        // Create a pop-up menu components
+        //MenuItem homeItem = new MenuItem("Home");
+        MenuItem exitItem = new MenuItem("Exit");
+        exitItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                System.exit(0);
+            }});
+        //Add components to pop-up menu
+        /*popup.add(homeItem);
+        popup.addSeparator();
+        popup.add(displayMenu);
+        displayMenu.add(calenderItem);
+        displayMenu.add(quotationsItem);
+        displayMenu.add(logInDetalsItem);
+        popup.addSeparator();*/
+        popup.add(exitItem);
+        trayIcon.setPopupMenu(popup);
+        try {
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+            System.out.println("TrayIcon could not be added.");
+        }
+
         if (!TEMPLATES_FOLDER.exists()) {
             TEMPLATES_FOLDER.mkdirs();
             dh.log("Server> Local Templates Files Folder Created");
@@ -249,12 +289,12 @@ public class Server {
         });
     }
 
-    private void updateAccommodation() {
+    public static void updateAccommodation() {
         List<ProductAccommodation> temp = dh.getProductAccommodation();
         if (accommodation != temp) {
             if(temp.size()==0){
                 accommodation.clear();
-                accommodation.add(new ProductAccommodation("NoAccommodation", "NoAccommodation", "NoAccommodation", "NoAccommodation", "NoAccommodation", 0, "NoAccommodation", "NoAccommodation"));
+                accommodation.add(new ProductAccommodation("NoAccommodation", "NoAccommodation", "NoAccommodation", "NoAccommodation", 0, "NoAccommodation", null));
             } else {
                 accommodation.clear();
                 accommodation.addAll(temp);
@@ -263,12 +303,12 @@ public class Server {
         }
     }
 
-    private void updateGolf() {
+    public static void updateGolf() {
         List<ProductGolf> temp = dh.getProductGolf();
         if (golf != temp) {
             if(temp.size()==0){
                 golf.clear();
-                golf.add(new ProductGolf("NoGolf", "NoGolf", "NoGolf", "NoGolf", "NoGolf", "NoGolf", "NoGolf", -1));
+                golf.add(new ProductGolf("NoGolf", "NoGolf", "NoGolf", "NoGolf", "NoGolf", null));
             } else {
                 golf.clear();
                 golf.addAll(temp);
@@ -277,12 +317,12 @@ public class Server {
         }
     }
 
-    private void updateTransport() {
+    public static void updateTransport() {
         List<ProductTransport> temp = dh.getProductTransport();
         if (transport != temp) {
             if(temp.size()==0){
                 transport.clear();
-                transport.add(new ProductTransport("NoTransport", "NoTransport", "NoTransport", "NoTransport", "NoTransport", "NoTransport", "NoTransport"));
+                transport.add(new ProductTransport("NoTransport", "NoTransport", "NoTransport", "NoTransport", "NoTransport", null));
             } else {
                 transport.clear();
                 transport.addAll(temp);
@@ -292,12 +332,12 @@ public class Server {
 
     }
 
-    private void updateActivities() {
+    public static void updateActivities() {
         List<ProductActivity> temp = dh.getProductActivities();
         if (activities != temp) {
             if (temp.size() == 0) {
                 activities.clear();
-                activities.add(new ProductActivity("NoActivities", "NoActivities", "NoActivities", "NoActivities", "NoActivities", "NoActivities", "NoActivities"));
+                activities.add(new ProductActivity("NoActivities", "NoActivities", "NoActivities", "NoActivities", "NoActivities", null));
             } else {
                 activities.clear();
                 activities.addAll(temp);
@@ -306,7 +346,91 @@ public class Server {
         }
     }
 
-    public void notifyAll(String cat){
+    public static void updateSuppliers() {
+        List<Supplier> temp = dh.getSuppliers();
+        if (suppliers != temp) {
+            if (temp.size() == 0) {
+                suppliers.clear();
+                suppliers.add(new Supplier(-10, "NoSuppliers", "NoSuppliers", "NoSuppliers", "NoSuppliers", "NoSuppliers", null));
+            } else {
+                suppliers.clear();
+                suppliers.addAll(temp);
+            }
+            notifyAll("Suppliers");
+        }
+    }
+
+    public static void updateBookings() {
+        List<Booking> temp = dh.getBookings();
+        if (bookings != temp) {
+            if (temp.size() == 0) {
+                bookings.clear();
+                bookings.add(new Booking("NoBookings", "NoBookings", "NoBookings", "NoBookings", 0, 0, 0, 0, "NoBookings", "NoBookings", "NoBookings", 0, "NoBookings", "NoBookings", 0, 0, "NoBookings", "NoBookings", "NoBookings", null, null, null, null));
+            } else {
+                bookings.clear();
+                bookings.addAll(temp);
+            }
+            notifyAll("Bookings");
+        }
+    }
+
+    public static void updateLogins() {
+        List<Login> temp = dh.getLogins();
+        if (logins != temp) {
+            if (temp.size() == 0) {
+                logins.clear();
+                logins.add(new Login(-10, "NoLogins", "NoLogins", "NoLogins"));
+            } else {
+                logins.clear();
+                logins.addAll(temp);
+            }
+            notifyAll("Logins");
+        }
+    }
+
+    public static void updateDocuments() {
+        List<DataFile> temp = dh.getDocuments();
+        if (documents != temp) {
+            if (temp.size() == 0) {
+                documents.clear();
+                documents.add(new DataFile("Documents", "NoDocuments", "NoDocuments", 0));
+            } else {
+                documents.clear();
+                documents.addAll(temp);
+            }
+            notifyAll("Documents");
+        }
+    }
+
+    public static void updatePackages() {
+        List<TripPackage> temp = dh.getPackages();
+        if (packages != temp) {
+            if (temp.size() == 0) {
+                packages.clear();
+                packages.add(new TripPackage(-10, "NoPackages", 0, "NoPackages", 0, 0, 0, 0, "NoPackages", "NoPackages", null, null, null, null));
+            } else {
+                packages.clear();
+                packages.addAll(temp);
+            }
+            notifyAll("Packages");
+        }
+    }
+
+    public static void updateTransactions() {
+        List<Transaction> temp = dh.getTransactions();
+        if (transactions != temp) {
+            if (temp.size() == 0) {
+                transactions.clear();
+                transactions.add(new Transaction(-10, "NoTransactions", "NoTransactions", "NoPackages", "NoPackages", 0.00, "NoTransactions"));
+            } else {
+                transactions.clear();
+                transactions.addAll(temp);
+            }
+            notifyAll("Transactions");
+        }
+    }
+
+    private static void notifyAll(String cat){
         for (ConnectionHandler ch: connectionsList) {
             if(ch instanceof UserConnectionHandler) {
                 if(cat.matches("Activities")) {
@@ -321,6 +445,24 @@ public class Server {
                 if(cat.matches("Accommodation")) {
                     ((UserConnectionHandler) ch).updateAccommodation.setValue(true);
                 }
+                if(cat.matches("Packages")) {
+                    ((UserConnectionHandler) ch).updatePackages.setValue(true);
+                }
+                if(cat.matches("Documnents")) {
+                    ((UserConnectionHandler) ch).updateDocuments.setValue(true);
+                }
+                if(cat.matches("Logins")) {
+                    ((UserConnectionHandler) ch).updateLogins.setValue(true);
+                }
+                if(cat.matches("Bookings")) {
+                    ((UserConnectionHandler) ch).updateBookings.setValue(true);
+                }
+                if(cat.matches("Suppliers")) {
+                    ((UserConnectionHandler) ch).updateSuppliers.setValue(true);
+                }
+                if(cat.matches("Transactions")) {
+                    ((UserConnectionHandler) ch).updateTransactions.setValue(true);
+                }
             }
         }
     }
@@ -332,6 +474,12 @@ public class Server {
             updateGolf();
             updateTransport();
             updateActivities();
+            updateSuppliers();
+            updateBookings();
+            updateLogins();
+            updateDocuments();
+            updatePackages();
+            updateTransactions();
             unreadNewQuotesMails.clear();
             unreadContactMails.clear();
             unreadFinanceMails.clear();
