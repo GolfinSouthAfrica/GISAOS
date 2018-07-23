@@ -8,19 +8,27 @@ import jxl.write.Number;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import models.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.usermodel.CharacterRun;
+import org.apache.poi.hwpf.usermodel.Paragraph;
+import org.apache.poi.hwpf.usermodel.Range;
+import org.apache.poi.hwpf.usermodel.Section;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.docx4j.Docx4J;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import pl.jsolve.templ4docx.core.Docx;
+import pl.jsolve.templ4docx.core.DocxTemplate;
+import pl.jsolve.templ4docx.core.VariablePattern;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 
 public class DatabaseHandler {
 
@@ -270,6 +278,19 @@ public class DatabaseHandler {
         } catch (SQLException ex) {
             ex.printStackTrace();
             log("Server> getSuppliersContactDetails> " + ex);
+            return null;
+        }
+    }
+
+    Booking getBooking(String gsNumber) {
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM BOOKINGS WHERE GSNumber = ?;");
+            preparedStatement.setString(1, gsNumber);
+            ResultSet rs = preparedStatement.executeQuery();
+            return new Booking(Integer.toString(rs.getInt("GSNumber")), rs.getString("ClientName"), rs.getString("ContactNumber"), rs.getString("Email"), rs.getInt("GolfersSharing"), rs.getInt("NonGolfersSharing"), rs.getInt("GolfersSingle"), rs.getInt("NonGolfersSingle"), rs.getString("Arrival"), rs.getString("Departure"), rs.getString("Process"), rs.getDouble("BookingAmount"), rs.getString("Consultant"), rs.getString("DepositDate"), rs.getInt("DepositPaid"), rs.getInt("FullPaid"), rs.getString("PackageName"), rs.getString("BookingMadeDate"), null, getBookingAccommodation(rs.getString("GSNumber")), getBookingGolf(rs.getString("GSNumber")), getBookingActivities(rs.getString("GSNumber")), getBookingTransport(rs.getString("GSNumber")));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> getBooking> " + gsNumber + "> " + ex);
             return null;
         }
     }
@@ -1065,6 +1086,51 @@ public class DatabaseHandler {
         return gsNumber;
     }
 
+    void addInvoice(){
+        /*DocxTemplate template = new DocxTemplate();
+        template.setVariablePattern(new VariablePattern("#{", "}"));
+        String path = "G:/My Drive/b. Templates/Invoice/Invoice Template.doc";
+        System.out.println(1);
+        // prepare map of variables for template
+        Map<String, String> variables = new HashMap<String, String>();
+        variables.put("#{BookingName}", "John");
+        variables.put("#{email}", "Sky");
+        variables.put("#{PHONENUMBER}", "John");
+        variables.put("#{GSNUMBER}", "Sky");
+        variables.put("#{GSNUMBER}", "John");
+        variables.put("#{TODAYSDATE}", "Sky");
+        variables.put("#{QuotationIncludes}", "John");
+        variables.put("#{PricePerPerson}", "Sky");
+        variables.put("#{INVOICETOTAL}", "John");
+        variables.put("#{AMOUNTDUE}", "Sky");
+        variables.put("#{INVOICETOTAL}", "John");
+        System.out.println(2);
+        Docx filledTemplate = template.fillTemplate(path, variables);
+        System.out.println(3);
+        template.save(filledTemplate, "G:/My Drive/b. Templates/Invoice/Test.doc");
+        System.out.println(4);*/
+        String filePath = "G:/My Drive/b. Templates/Invoice/Invoice Template.doc";
+
+        try {
+            String inputfilepath = "G:/My Drive/b. Templates/Invoice/Invoice Template.doc";
+            String outputfilepath = "G:/My Drive/b. Templates/Invoice/Test.doc";
+            System.out.println(1);
+            WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new java.io.File(inputfilepath));
+            MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
+            System.out.println(2);
+            HashMap<String, String> mappings = new HashMap<String, String>();
+            mappings.put("subjectId", "E000001");
+            System.out.println(3);
+            // Approach 1 (from 3.0.0; faster if you haven't yet caused unmarshalling to occur):
+            System.out.println(4);
+            documentPart.variableReplace(mappings);
+            Docx4J.save(wordMLPackage, new File(outputfilepath));
+            System.out.println(5);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     void addPackage(TripPackage tripPackage) {
         int packageID = 0;
         try {
@@ -1222,8 +1288,52 @@ public class DatabaseHandler {
             preparedStatement.setDouble(5, transaction.getAmount());
             preparedStatement.setString(6, transaction.getTransactionDate());
             preparedStatement.execute();
+
+            List<Transaction>transactions = new ArrayList<>();
+            preparedStatement = con.prepareStatement("SELECT * FROM TRANSACTIONS WHERE GSNumber = ?;");
+            preparedStatement.setString(1, transaction.getGsNumber());
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                transactions.add(new Transaction(rs.getInt("TransactionID"), rs.getString("TransactionType"), rs.getString("GSNumber"), rs.getString("Other"), rs.getString("Reference"), rs.getDouble("Amount"), rs.getString("TransactionDate")));
+            }
+
+            double totalRecieved = 0.0;
+            double totalPaid = 0.0;
+            for (Transaction t:transactions){
+                if(t.getTransactionType().matches("Money Came In")){
+                    totalRecieved += t.getAmount();
+                } else if(t.getTransactionType().matches("Supplier Paid")){
+                    totalPaid += t.getAmount();
+                }
+            }
+
+            double totalClientInvoice = 0.0;
+            preparedStatement = con.prepareStatement("SELECT BookingAmount FROM BOOKINGS WHERE GSNumber = ?;");
+            preparedStatement.setString(1, transaction.getGsNumber());
+            rs = preparedStatement.executeQuery();
+            totalClientInvoice = rs.getDouble("BookingAmount");
+
+            double totalSupplierInvoice = 0.0;
+            Booking booking = getBooking(transaction.getGsNumber());
+            totalSupplierInvoice = getTotalSupplierInvoice(booking);
+
+            if(totalRecieved >= (totalClientInvoice * 0.4)){
+                if(totalPaid >= (totalSupplierInvoice * 0.1)) {
+                    if (totalRecieved >= (totalClientInvoice * 0.95)) {
+                        if(totalPaid >= (totalSupplierInvoice * 0.95)) {
+                            updateBookingProcess(transaction.getGsNumber(), "ConfirmedFullPaid");
+                        } else {
+                            updateBookingProcess(transaction.getGsNumber(), "PendingFullRecieved");
+                        }
+                    } else {
+                        updateBookingProcess(transaction.getGsNumber(), "PendingDepositPaid");
+                    }
+                } else {
+                    updateBookingProcess(transaction.getGsNumber(), "PendingDepositRecieved");
+                }
+            }
+
             log("Server> Successfully Added Transaction: " + transaction.getTransactionType());
-            //notifyUpdatedStudent(s[0]);
         } catch (SQLException ex) {
             ex.printStackTrace();
             log("Server> addTransaction> " + ex);
@@ -1484,6 +1594,51 @@ public class DatabaseHandler {
             preparedStatement.setString(6, transaction.getTransactionDate());
             preparedStatement.setInt(7, transaction.getID());
             preparedStatement.executeUpdate();
+
+            List<Transaction>transactions = new ArrayList<>();
+            preparedStatement = con.prepareStatement("SELECT * FROM TRANSACTIONS WHERE GSNumber = ?;");
+            preparedStatement.setString(1, transaction.getGsNumber());
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                transactions.add(new Transaction(rs.getInt("TransactionID"), rs.getString("TransactionType"), rs.getString("GSNumber"), rs.getString("Other"), rs.getString("Reference"), rs.getDouble("Amount"), rs.getString("TransactionDate")));
+            }
+
+            double totalRecieved = 0.0;
+            double totalPaid = 0.0;
+            for (Transaction t:transactions){
+                if(t.getTransactionType().matches("Money Came In")){
+                    totalRecieved += t.getAmount();
+                } else if(t.getTransactionType().matches("Supplier Paid")){
+                    totalPaid += t.getAmount();
+                }
+            }
+
+            double totalClientInvoice = 0.0;
+            preparedStatement = con.prepareStatement("SELECT BookingAmount FROM BOOKINGS WHERE GSNumber = ?;");
+            preparedStatement.setString(1, transaction.getGsNumber());
+            rs = preparedStatement.executeQuery();
+            totalClientInvoice = rs.getDouble("BookingAmount");
+
+            double totalSupplierInvoice = 0.0;
+            Booking booking = getBooking(transaction.getGsNumber());
+            totalSupplierInvoice = getTotalSupplierInvoice(booking);
+
+            if(totalRecieved >= (totalClientInvoice * 0.4)){
+                if(totalPaid >= (totalSupplierInvoice * 0.1)) {
+                    if (totalRecieved >= (totalClientInvoice * 0.95)) {
+                        if(totalPaid >= (totalSupplierInvoice * 0.95)) {
+                            updateBookingProcess(transaction.getGsNumber(), "ConfirmedFullPaid");
+                        } else {
+                            updateBookingProcess(transaction.getGsNumber(), "PendingFullRecieved");
+                        }
+                    } else {
+                        updateBookingProcess(transaction.getGsNumber(), "PendingDepositPaid");
+                    }
+                } else {
+                    updateBookingProcess(transaction.getGsNumber(), "PendingDepositRecieved");
+                }
+            }
+
             log("Server> Successfully Updated Transaction: " + transaction.getID());
             //notifyUpdatedStudent(s[0]);
         } catch (SQLException ex) {
@@ -1494,13 +1649,56 @@ public class DatabaseHandler {
 
     void updateBookingProcess(String gsNumber, String process){
         try {
+            File oldFolder = new File(Server.BOOKINGS_FOLDER.getAbsolutePath());
+            File [] files = oldFolder.listFiles();
+            if(files != null) {
+                for (File f : files) {
+                    File[] fif = f.listFiles();
+                    if(fif != null){
+                        for (File ff : fif) {
+                            if (ff.getAbsolutePath().contains("GS" + gsNumber)) {
+                                oldFolder = new File(f.getAbsolutePath());
+                            }
+                        }
+                    }
+                }
+            }
+
+            String newfolder = "";
+            if(process.matches("Quote")){
+                newfolder = "a. Quote";
+            } else if(process.matches("PendingBookingMade")){
+                newfolder = "b. PendingBookingMade";
+            } else if(process.matches("PendingDepositRecieved")){
+                newfolder = "c. PendingDepositRecieved";
+            } else if(process.matches("PendingDepositPaid")){
+                newfolder = "d. PendingDepositPaid";
+            } else if(process.matches("PendingFullRecieved")){
+                newfolder = "e. PendingFullRecieved";
+            } else if(process.matches("ConfirmedFullPaid")){
+                newfolder = "f. ConfirmedFullPaid";
+            }
+
+
+            String source = oldFolder.getAbsolutePath();
+            File srcDir = new File(source);
+            String destination = Server.BOOKINGS_FOLDER.getAbsolutePath() + "/" + newfolder;
+            File destDir = new File(destination);
+            try {
+                FileUtils.copyDirectory(srcDir, destDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            FileUtils.deleteDirectory(oldFolder);
+
             PreparedStatement preparedStatement = con.prepareStatement("UPDATE BOOKINGS SET Process = ? WHERE GSNumber = ?");
             preparedStatement.setString(1, process);
             preparedStatement.setString(2, gsNumber);
             preparedStatement.execute();
             log("Server> Successfully Suppliers Booked : " + gsNumber);
             //notifyUpdatedStudent(s[0]);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             log("Server> updateBookingProcess> " + ex);
         }
@@ -1586,12 +1784,28 @@ public class DatabaseHandler {
                     break;
                 }
             }
-            file.delete();
+            FileUtils.deleteDirectory(file);
             log("Server> Successfully Removed Booking: " + gsNumber);
+            //notifyUpdatedStudent(studentNumber);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            log("Server> removeBooking> " + ex);
+        }
+    }
+
+    void removePackage(int gsNumber) {
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM PACKAGES WHERE PackageID = ?;");
+            preparedStatement.setInt(1, gsNumber);
+            preparedStatement.executeUpdate();
+            preparedStatement = con.prepareStatement("DELETE FROM PACKAGESINCLUDE WHERE PackageID = ?;");
+            preparedStatement.setInt(1, gsNumber);
+            preparedStatement.executeUpdate();
+            log("Server> Successfully Removed Package: " + gsNumber);
             //notifyUpdatedStudent(studentNumber);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            log("Server> removeBooking> " + ex);
+            log("Server> removePackage> " + ex);
         }
     }
 
@@ -1635,11 +1849,56 @@ public class DatabaseHandler {
         }
     }
 
-    void removeTransaction(int transactionID) {
+    void removeTransaction(int transactionID, String gsNumber) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM TRANSACTIONS WHERE TransactionID = ?;");
             preparedStatement.setInt(1, transactionID);
             preparedStatement.executeUpdate();
+
+            List<Transaction>transactions = new ArrayList<>();
+            preparedStatement = con.prepareStatement("SELECT * FROM TRANSACTIONS WHERE GSNumber = ?;");
+            preparedStatement.setString(1, gsNumber);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                transactions.add(new Transaction(rs.getInt("TransactionID"), rs.getString("TransactionType"), rs.getString("GSNumber"), rs.getString("Other"), rs.getString("Reference"), rs.getDouble("Amount"), rs.getString("TransactionDate")));
+            }
+
+            double totalRecieved = 0.0;
+            double totalPaid = 0.0;
+            for (Transaction t:transactions){
+                if(t.getTransactionType().matches("Money Came In")){
+                    totalRecieved += t.getAmount();
+                } else if(t.getTransactionType().matches("Supplier Paid")){
+                    totalPaid += t.getAmount();
+                }
+            }
+
+            double totalClientInvoice = 0.0;
+            preparedStatement = con.prepareStatement("SELECT BookingAmount FROM BOOKINGS WHERE GSNumber = ?;");
+            preparedStatement.setString(1, gsNumber);
+            rs = preparedStatement.executeQuery();
+            totalClientInvoice = rs.getDouble("BookingAmount");
+
+            double totalSupplierInvoice = 0.0;
+            Booking booking = getBooking(gsNumber);
+            totalSupplierInvoice = getTotalSupplierInvoice(booking);
+
+            if(totalRecieved >= (totalClientInvoice * 0.4)){
+                if(totalPaid >= (totalSupplierInvoice * 0.1)) {
+                    if (totalRecieved >= (totalClientInvoice * 0.95)) {
+                        if(totalPaid >= (totalSupplierInvoice * 0.95)) {
+                            updateBookingProcess(gsNumber, "ConfirmedFullPaid");
+                        } else {
+                            updateBookingProcess(gsNumber, "PendingFullRecieved");
+                        }
+                    } else {
+                        updateBookingProcess(gsNumber, "PendingDepositPaid");
+                    }
+                } else {
+                    updateBookingProcess(gsNumber, "PendingDepositRecieved");
+                }
+            }
+
             log("Server> Successfully Removed Transaction: " + transactionID);
             //notifyUpdatedStudent(studentNumber);
         } catch (SQLException ex) {
@@ -1728,6 +1987,127 @@ public class DatabaseHandler {
             e.printStackTrace();
         }*/
 
+    }
+
+    public Double getTotalSupplierInvoice(Booking booking){
+        double x = 0.0;
+        for(BookingAccommodation a:booking.getBookingAccommodation()){
+            x += a.getCostPricePerUnit()*a.getQuantity()*a.getNights();
+        }
+        for(BookingGolf a:booking.getBookingGolf()){
+            x += a.getCostPricePerUnit()*a.getQuantity()*a.getRounds();
+        }
+        for(BookingTransport a:booking.getBookingTransport()){
+            x += a.getCostPricePerUnit()*a.getQuantity();
+        }
+        for(BookingActivity a:booking.getBookingActivities()){
+            x += a.getCostPricePerUnit()*a.getQuantity();
+        }
+        return x;
+    }
+
+    public Double[] getBookingPerPerson(String GSNumber){
+        Double[] pp = new Double[4];
+        pp[0] = 0.00;
+        pp[1] = 0.00;
+        pp[2] = 0.00;
+        pp[3] = 0.00;
+        Booking booking = null;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM BOOKINGS WHERE GSNumber = ?;");
+            preparedStatement.setInt(1, Integer.parseInt(GSNumber));
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                booking = new Booking(Integer.toString(rs.getInt("GSNumber")), rs.getString("ClientName"), rs.getString("ContactNumber"), rs.getString("Email"), rs.getInt("GolfersSharing"), rs.getInt("NonGolfersSharing"), rs.getInt("GolfersSingle"), rs.getInt("NonGolfersSingle"), rs.getString("Arrival"), rs.getString("Departure"), rs.getString("Process"), rs.getDouble("BookingAmount"), rs.getString("Consultant"), rs.getString("DepositDate"), rs.getInt("DepositPaid"), rs.getInt("FullPaid"), rs.getString("PackageName"), rs.getString("BookingMadeDate"), null, getBookingAccommodation(rs.getString("GSNumber")), getBookingGolf(rs.getString("GSNumber")), getBookingActivities(rs.getString("GSNumber")), getBookingTransport(rs.getString("GSNumber")));
+            }
+            if(booking!=null) {
+                for (BookingAccommodation b : booking.getBookingAccommodation()) {
+                    if(b.getAddTo().matches("Golfer Sharing")) {
+                        pp[0] = pp[0] + (b.getSellPricePerUnit() * b.getQuantity() * b.getNights());
+                    } else if (b.getAddTo().matches("Non-Golfer Sharing")) {
+                        pp[1] = pp[1] + (b.getSellPricePerUnit() * b.getQuantity() * b.getNights());
+                    } else if (b.getAddTo().matches("Golfer and Non-Golfer Sharing")) {
+                        pp[0] = pp[0] + ((b.getSellPricePerUnit() * b.getQuantity() * b.getNights())/2);
+                        pp[1] = pp[1] + ((b.getSellPricePerUnit() * b.getQuantity() * b.getNights())/2);
+                    } else if (b.getAddTo().matches("Golfer Single")) {
+                        pp[2] = pp[2] + (b.getSellPricePerUnit() * b.getQuantity() * b.getNights());
+                    } else if (b.getAddTo().matches("Non-Golfer Single")){
+                        pp[3] = pp[3] + (b.getSellPricePerUnit() * b.getQuantity() * b.getNights());
+                    }
+                }
+                for (BookingGolf b : booking.getBookingGolf()) {
+                    if(b.getAddTo().matches("Golfer Sharing")) {
+                        pp[0] = pp[0] + (b.getSellPricePerUnit() * b.getQuantity() * b.getRounds());
+                    } else if (b.getAddTo().matches("Non-Golfer Sharing")) {
+                        pp[1] = pp[1] + (b.getSellPricePerUnit() * b.getQuantity() * b.getRounds());
+                    } else if (b.getAddTo().matches("Golfer and Non-Golfer Sharing")) {
+                        pp[0] = pp[0] + ((b.getSellPricePerUnit() * b.getQuantity() * b.getRounds())/2);
+                        pp[1] = pp[1] + ((b.getSellPricePerUnit() * b.getQuantity() * b.getRounds())/2);
+                    } else if (b.getAddTo().matches("Golfer Single")) {
+                        pp[2] = pp[2] + (b.getSellPricePerUnit() * b.getQuantity() * b.getRounds());
+                    } else if (b.getAddTo().matches("Non-Golfer Single")){
+                        pp[3] = pp[3] + (b.getSellPricePerUnit() * b.getQuantity() * b.getRounds());
+                    }
+                }
+                for (BookingTransport b : booking.getBookingTransport()) {
+                    if(b.getAddTo().matches("Golfer Sharing")) {
+                        pp[0] = pp[0] + (b.getSellPricePerUnit() * b.getQuantity());
+                    } else if (b.getAddTo().matches("Non-Golfer Sharing")) {
+                        pp[1] = pp[1] + (b.getSellPricePerUnit() * b.getQuantity() );
+                    } else if (b.getAddTo().matches("Golfer and Non-Golfer Sharing")) {
+                        pp[0] = pp[0] + ((b.getSellPricePerUnit() * b.getQuantity())/2);
+                        pp[1] = pp[1] + ((b.getSellPricePerUnit() * b.getQuantity())/2);
+                    } else if (b.getAddTo().matches("Golfer Single")) {
+                        pp[2] = pp[2] + (b.getSellPricePerUnit() * b.getQuantity());
+                    } else if (b.getAddTo().matches("Non-Golfer Single")){
+                        pp[3] = pp[3] + (b.getSellPricePerUnit() * b.getQuantity());
+                    }
+                }
+                for (BookingActivity b : booking.getBookingActivities()) {
+                    if(b.getAddTo().matches("Golfer Sharing")) {
+                        pp[0] = pp[0] + (b.getSellPricePerUnit() * b.getQuantity());
+                    } else if (b.getAddTo().matches("Non-Golfer Sharing")) {
+                        pp[1] = pp[1] + (b.getSellPricePerUnit() * b.getQuantity());
+                    } else if (b.getAddTo().matches("Golfer and Non-Golfer Sharing")) {
+                        pp[0] = pp[0] + ((b.getSellPricePerUnit() * b.getQuantity())/2);
+                        pp[1] = pp[1] + ((b.getSellPricePerUnit() * b.getQuantity())/2);
+                    } else if (b.getAddTo().matches("Golfer Single")) {
+                        pp[2] = pp[2] + (b.getSellPricePerUnit() * b.getQuantity());
+                    } else if (b.getAddTo().matches("Non-Golfer Single")){
+                        pp[3] = pp[3] + (b.getSellPricePerUnit() * b.getQuantity());
+                    }
+                }
+            }
+            if(booking.getGolfersSharing()!=0){
+                pp[0] = pp[0] / booking.getGolfersSharing();
+                if(pp[0]%50!=0){
+                    pp[0] = pp[0] + (50 - pp[0]%50);
+                }
+            }
+            if(booking.getNongolfersSharing()!=0){
+                pp[1] = pp[1] / booking.getNongolfersSharing();
+                if(pp[1]%50!=0){
+                    pp[1] = pp[1] + (50 - pp[1]%50);
+                }
+            }
+            if(booking.getGolfersSingle()!=0){
+                pp[2] = pp[2] / booking.getGolfersSingle();
+                if(pp[2]%50!=0){
+                    pp[2] = pp[2] + (50 - pp[2]%50);
+                }
+            }
+            if(booking.getNongolfersSingle()!=0){
+                pp[3] = pp[3] / booking.getNongolfersSingle();
+                if(pp[3]%50!=0){
+                    pp[3] = pp[3] + (50 - pp[3]%50);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> getBookingPerPerson> " + ex);
+            return null;
+        }
+        return pp;
     }
 
     void log(String logDetails) {

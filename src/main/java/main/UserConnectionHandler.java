@@ -129,6 +129,8 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         unreadMails.addAll(Server.unreadMails);
         new InputProcessor().start();
         new OutputProcessor().start();
+        //dh.addInvoice();
+
     }
 
     private class InputProcessor extends Thread {
@@ -156,6 +158,10 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.log("User " + username + "> Removed Supplier: " + text.substring(3));
                             dh.removeSupplier(Integer.parseInt(text.substring(3)));
                             Server.updateSuppliers();
+                        } else if (text.startsWith("rp:")) {//RemoveSupplier
+                            dh.log("User " + username + "> Package: " + text.substring(3));
+                            dh.removePackage(Integer.parseInt(text.substring(3)));
+                            Server.updatePackages();
                         } else if (text.startsWith("rd:")) {//RemoveDocument
                             dh.log("User " + username + "> Removed Document: " + text.substring(3));
                             dh.deleteFile(Server.DOCUMENTS_FOLDER.getAbsolutePath(), text.substring(3).split(":")[0]);
@@ -170,12 +176,12 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             Server.updateSuppliers();
                         }  else if (text.startsWith("rtr:")) {//RemoveTransaction
                             dh.log("User " + username + "> Removed Transaction: " + text.substring(3));
-                            dh.removeTransaction(Integer.parseInt(text.substring(4)));
+                            dh.removeTransaction(Integer.parseInt(text.substring(4).split(":")[0]), text.substring(4).split(":")[1]);
                             Server.updateTransactions();
                         } else if(text.startsWith("snd:")){
                             if(text.substring(4).startsWith("Costing")){
                                 dh.log("User " + username + "> Send Costing for: GS" + text.substring(12));
-                                new Thread(() -> Email.sendCosting("GS" + text.substring(12).split(":")[0], text.substring(12).split(":")[1], text.substring(12).split(":")[2], text.substring(12).split(":")[3], user.get().getFirstName())).start();
+                                new Thread(() -> Email.sendCosting("GS" + text.substring(12).split(":")[0], text.substring(12).split(":")[1], text.substring(12).split(":")[2], text.substring(12).split(":")[3], user.get().getFirstName(), dh.getBookingPerPerson(text.substring(12).split(":")[0]))).start();
                             }
                         } else if (text.startsWith("se:")) {//TODO
                             /*if((!text.substring(3).split(":")[3].matches(""))) {
