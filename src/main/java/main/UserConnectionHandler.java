@@ -178,6 +178,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.log("User " + username + "> Removed Transaction: " + text.substring(3));
                             dh.removeTransaction(Integer.parseInt(text.substring(4).split(":")[0]), text.substring(4).split(":")[1]);
                             Server.updateTransactions();
+                            Server.updateBookings();
                         } else if(text.startsWith("snd:")){
                             if(text.substring(4).startsWith("Costing")){
                                 dh.log("User " + username + "> Send Costing for: GS" + text.substring(12));
@@ -303,6 +304,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.updateTransaction((Transaction) input);
                         }
                         Server.updateTransactions();
+                        Server.updateBookings();
                     }
                 }
             }
