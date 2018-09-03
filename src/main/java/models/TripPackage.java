@@ -20,6 +20,10 @@ public class TripPackage implements Serializable {
     private List<BookingTransport> bookingTransport;
     private List<BookingActivity> bookingActivities;
 
+    public TripPackage() {
+
+    }
+
     public TripPackage(int packageID, String packageName, double totalPackageAmount, String category, int golfersSharing, int nongolfersSharing, int golfersSingle, int nongolfersSingle, String province, String expiryDate, List<BookingAccommodation> bookingAccommodation, List<BookingGolf> bookingGolf, List<BookingTransport> bookingTransport, List<BookingActivity> bookingActivities) {
         this.packageID = packageID;
         this.packageName = packageName;

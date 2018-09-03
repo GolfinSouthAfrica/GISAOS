@@ -49,4 +49,9 @@ public class Transaction implements Serializable {
     public String getTransactionDate() {
         return transactionDate;
     }
+
+    @Override
+    public String toString(){
+        return transactionType + " (R" + amount + ") on " + transactionDate + " Reference: " + reference;
+    }
 }

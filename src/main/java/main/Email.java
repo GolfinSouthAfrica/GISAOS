@@ -7,7 +7,7 @@ import jxl.Workbook;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.*;
+/*import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -17,16 +17,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
+import java.util.Set;*/
 
 public class Email {
 
-    public static Boolean emailPassword(String username, String email, String password) {
-        return email(email, "Golf in South Africa - Forgot password", "Dear " + username + "\n\nYou requested to send your Golf in South Africa password to your email.\nIf this wasn't you please contact us.\n\nPassword:\t" + password, null, null);
+    public static void emailPassword(String username, String email, String password) {
+        email(email, "Golf in South Africa - Forgot password", "Dear " + username + "\n\nYou requested to send your Golf in South Africa password to your email.\nIf this wasn't you please contact us.\n\nPassword:\t" + password, null, null);
     }
 
-    public static Boolean email(String email, String emailSubject, String emailMessage, String documentType, String attachment) {
-        try {
+    public static void email(String email, String emailSubject, String emailMessage, String documentType, String attachment) {
+        /*try {
             Properties props = System.getProperties();
             props.put("mail.smtp.starttls.enable", true);
             props.put("mail.smtp.host", "smtp.gmail.com");
@@ -61,13 +61,13 @@ public class Email {
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
-        }
+        }*/
     }
 
-    public static Boolean sendCosting(String GSNumber, String email, String clientName, String textMessage, String name, Double[] x){
+    public static void sendCosting(String GSNumber, String email, String clientName, String textMessage, String name, Double[] x){
         //TODO add Booking Name
 
-        String costingTable = "<html><body><table style=\"border:3px solid black;border-collapse:collapse;\" width = 40%><tr><th colspan=\"4\" align=\"center\" style=\"border:2px solid black;\"><font size=\"4\"><b>Short Quote</b></font></th></tr><tr><th align=\"center\" style=\"border:2px solid black;\"><font size=\"3\"><b>Pax</b></font></th><th align=\"center\" style=\"border:2px solid black;\"><font size=\"3\"><b>Package Name</b></font></th><th align=\"center\" style=\"border:2px solid black;\"><font size=\"3\"><b>Price Per Person</b></font></th><th align=\"center\" style=\"border:2px solid black;\"><font size=\"3\"><b>Package Total</b></font></th></tr>";
+        /*String costingTable = "<html><body><table style=\"border:3px solid black;border-collapse:collapse;\" width = 40%><tr><th colspan=\"4\" align=\"center\" style=\"border:2px solid black;\"><font size=\"4\"><b>Short Quote</b></font></th></tr><tr><th align=\"center\" style=\"border:2px solid black;\"><font size=\"3\"><b>Pax</b></font></th><th align=\"center\" style=\"border:2px solid black;\"><font size=\"3\"><b>Package Name</b></font></th><th align=\"center\" style=\"border:2px solid black;\"><font size=\"3\"><b>Price Per Person</b></font></th><th align=\"center\" style=\"border:2px solid black;\"><font size=\"3\"><b>Package Total</b></font></th></tr>";
         File file = new File(Server.BOOKINGS_FOLDER + "/a. Quotes");
         File [] files = file.listFiles();
         for(File f:files) {
@@ -175,7 +175,7 @@ public class Email {
                         multipart.addBodyPart(imagePart);
                     }
                 }*/
-                quoteTable.setContent(textMessage + "<br>" + costingTable + "<br>Kind Regards<br>" + name + "<br><br>" + footerText, "text/html");
+                /*quoteTable.setContent(textMessage + "<br>" + costingTable + "<br>Kind Regards<br>" + name + "<br><br>" + footerText, "text/html");
                 multipart.addBodyPart(quoteTable);
 
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(email, clientName));
@@ -212,12 +212,13 @@ public class Email {
                     transport.sendMessage(message, message.getAllRecipients());;
                     System.out.println("message sent");*/
 
-            }
+            /*}
         } catch (Exception ioe) {
             ioe.printStackTrace();
         }
         return false;
-    }
+    }*/
+}
 }
 
 

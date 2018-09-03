@@ -1,13 +1,9 @@
 package main;
 
-import com.sun.mail.imap.IMAPFolder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.*;
 
-import javax.mail.*;
-import javax.mail.search.FlagTerm;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +12,7 @@ import java.net.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
@@ -30,14 +27,14 @@ public class Server {
     static final File OFFICE_FOLDER = new File("G:/My Drive/e. Office");
     static final File DATABASE_FILE = new File(APPLICATION_FOLDER.getAbsolutePath() + "/GolfInSouthAfricaDB.db");
     static final File LOG_FILE = new File(APPLICATION_FOLDER.getAbsolutePath() + "/GolfInSouthAfricaLogFile.txt");
-    public static List<Mail> unreadNewQuotesMails = new ArrayList<>();
+    /*public static List<Mail> unreadNewQuotesMails = new ArrayList<>();
     public static List<Mail> readNewQuotesMails = new ArrayList<>();
     public static List<Mail> unreadContactMails = new ArrayList<>();
     public static List<Mail> readContactMails = new ArrayList<>();
     public static List<Mail> unreadFinanceMails = new ArrayList<>();
     public static List<Mail> readFinanceMails = new ArrayList<>();
     public static List<Mail> unreadOtherMails = new ArrayList<>();
-    public static List<Mail> readOtherMails = new ArrayList<>();
+    public static List<Mail> readOtherMails = new ArrayList<>();*/
     public static List<ProductAccommodation> accommodation = new ArrayList<>();
     public static List<ProductGolf> golf = new ArrayList<>();
     public static List<ProductTransport> transport = new ArrayList<>();
@@ -48,13 +45,15 @@ public class Server {
     public static List<DataFile> documents = new ArrayList<>();
     public static List<TripPackage> packages = new ArrayList<>();
     public static List<Transaction> transactions = new ArrayList<>();
+    public static List<Notification> notifications = new ArrayList<>();
     static final int BUFFER_SIZE = 4194304;
     public static ObservableList<ConnectionHandler> connectionsList = FXCollections.observableArrayList();
     public static final int PORT = 1521;
     public static final int MAX_CONNECTIONS = 5;
     public static DatabaseHandler dh = new DatabaseHandler();
-    private Timer timer;
-    private Store store;
+    private Timer updatetimer;
+    private Timer expirytimer;
+    //private Store store;
     private int unread = 0;
     private int read = 0;
     public static List<Integer> unreadMails = FXCollections.observableArrayList();
@@ -109,22 +108,24 @@ public class Server {
             dh.log("Server> Local Office Files Folders Created");
         }
         new ClientListener().start();
-        try {
-            Properties props = System.getProperties();
+        updatetimer = new Timer();
+        updatetimer.schedule(new UpdateChecker(), 0, 600000);
+        expirytimer = new Timer();
+        expirytimer.schedule(new ExpiryChecker(), 0, 600000);
+        /*try {
+            /*Properties props = System.getProperties();
             props.put("mail.store.protocol", "imaps");
             props.put("mail.imaps.host", "imap.gmail.com");
             props.put("mail.imaps.port", "993");
             Session session = Session.getDefaultInstance(props, null);
             store = session.getStore("imaps");
             store.connect("info@golfinsouthafrica.com", "GISADefault1234@");
-            System.out.println(store);
-            timer = new Timer();
-            timer.schedule(new UpdateChecker(), 10);
-        } catch (NoSuchProviderException e) {
+            System.out.println(store);*/
+        /*} catch (NoSuchProviderException e) {
             e.printStackTrace();
         } catch (MessagingException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public class ClientListener extends Thread {
@@ -197,7 +198,6 @@ public class Server {
                                     Thread t = new Thread(studentConnectionHandler);
                                     t.start();
                                     connectionsList.add(studentConnectionHandler);
-                                    //dh.createQuotation("Test123");
                                     break StopClass;
                                 } else {
                                     dh.log("Server> Authorising User : " + input.substring(3).split(":")[0] + " Failed");
@@ -229,7 +229,7 @@ public class Server {
         return dh.authoriseUser(username, password);
     }
 
-    public static void sortQuotesMailsByDate(List<Mail> readNewQuotesMails){
+    /*public static void sortQuotesMailsByDate(List<Mail> readNewQuotesMails){
         Collections.sort(readNewQuotesMails, new Comparator<Mail>() {
             DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd '@' hh:mm a");
             @Override
@@ -242,9 +242,9 @@ public class Server {
                 }
             }
         });
-    }
+    }*/
 
-    public static void sortContactMailsByDate(List<Mail> readContactMails){
+    /*public static void sortContactMailsByDate(List<Mail> readContactMails){
         Collections.sort(readContactMails, new Comparator<Mail>() {
             DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd '@' hh:mm a");
             @Override
@@ -257,9 +257,9 @@ public class Server {
                 }
             }
         });
-    }
+    }*/
 
-    public static void sortFinanceMailsByDate(List<Mail> readFinanceMails){
+    /*public static void sortFinanceMailsByDate(List<Mail> readFinanceMails){
         Collections.sort(readFinanceMails, new Comparator<Mail>() {
             DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd '@' hh:mm a");
             @Override
@@ -272,9 +272,9 @@ public class Server {
                 }
             }
         });
-    }
+    }*/
 
-    public static void sortOtherMailsByDate(List<Mail> readOtherMails){
+    /*public static void sortOtherMailsByDate(List<Mail> readOtherMails){
         Collections.sort(readOtherMails, new Comparator<Mail>() {
             DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd '@' hh:mm a");
             @Override
@@ -287,11 +287,11 @@ public class Server {
                 }
             }
         });
-    }
+    }*/
 
     public static void updateAccommodation() {
         List<ProductAccommodation> temp = dh.getProductAccommodation();
-        if (accommodation != temp) {
+        if (!temp.equals(accommodation)) {
             if(temp.size()==0){
                 accommodation.clear();
                 accommodation.add(new ProductAccommodation("NoAccommodation", "NoAccommodation", "NoAccommodation", "NoAccommodation", 0, "NoAccommodation", null));
@@ -305,7 +305,7 @@ public class Server {
 
     public static void updateGolf() {
         List<ProductGolf> temp = dh.getProductGolf();
-        if (golf != temp) {
+        if (!temp.equals(golf)) {
             if(temp.size()==0){
                 golf.clear();
                 golf.add(new ProductGolf("NoGolf", "NoGolf", "NoGolf", "NoGolf", "NoGolf", null));
@@ -319,7 +319,7 @@ public class Server {
 
     public static void updateTransport() {
         List<ProductTransport> temp = dh.getProductTransport();
-        if (transport != temp) {
+        if (!temp.equals(transport)) {
             if(temp.size()==0){
                 transport.clear();
                 transport.add(new ProductTransport("NoTransport", "NoTransport", "NoTransport", "NoTransport", "NoTransport", null));
@@ -334,7 +334,7 @@ public class Server {
 
     public static void updateActivities() {
         List<ProductActivity> temp = dh.getProductActivities();
-        if (activities != temp) {
+        if (!temp.equals(activities)) {
             if (temp.size() == 0) {
                 activities.clear();
                 activities.add(new ProductActivity("NoActivities", "NoActivities", "NoActivities", "NoActivities", "NoActivities", null));
@@ -348,10 +348,10 @@ public class Server {
 
     public static void updateSuppliers() {
         List<Supplier> temp = dh.getSuppliers();
-        if (suppliers != temp) {
+        if (!temp.equals(suppliers)) {
             if (temp.size() == 0) {
                 suppliers.clear();
-                suppliers.add(new Supplier(-10, "NoSuppliers", "NoSuppliers", "NoSuppliers", "NoSuppliers", "NoSuppliers", null));
+                suppliers.add(new Supplier(-10, "NoSuppliers", "NoSuppliers", "NoSuppliers", "NoSuppliers", null));
             } else {
                 suppliers.clear();
                 suppliers.addAll(temp);
@@ -362,10 +362,10 @@ public class Server {
 
     public static void updateBookings() {
         List<Booking> temp = dh.getBookings();
-        if (bookings != temp) {
+        if (!temp.equals(bookings)) {
             if (temp.size() == 0) {
                 bookings.clear();
-                bookings.add(new Booking("NoBookings", "NoBookings", "NoBookings", "NoBookings", 0, 0, 0, 0, "NoBookings", "NoBookings", "NoBookings", 0, "NoBookings", "NoBookings", 0, 0, "NoBookings", "NoBookings", "NoBookings", null, null, null, null));
+                bookings.add(new Booking("NoBookings", "NoBookings", "NoBookings", "NoBookings", 0, 0, 0, 0, 0, 0, 0, 0, "NoBookings", "NoBookings", "NoBookings", 0, "NoBookings", "NoBookings", 0, 0, "NoBookings", "NoBookings", "NoBookings", null, null, null, null, null));
             } else {
                 bookings.clear();
                 bookings.addAll(temp);
@@ -376,7 +376,7 @@ public class Server {
 
     public static void updateLogins() {
         List<Login> temp = dh.getLogins();
-        if (logins != temp) {
+        if (!temp.equals(logins)) {
             if (temp.size() == 0) {
                 logins.clear();
                 logins.add(new Login(-10, "NoLogins", "NoLogins", "NoLogins"));
@@ -390,7 +390,7 @@ public class Server {
 
     public static void updateDocuments() {
         List<DataFile> temp = dh.getDocuments();
-        if (documents != temp) {
+        if (!temp.equals(documents)) {
             if (temp.size() == 0) {
                 documents.clear();
                 documents.add(new DataFile("Documents", "NoDocuments", "NoDocuments", 0));
@@ -404,7 +404,7 @@ public class Server {
 
     public static void updatePackages() {
         List<TripPackage> temp = dh.getPackages();
-        if (packages != temp) {
+        if (!temp.equals(packages)) {
             if (temp.size() == 0) {
                 packages.clear();
                 packages.add(new TripPackage(-10, "NoPackages", 0, "NoPackages", 0, 0, 0, 0, "NoPackages", "NoPackages", null, null, null, null));
@@ -418,7 +418,7 @@ public class Server {
 
     public static void updateTransactions() {
         List<Transaction> temp = dh.getTransactions();
-        if (transactions != temp) {
+        if (!temp.equals(transactions)) {
             if (temp.size() == 0) {
                 transactions.clear();
                 transactions.add(new Transaction(-10, "NoTransactions", "NoTransactions", "NoPackages", "NoPackages", 0.00, "NoTransactions"));
@@ -480,16 +480,16 @@ public class Server {
             updateDocuments();
             updatePackages();
             updateTransactions();
-            unreadNewQuotesMails.clear();
-            unreadContactMails.clear();
-            unreadFinanceMails.clear();
-            unreadOtherMails.clear();
-            readNewQuotesMails.clear();
-            readContactMails.clear();
-            readFinanceMails.clear();
-            readOtherMails.clear();
-            try {
-                IMAPFolder folder = (IMAPFolder) store.getFolder("inbox");//TODO sent
+            //unreadNewQuotesMails.clear();
+            //unreadContactMails.clear();
+            //unreadFinanceMails.clear();
+            //unreadOtherMails.clear();
+            //readNewQuotesMails.clear();
+            //readContactMails.clear();
+            //readFinanceMails.clear();
+            //readOtherMails.clear();
+            /*try {
+                /*IMAPFolder folder = (IMAPFolder) store.getFolder("inbox");//TODO sent
                 if(!folder.isOpen()){
                     folder.open(Folder.READ_ONLY);
                 }
@@ -537,23 +537,19 @@ public class Server {
                         readOtherMails.add(mail);
                     }
                     unread++;*/
-                }
-                System.out.println("Unread" + unread);
-
+                //}
                 unreadMails.clear();
-                unreadMails.add(unreadNewQuotesMails.size());
+                /*unreadMails.add(unreadNewQuotesMails.size());
                 unreadMails.add(unreadContactMails.size());
                 unreadMails.add(unreadFinanceMails.size());
-                unreadMails.add(unreadOtherMails.size());
-
+                unreadMails.add(unreadOtherMails.size());*/
                 for(ConnectionHandler ch: connectionsList){
                     if(ch instanceof UserConnectionHandler){
                         ((UserConnectionHandler) ch).unreadMails.clear();
                         ((UserConnectionHandler) ch).unreadMails.addAll(unreadMails);
                     }
                 }
-
-                messages = folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), true));
+                /*messages = folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), true));
                 for (int i = 0; i < messages.length; i++) {
                     /*Object obj = messages[i].getContent();
                     Multipart mp = (Multipart) messages[i].getContent();
@@ -591,15 +587,12 @@ public class Server {
                         readOtherMails.add(mail);
                     }
                     read++;*/
-                }
-                System.out.println("Read: " + read);
-
-                sortQuotesMailsByDate(readNewQuotesMails);
+                //}
+                /*sortQuotesMailsByDate(readNewQuotesMails);
                 sortContactMailsByDate(readContactMails);
                 sortFinanceMailsByDate(readFinanceMails);
-                sortOtherMailsByDate(readOtherMails);
-
-                for(ConnectionHandler ch: connectionsList){
+                sortOtherMailsByDate(readOtherMails);*/
+                /*for(ConnectionHandler ch: connectionsList){
                     if(ch instanceof UserConnectionHandler){
                         ((UserConnectionHandler)ch).unreadMails.clear();
                         ((UserConnectionHandler)ch).unreadMails.add(unreadNewQuotesMails.size());
@@ -607,8 +600,7 @@ public class Server {
                         ((UserConnectionHandler)ch).unreadMails.add(unreadFinanceMails.size());
                         ((UserConnectionHandler)ch).unreadMails.add(unreadOtherMails.size());
                     }
-                }
-
+                }*/
                 /*Message msg = messages[0];
                 String sub = msg.getSubject();
                 Address[] from = msg.getFrom();
@@ -618,10 +610,36 @@ public class Server {
                 Flags flags = msg.getFlags();
                 String con = msg.getContentType();
                 Object bod = msg.getContent();*/
-
-
-            } catch (Exception ex) {
+            /*} catch (Exception ex) {
                 ex.printStackTrace();
+            }*/
+        }
+    }
+
+    private class ExpiryChecker extends TimerTask {
+        @Override
+        public void run() {
+            List<Booking> bookings = dh.getBookings();
+            notifications.clear();
+            for (Booking booking: bookings){
+                if(LocalDate.parse(booking.getArrival()).isBefore(LocalDate.now())) {
+                    if (booking.getProcess().matches("Quote")) {
+                        dh.updateBookingProcess(booking.getGsNumber(), "ArchiveQuote", booking.getArrival(), booking.getClientName());
+                        notifications.add(new Notification("Quote Expires", "The Quote of " + booking.getClientName() + " Expired And Have Been Moved To ArchiveQuote."));
+                        dh.log("Quote Expired, Moved to ArchiveQuote");
+                    } else if(booking.getProcess().matches("PendingBookingMade")) {
+                        notifications.add(new Notification("PendingBookingMade Expires", "Please Update The Booking As Booking Expires and No Payments Have Been Made."));
+                    } else if(booking.getProcess().matches("PendingDepositRecieved")) {
+                        notifications.add(new Notification("PendingDepositReceived Expires", "Please Update The Booking As Booking Have Received Deposit And Is Expiring."));
+                    } else if(booking.getProcess().matches("PendingDepositPaid")) {
+                        notifications.add(new Notification("PendingDepositPaid Expires", "Please Update The Booking As Booking Deposit Have been Paid And Is Expiring."));
+                    } else if(booking.getProcess().matches("PendingFullRecieved")) {
+                        notifications.add(new Notification("PendingFullRecieved Expires", "Please Update The Booking As Booking Have Received Full Payment And Is Expiring."));
+                    } else if(booking.getProcess().matches("ConfirmedFullPaid")) {
+                        dh.updateBookingProcess(booking.getGsNumber(), "ArchiveComplete", booking.getArrival(), booking.getClientName());
+                        notifications.add(new Notification("Booking Have Been Completed", "The Booking of " + booking.getClientName() + " Have Been Completed And been Moved To ArchiveComplete."));
+                    }
+                }
             }
         }
     }

@@ -10,16 +10,14 @@ public class Supplier implements Serializable {
     private String category;
     private String province;
     private String address;
-    private String coOrdinates;
     private List<ContactDetails> contactDetails;
 
-    public Supplier(int supplierNumber, String supplierName, String category, String province, String address, String coOrdinates, List<ContactDetails> contactDetails) {
+    public Supplier(int supplierNumber, String supplierName, String category, String province, String address, List<ContactDetails> contactDetails) {
         this.supplierNumber = supplierNumber;
         this.supplierName = supplierName;
         this.category = category;
         this.province = province;
         this.address = address;
-        this.coOrdinates = coOrdinates;
         this.contactDetails = contactDetails;
     }
 
@@ -41,10 +39,6 @@ public class Supplier implements Serializable {
 
     public String getAddress() {
         return address;
-    }
-
-    public String getCoOrdinates() {
-        return coOrdinates;
     }
 
     public List<ContactDetails> getContactDetails() {

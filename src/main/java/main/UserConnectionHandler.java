@@ -8,7 +8,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.*;
-import org.apache.poi.hssf.record.PageBreakRecord;
 
 import java.io.File;
 import java.io.ObjectInputStream;
@@ -35,6 +34,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
     volatile BooleanProperty updateTransport = new SimpleBooleanProperty(false);
     volatile BooleanProperty updateActivities = new SimpleBooleanProperty(false);
     volatile BooleanProperty updateTransactions = new SimpleBooleanProperty(false);
+    volatile BooleanProperty updateNotifications = new SimpleBooleanProperty(false);
 
     public UserConnectionHandler(Socket socket, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream, String username, ObservableList<ConnectionHandler> connectionsList, DatabaseHandler dh) {
         super(socket, objectInputStream, objectOutputStream, connectionsList, dh);
@@ -108,6 +108,12 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                 updateActivities.set(false);
             }
         });
+        updateNotifications.addListener((obs, oldV, newV) -> {
+            if (newV) {
+                updateNotifications();
+                updateNotifications.set(false);
+            }
+        });
         user.addListener(e -> {
             outputQueue.add(0, user.get());
         });
@@ -121,16 +127,15 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
         updateDocuments();
         updatePackages();
         updateTransactions();
-        outputQueue.add(0, Arrays.asList(Server.accommodation.toArray()));
-        outputQueue.add(0, Arrays.asList(Server.golf.toArray()));
-        outputQueue.add(0, Arrays.asList(Server.transport.toArray()));
-        outputQueue.add(0, Arrays.asList(Server.activities.toArray()));
+        updateNotifications();
+        updateAccommodation();
+        updateGolf();
+        updateTransport();
+        updateActivities();
         unreadMails.clear();
         unreadMails.addAll(Server.unreadMails);
         new InputProcessor().start();
         new OutputProcessor().start();
-        //dh.addInvoice();
-
     }
 
     private class InputProcessor extends Thread {
@@ -175,37 +180,17 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.removeContactDetails(Integer.parseInt(text.substring(4)));
                             Server.updateSuppliers();
                         }  else if (text.startsWith("rtr:")) {//RemoveTransaction
-                            dh.log("User " + username + "> Removed Transaction: " + text.substring(3));
-                            dh.removeTransaction(Integer.parseInt(text.substring(4).split(":")[0]), text.substring(4).split(":")[1]);
+                            dh.log("User " + username + "> Removed Transaction: " + text.substring(4, text.lastIndexOf(":")));
+                            dh.removeTransaction(Integer.parseInt(text.substring(4).split(":")[0]), text.substring(4).split(":")[1].substring(2));
                             Server.updateTransactions();
                             Server.updateBookings();
                         } else if(text.startsWith("snd:")){
-                            if(text.substring(4).startsWith("Costing")){
+                            if(text.substring(4).startsWith("Costing")){//TODO
                                 dh.log("User " + username + "> Send Costing for: GS" + text.substring(12));
-                                new Thread(() -> Email.sendCosting("GS" + text.substring(12).split(":")[0], text.substring(12).split(":")[1], text.substring(12).split(":")[2], text.substring(12).split(":")[3], user.get().getFirstName(), dh.getBookingPerPerson(text.substring(12).split(":")[0]))).start();
+                                //new Thread(() -> Email.sendCosting("GS" + text.substring(12).split(":")[0], text.substring(12).split(":")[1], text.substring(12).split(":")[2], text.substring(12).split(":")[3], user.get().getFirstName(), dh.getBookingPerPerson(text.substring(12).split(":")[0]))).start();
                             }
-                        } else if (text.startsWith("se:")) {//TODO
-                            /*if((!text.substring(3).split(":")[3].matches(""))) {
-                                dh.log("User " + username + "> Emailed " + text.substring(3).split(":")[4] + "(" + text.substring(3).split(":")[3] + " to: " + text.substring(3).split(":")[0]);
-                                if (new Email().email(text.substring(3).split(":")[0], text.substring(3).split(":")[1], text.substring(3).split(":")[2], text.substring(3).split(":")[3], text.substring(3).split(":")[4])) {
-                                    outputQueue.add("es:t");
-                                } else {
-                                    outputQueue.add("es:f");
-                                }
-                            } else {
-                                dh.log("User " + username + "> Emailed: " + text.substring(3).split(":")[0]);
-                                if (new Email().email(text.substring(3).split(":")[0], text.substring(3).split(":")[1], text.substring(3).split(":")[2], null, null)) {
-                                    outputQueue.add("es:t");
-                                } else {
-                                    outputQueue.add("es:f");
-                                }
-                            }*/
-                        } else if (text.startsWith("pq:")) {//TODO
-                            /*dh.log("User " + username + "> Processed Quotation " + text.substring(3).split(":")[0] + " to an invoice.");
-                            dh.processQuotationToInvoice(text.substring(3).split(":")[0]);
-                            updateLogins.setValue(true);*/
                         } else if (text.startsWith("gm:")) {//GetMails
-                            if(text.substring(3).split(":")[0].matches("Quotes") && text.substring(3).split(":")[1].matches("unread")){
+                            /*if(text.substring(3).split(":")[0].matches("Quotes") && text.substring(3).split(":")[1].matches("unread")){
                                 outputQueue.addAll(Server.unreadNewQuotesMails);
                             } else if (text.substring(3).split(":")[0].matches("Quotes") && text.substring(3).split(":")[1].matches("all")){
                                 outputQueue.addAll(Server.readNewQuotesMails);
@@ -221,7 +206,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                                 outputQueue.addAll(Server.unreadOtherMails);
                             } else if (text.substring(3).split(":")[0].matches("Other") && text.substring(3).split(":")[1].matches("all")){
                                 outputQueue.addAll(Server.readOtherMails);
-                            }
+                            }*/
                         }else if (text.startsWith("usba:")) {//UpdateSupplierBookedAccommodation TODO
                             dh.updateSuppliersBookedAccommodation(Integer.parseInt(text.substring(5).split(":")[0]), Integer.parseInt(text.substring(5).split(":")[1]));
                             Server.updateBookings();
@@ -235,7 +220,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                             dh.updateSuppliersBookedActivities(Integer.parseInt(text.substring(5).split(":")[0]), Integer.parseInt(text.substring(5).split(":")[1]));
                             Server.updateBookings();
                         } else if (text.startsWith("bpn:")) {//UpdateSupplierBookedActivities
-                            dh.updateBookingProcess(text.substring(4).split(":")[0], text.substring(4).split(":")[1]);
+                            dh.updateBookingProcess(text.substring(4).split(":")[0], text.substring(4).split(":")[1], text.substring(4).split(":")[2], text.substring(4).split(":")[3]);
                             Server.updateBookings();
                         } else {
                             dh.log("User " + username + "> Requested Unknown Command: " + input);
@@ -245,9 +230,10 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         if (((Booking) input).getGsNumber().matches("New")) {
                             int gs = dh.addBooking((Booking)input);
                             outputQueue.add("nbgs:" + gs + ":" + getCostingFileLength(gs));
+                            //dh.generateInvoice("GS25");//TODO
                         } else {
-                            dh.updateBooking((Booking)input);
-                            outputQueue.add("nbqs:-1:" + getCostingFileLength(Integer.parseInt(((Booking)input).getGsNumber())));
+                            int gs = dh.updateBooking((Booking)input);
+                            outputQueue.add("nbgs:" + gs + ":" + getCostingFileLength(gs));
                         }
                         Server.updateBookings();
                     } else if (input instanceof Supplier) {//AddUpdateSuppliers
@@ -269,14 +255,14 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
-                    } else if (input instanceof Mail) {//TODO Mails
+                    } /*else if (input instanceof Mail) {//TODO Mails
                         /*if (((Mail) input).getToMailAddress() != null) {
                             dh.sendMail((Mail) input);
                         } else {
                             dh.updateQuotation((Quotation)input);
                         }*/
                         //updateMails.setValue(true);
-                    }  else if (input instanceof Login) {//AddUpdateLogins
+                   /* }*/ else if (input instanceof Login) {//AddUpdateLogins
                         if (((Login) input).getLoginID() == -1) {
                             dh.addLogin((Login) input);
                         } else {
@@ -291,7 +277,7 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         }
                         Server.updatePackages();
                     } else if (input instanceof ContactDetails){//AddUpdateContactDetails
-                        if (((ContactDetails) input).getContactDetailsID() > 1000000) {
+                        if (((ContactDetails) input).getContactDetailsID() > 100000) {
                             dh.addContactDetails((ContactDetails) input);
                         } else {
                             dh.updateContactDetails((ContactDetails) input);
@@ -422,43 +408,47 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
     }
 
     private void updateSuppliers() {
-        outputQueue.add(Server.suppliers);
+        outputQueue.add(0, Arrays.asList(Server.suppliers.toArray()));
     }
 
     private void updateBookings() {
-        outputQueue.add(Server.bookings);
+        outputQueue.add(0, Arrays.asList(Server.bookings.toArray()));
     }
 
     private void updateLogins() {
-        outputQueue.add(Server.logins);
+        outputQueue.add(0, Arrays.asList(Server.logins.toArray()));
     }
 
     private void updateDocuments() {
-        outputQueue.add(Server.documents);
+        outputQueue.add(0, Arrays.asList(Server.documents.toArray()));
     }
 
     private void updatePackages() {
-        outputQueue.add(Server.packages);
+        outputQueue.add(0, Arrays.asList(Server.packages.toArray()));
     }
 
     private void updateAccommodation() {
-        outputQueue.add(Server.accommodation);
+        outputQueue.add(0, Arrays.asList(Server.accommodation.toArray()));
     }
 
     private void updateGolf() {
-        outputQueue.add(Server.golf);
+        outputQueue.add(0, Arrays.asList(Server.golf.toArray()));
     }
 
     private void updateTransport() {
-        outputQueue.add(Server.transport);
+        outputQueue.add(0, Arrays.asList(Server.transport.toArray()));
     }
 
     private void updateActivities() {
-        outputQueue.add(Server.activities);
+        outputQueue.add(0, Arrays.asList(Server.activities.toArray()));
     }
 
     private void updateTransactions() {
-        outputQueue.add(Server.transactions);
+        outputQueue.add(0, Arrays.asList(Server.transactions.toArray()));
+    }
+
+    private void updateNotifications() {
+        outputQueue.add(0, Arrays.asList(Server.notifications.toArray()));
     }
 
     public String getUsername() {

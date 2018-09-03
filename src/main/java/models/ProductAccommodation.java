@@ -66,7 +66,7 @@ public class ProductAccommodation extends Product {
 
             }
         }
-        return "This product is no valid in the selected time frame";
+        return productName + " - This product is not valid in the selected time frame";
     }
 
     public void setDateSelected(String dateSelected) {
@@ -75,7 +75,9 @@ public class ProductAccommodation extends Product {
 
     @Override
     public String toString(){
-        if (prices!=null){
+        if(dateSelected.matches("All")){
+            return productName + " - Sleeps: " + sleeps;
+        } else if (prices!=null){
             try {
                 for (String[] p : prices) {
                     if ((LocalDate.parse(p[0]).isBefore(LocalDate.parse(dateSelected)) || LocalDate.parse(p[0]).isEqual(LocalDate.parse(dateSelected))) && (LocalDate.parse(p[1]).isAfter(LocalDate.parse(dateSelected)) || LocalDate.parse(p[1]).isEqual(LocalDate.parse(dateSelected)))) {
@@ -86,6 +88,6 @@ public class ProductAccommodation extends Product {
 
             }
         }
-        return "This product is no valid in the selected time frame";
+        return productName + " - This product is not valid in the selected time frame";
     }
 }

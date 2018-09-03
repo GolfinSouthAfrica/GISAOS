@@ -10,9 +10,13 @@ public class Booking implements Serializable {
     private String contactNumber;
     private String email;
     private int golfersSharing;
+    private double golferSharingPrice;
     private int nongolfersSharing;
+    private double nonGolferSharingPrice;
     private int golfersSingle;
+    private double golferSinglePrice;
     private int nongolfersSingle;
+    private double nonGolferSinglePrice;
     private String arrival;
     private String departure;
     private String process;
@@ -28,16 +32,21 @@ public class Booking implements Serializable {
     private List<BookingGolf> bookingGolf;
     private List<BookingActivity> bookingActivities;
     private List<BookingTransport> bookingTransport;
+    private List<Transaction> transactions;
 
-    public Booking(String gsNumber, String clientName, String contactNumber, String email, int golfersSharing, int nongolfersSharing, int golfersSingle, int nongolfersSingle, String arrival, String departure, String process, double bookingAmount, String consultant, String depositDate, int depositPaid, int fullPaid, String packageName, String bookingMadeDate, String notes, List<BookingAccommodation> bookingAccommodation, List<BookingGolf> bookingGolf, List<BookingActivity> bookingActivities, List<BookingTransport> bookingTransport) {
+    public Booking(String gsNumber, String clientName, String contactNumber, String email, int golfersSharing, double golferSharingPrice, int nongolfersSharing, double nonGolferSharingPrice, int golfersSingle, double golferSinglePrice, int nongolfersSingle, double nonGolferSinglePrice, String arrival, String departure, String process, double bookingAmount, String consultant, String depositDate, int depositPaid, int fullPaid, String packageName, String bookingMadeDate, String notes, List<BookingAccommodation> bookingAccommodation, List<BookingGolf> bookingGolf, List<BookingActivity> bookingActivities, List<BookingTransport> bookingTransport, List<Transaction> transactions) {
         this.gsNumber = gsNumber;
         this.clientName = clientName;
         this.contactNumber = contactNumber;
         this.email = email;
         this.golfersSharing = golfersSharing;
+        this.golferSharingPrice = golferSharingPrice;
         this.nongolfersSharing = nongolfersSharing;
+        this.nonGolferSharingPrice = nonGolferSharingPrice;
         this.golfersSingle = golfersSingle;
+        this.golferSinglePrice = golferSinglePrice;
         this.nongolfersSingle = nongolfersSingle;
+        this.nonGolferSinglePrice = nonGolferSinglePrice;
         this.arrival = arrival;
         this.departure = departure;
         this.process = process;
@@ -53,6 +62,7 @@ public class Booking implements Serializable {
         this.bookingGolf = bookingGolf;
         this.bookingActivities = bookingActivities;
         this.bookingTransport = bookingTransport;
+        this.transactions = transactions;
     }
 
     public String getGsNumber() {
@@ -75,16 +85,32 @@ public class Booking implements Serializable {
         return golfersSharing;
     }
 
+    public double getGolferSharingPrice() {
+        return golferSharingPrice;
+    }
+
     public int getNongolfersSharing() {
         return nongolfersSharing;
+    }
+
+    public double getNonGolferSharingPrice() {
+        return nonGolferSharingPrice;
     }
 
     public int getGolfersSingle() {
         return golfersSingle;
     }
 
+    public double getGolferSinglePrice() {
+        return golferSinglePrice;
+    }
+
     public int getNongolfersSingle() {
         return nongolfersSingle;
+    }
+
+    public double getNonGolferSinglePrice() {
+        return nonGolferSinglePrice;
     }
 
     public String getArrival() {
@@ -145,6 +171,10 @@ public class Booking implements Serializable {
 
     public List<BookingTransport> getBookingTransport() {
         return bookingTransport;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 
     public void setGsNumber(String gsNumber) {
