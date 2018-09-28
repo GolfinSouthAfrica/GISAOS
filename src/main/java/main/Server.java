@@ -132,6 +132,11 @@ public class Server {
         @Override
         public void run() {
             try {
+                Thread.sleep(25000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            try {
                 dh.log("Server> Trying to set up client on port " + PORT);
                 /*System.setProperty("javax.net.ssl.keyStore", APPLICATION_FOLDER.getAbsolutePath() + "/campuslive.store");
                 System.setProperty("javax.net.ssl.keyStorePassword", "campuslivepassword1");*/

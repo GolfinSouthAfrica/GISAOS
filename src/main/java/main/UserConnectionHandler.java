@@ -219,7 +219,10 @@ public class UserConnectionHandler extends ConnectionHandler implements Runnable
                         } else if (text.startsWith("usbt:")) {//UpdateSupplierBookedActivities
                             dh.updateSuppliersBookedActivities(Integer.parseInt(text.substring(5).split(":")[0]), Integer.parseInt(text.substring(5).split(":")[1]));
                             Server.updateBookings();
-                        } else if (text.startsWith("bpn:")) {//UpdateSupplierBookedActivities
+                        } else if (text.startsWith("bpn:")) {//UpdateBookingNext
+                            dh.updateBookingProcess(text.substring(4).split(":")[0], text.substring(4).split(":")[1], text.substring(4).split(":")[2], text.substring(4).split(":")[3]);
+                            Server.updateBookings();
+                        } else if (text.startsWith("bpp:")) {//UpdateBookingPrevious
                             dh.updateBookingProcess(text.substring(4).split(":")[0], text.substring(4).split(":")[1], text.substring(4).split(":")[2], text.substring(4).split(":")[3]);
                             Server.updateBookings();
                         } else {

@@ -76,7 +76,7 @@ public class DatabaseHandler {
                         "Quantity INTEGER, " +
                         "CostPricePerUnit REAL," +
                         "SellPricePerUnit REAL," +
-                        "SupplierBooked INTEGER ," +
+                        "SupplierBooked INTEGER," +
                         "AmountPaid REAL," +
                         "AddTo TEXT);");
                 stmt.execute("CREATE TABLE BOOKINGSGOLF (" +
@@ -103,7 +103,7 @@ public class DatabaseHandler {
                         "Quantity INTEGER, " +
                         "CostPricePerUnit REAL," +
                         "SellPricePerUnit REAL," +
-                        "SupplierBooked INTEGER ," +
+                        "SupplierBooked INTEGER," +
                         "AmountPaid REAL," +
                         "AddTo TEXT);");
                 stmt.execute("CREATE TABLE BOOKINGSTRANSPORT (" +
@@ -118,7 +118,7 @@ public class DatabaseHandler {
                         "Quantity INTEGER," +
                         "CostPricePerUnit REAL," +
                         "SellPricePerUnit REAL," +
-                        "SupplierBooked INTEGER ," +
+                        "SupplierBooked INTEGER," +
                         "AmountPaid REAL," +
                         "AddTo TEXT);");
                 stmt.execute("CREATE TABLE SUPPLIERS (" +
@@ -1906,6 +1906,7 @@ public class DatabaseHandler {
             String newfolder = "";
             if(process.matches("Quote")){
                 newfolder = "a. Quotes";
+                removeBookingsMade(gsNumber);
             } else if(process.matches("PendingBookingMade")){
                 newfolder = "b. PendingBookingMade";
             } else if(process.matches("PendingDepositRecieved")){
@@ -2100,6 +2101,36 @@ public class DatabaseHandler {
             preparedStatement.setInt(1, loginID);
             preparedStatement.executeUpdate();
             log("Server> Successfully Removed Login: " + loginID);
+            //notifyUpdatedStudent(studentNumber);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log("Server> removeLogin> " + ex);
+        }
+    }
+
+    void removeBookingsMade(String gsNumber) {
+        if(gsNumber.startsWith("GS")){
+            gsNumber = gsNumber.substring(2);
+        }
+        try {
+            int intGSNumber = Integer.parseInt(gsNumber);
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE BOOKINGSACCOMMODATION SET SuppplierBooked = ? WHERE GSNumber = ?;");
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setInt(2, intGSNumber);
+            preparedStatement.executeUpdate();
+            preparedStatement = con.prepareStatement("UPDATE BOOKINGSGOLF SET SuppplierBooked = ? WHERE GSNumber = ?;");
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setInt(2, intGSNumber);
+            preparedStatement.executeUpdate();
+            preparedStatement = con.prepareStatement("UPDATE BOOKINGSTRANSPORT SET SuppplierBooked = ? WHERE GSNumber = ?;");
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setInt(2, intGSNumber);
+            preparedStatement.executeUpdate();
+            preparedStatement = con.prepareStatement("UPDATE BOOKINGSACTIVITIES SET SuppplierBooked = ? WHERE GSNumber = ?;");
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setInt(2, intGSNumber);
+            preparedStatement.executeUpdate();
+            log("Server> Successfully Removed Bookings Made for : GS" + gsNumber);
             //notifyUpdatedStudent(studentNumber);
         } catch (SQLException ex) {
             ex.printStackTrace();

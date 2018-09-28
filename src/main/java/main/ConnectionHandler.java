@@ -4,6 +4,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 
+import java.io.EOFException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -42,7 +44,13 @@ public class ConnectionHandler {
             Object input = null;
             while (running.get() && (input = objectInputStream.readObject()) == null) ;
             return input;
-        } catch (Exception ex) {
+        } catch (EOFException ex) {
+            terminateConnection();
+        } catch (IOException ex) {
+            terminateConnection();
+            dh.log("Server> sendData> " + ex);
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
             terminateConnection();
             dh.log("Server> sendData> " + ex);
             ex.printStackTrace();
